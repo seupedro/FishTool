@@ -55,6 +55,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Aqua Name"
+            android:inputType="text"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/info_general" />
 
