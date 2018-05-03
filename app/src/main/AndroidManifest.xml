@@ -22,7 +22,7 @@
         <activity android:name=".NewAquaActivity" />
         <activity android:name=".NewAqua" />
         <activity
-            android:name=".AquaMain"
+            android:name=".AquaInfo"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
