@@ -8,14 +8,18 @@
     tools:context=".AquaInfo"
     tools:showIn="@layout/activity_aqua_info">
 
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <Switch
+            android:id="@+id/switch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text" />
+            android:text="Switch"
+            tools:layout_editor_absoluteX="238dp"
+            tools:layout_editor_absoluteY="280dp" />
+
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>
