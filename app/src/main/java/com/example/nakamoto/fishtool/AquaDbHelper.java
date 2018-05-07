@@ -9,29 +9,39 @@ import static com.example.nakamoto.fishtool.AquaContract.ParamEntry.*;
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table
     public static final String SQL_CREATE_AQUA =
             "CREATE TABLE " + AQUA_TABLE + " (" +
-                    _AquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    NAME_AQUA + " TEXT NOT NULL, " +
-                    DATE_AQUA + " TEXT NOT NULL, " +
-                    AQUATYPE_AQUA + " INTEGER NOT NULL, " +
-                    STATUS_AQUA + " INTEGER NOT NULL,  " +
-                    CO2_AQUA + " TEXT, " +
-                    DOSAGE_AQUA + " TEXT, " +
-                    SUBSTRATE_AQUA + " TEXT, " +
-                    NOTES_AQUA + " TEXT " + ")";
+                    _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    NAME_COLUMN + " TEXT, " +
+                    DATE_AQUA_COLUMN + " TEXT, " +
+                    TYPE_COLUMN + " INTEGER, " +
+                    STATUS_COLUMN + " INTEGER,  " +
+                    CO2_COLUMN + " TEXT, " +
+                    DOSAGE_COLUMN + " TEXT, " +
+                    SUBSTRATE_COLUMN + " TEXT, " +
+                    NOTES_COLUMN + " TEXT " + ")";
+
+//    _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//    NAME_COLUMN + " TEXT NOT NULL, " +
+//    DATE_AQUA_COLUMN + " TEXT NOT NULL, " +
+//    TYPE_COLUMN + " INTEGER NOT NULL, " +
+//    STATUS_COLUMN + " INTEGER NOT NULL,  " +
+//    CO2_COLUMN + " TEXT, " +
+//    DOSAGE_COLUMN + " TEXT, " +
+//    SUBSTRATE_COLUMN + " TEXT, " +
+//    NOTES_COLUMN + " TEXT " + ")";
 
     // Create Param Table
     public static final String SQL_CREATE_PARAM =
-            "CREATE TABLE " + TABLE_NAME_PARAM + " (" +
+            "CREATE TABLE " + PARAM_TABLE + " (" +
                     _paramID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    PH_PARAM + " INTEGER, " +
-                    NH3_PARAM + " INTEGER, " +
-                    DATE_PARAM + " TEXT NOT NULL, " +
+                    PH_COLUMN + " INTEGER, " +
+                    NH3_COLUMN + " INTEGER, " +
+                    DATE_PARAM_COLUMN + " TEXT NOT NULL, " +
                     AQUA_FKEY +  " INTEGER NOT NULL REFERENCES " + AQUA_TABLE + " (_id) " + ")";
 
     // SQL Delete Aqua
@@ -40,7 +50,7 @@ public class AquaDbHelper extends SQLiteOpenHelper {
 
     // SQL Delete Param
     public static final String SQL_DELETE_PARAM =
-            "DROP TABLE IF EXISTS " + TABLE_NAME_PARAM;
+            "DROP TABLE IF EXISTS " + PARAM_TABLE;
 
 
     public AquaDbHelper(Context context) {

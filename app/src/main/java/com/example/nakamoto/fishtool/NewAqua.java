@@ -2,6 +2,9 @@ package com.example.nakamoto.fishtool;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -19,6 +22,11 @@ import android.widget.Spinner;
 
 import java.util.Calendar;
 
+import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.STATUS_COLUMN;
+import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.TYPE_COLUMN;
+
 public class NewAqua extends AppCompatActivity {
 
     private static final String TAG = "NEWAQUA";
@@ -34,17 +42,55 @@ public class NewAqua extends AppCompatActivity {
     private EditText aquaDose;
     private EditText aquaSubstrate;
     private FloatingActionButton fab;
+    private AquaDbHelper dbHelper;
+
+    private void readFromDb() {
+        /* Get database */
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        /* Define data retrive */
+        Cursor cursor = db.query(
+                AQUA_TABLE,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        aquaName.setText(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
+        aquaType.setSelection(cursor.getInt(cursor.getColumnIndex(TYPE_COLUMN)));
+        aquaStatus.setSelection(cursor.getInt(cursor.getColumnIndex(STATUS_COLUMN)), true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_aqua);
 
+        /* Find views on layout */
+        aquaImage = findViewById(R.id.aqua_photo);
+        aquaName = findViewById(R.id.aqua_name);
+        aquaType = findViewById(R.id.aqua_type);
+        aquaStatus = findViewById(R.id.aqua_status);
+        aquaLiters = findViewById(R.id.aqua_liters);
+        aquaLight = findViewById(R.id.aqua_light);
+        aquaCo2 = findViewById(R.id.aqua_co2);
+        aquaSubstrate = findViewById(R.id.aqua_substrate);
+        aquaDose = findViewById(R.id.aqua_dose);
         fab = findViewById(R.id.fab);
+
+        /* Open DB Connection */
+        dbHelper = new AquaDbHelper(this);
+
+        /* Set listener on fab */
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Todo: Catch Image from gallery
+                readFromDb();
             }
         });
 
@@ -62,6 +108,12 @@ public class NewAqua extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.new_aqua, menu);
@@ -72,11 +124,24 @@ public class NewAqua extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.save:
+                saveValues();
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void saveValues() {
+        /* Get Database */
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+         /* Insert data */
+        ContentValues values = new ContentValues();
+        values.put(NAME_COLUMN, aquaName.getText().toString().trim());
+        values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
+        values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
+        /* Insert into Db */
+        db.insert(AQUA_TABLE, null, values);
     }
 
     public void showDatePickerDialog(View v) {

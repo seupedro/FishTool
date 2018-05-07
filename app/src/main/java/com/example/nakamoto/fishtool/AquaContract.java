@@ -12,28 +12,44 @@ public class AquaContract {
         public static final String AQUA_TABLE = "aquarium";
 
         /* Columns Constants */
-        public static final String _AquaID = BaseColumns._ID;
-        public static final String NAME_AQUA = "name";
-        public static final String DATE_AQUA = "date";
-        public static final String AQUATYPE_AQUA = "type";
-        public static final String STATUS_AQUA = "status";
-        public static final String CO2_AQUA = "co2";
-        public static final String DOSAGE_AQUA = "dosage";
-        public static final String SUBSTRATE_AQUA = "substrate";
-        public static final String NOTES_AQUA = "notes";
+        public static final String _aquaID = BaseColumns._ID;
+        public static final String NAME_COLUMN = "name";
+        public static final String DATE_AQUA_COLUMN = "date";
+        public static final String TYPE_COLUMN = "type";
+        public static final String STATUS_COLUMN = "status";
+        public static final String CO2_COLUMN = "co2";
+        public static final String DOSAGE_COLUMN = "dosage";
+        public static final String SUBSTRATE_COLUMN = "substrate";
+        public static final String NOTES_COLUMN = "notes";
     }
 
     public static class ParamEntry implements BaseColumns{
 
         /* Table Constant */
-        public static final String TABLE_NAME_PARAM = "parameters";
+        public static final String PARAM_TABLE = "parameters";
 
         /* Columns Constants */
         // TODO: insert all tables
         public static final String _paramID = BaseColumns._ID;
-        public static final String PH_PARAM = "ph";
-        public static final String NH3_PARAM = "nh3";
-        public static final String DATE_PARAM = "date";
+        public static final String PH_COLUMN = "ph";
+        public static final String NH3_COLUMN = "nh3";
+        public static final String DATE_PARAM_COLUMN = "date";
         public static final String AQUA_FKEY = "aqua_fkey";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
