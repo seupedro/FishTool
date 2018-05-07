@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool;
+package com.example.nakamoto.fishtool.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity
+import com.example.nakamoto.fishtool.R;
+
+public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newAquaIntent = new Intent(MainActivity.this, NewAqua.class);
+                Intent newAquaIntent = new Intent(AquaMain.this, AquaNew.class);
                 startActivity(newAquaIntent);
             }
         });
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AquaInfo.class);
+                Intent intent = new Intent(AquaMain.this, AquaInfo.class);
                 startActivity(intent);
             }
         });

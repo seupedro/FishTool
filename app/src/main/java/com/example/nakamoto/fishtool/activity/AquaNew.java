@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool;
+package com.example.nakamoto.fishtool.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -20,14 +20,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.example.nakamoto.fishtool.R;
+import com.example.nakamoto.fishtool.database.AquaDbHelper;
+
 import java.util.Calendar;
 
-import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.AQUA_TABLE;
-import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.NAME_COLUMN;
-import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.STATUS_COLUMN;
-import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 
-public class NewAqua extends AppCompatActivity {
+public class AquaNew extends AppCompatActivity {
 
     private static final String TAG = "NEWAQUA";
 
@@ -67,7 +70,7 @@ public class NewAqua extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_aqua);
+        setContentView(R.layout.activity_aqua_new);
 
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);

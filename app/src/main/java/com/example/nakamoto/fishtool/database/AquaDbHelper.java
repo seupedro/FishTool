@@ -1,15 +1,15 @@
-package com.example.nakamoto.fishtool;
+package com.example.nakamoto.fishtool.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.nakamoto.fishtool.AquaContract.AquaEntry.*;
-import static com.example.nakamoto.fishtool.AquaContract.ParamEntry.*;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.*;
+import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.*;
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table
@@ -41,8 +41,14 @@ public class AquaDbHelper extends SQLiteOpenHelper {
                     _paramID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     PH_COLUMN + " INTEGER, " +
                     NH3_COLUMN + " INTEGER, " +
-                    DATE_PARAM_COLUMN + " TEXT NOT NULL, " +
+                    DATE_PARAM_COLUMN + " TEXT, " +
                     AQUA_FKEY +  " INTEGER NOT NULL REFERENCES " + AQUA_TABLE + " (_id) " + ")";
+
+//    _paramID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//    PH_COLUMN + " INTEGER, " +
+//    NH3_COLUMN + " INTEGER, " +
+//    DATE_PARAM_COLUMN + " TEXT NOT NULL, " +
+//    AQUA_FKEY +  " INTEGER NOT NULL REFERENCES " + AQUA_TABLE + " (_id) " + ")";
 
     // SQL Delete Aqua
     public static final String SQL_DELETE_AQUA =
