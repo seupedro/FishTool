@@ -1,8 +1,10 @@
 package com.example.nakamoto.fishtool.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -47,6 +49,15 @@ public class AquaNew extends AppCompatActivity {
     private FloatingActionButton fab;
     private AquaDbHelper dbHelper;
 
+    private boolean onChanged = false;
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            onChanged = true;
+            return false;
+        }
+    };
+
     private void readFromDb() {
         /* Get database */
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -83,6 +94,19 @@ public class AquaNew extends AppCompatActivity {
         aquaSubstrate = findViewById(R.id.aqua_substrate);
         aquaDose = findViewById(R.id.aqua_dose);
         fab = findViewById(R.id.fab);
+        aquaDate = findViewById(R.id.aqua_date);
+
+        /* Track changes */
+        aquaImage.setOnTouchListener(touchListener);
+        aquaName.setOnTouchListener(touchListener);
+        aquaType.setOnTouchListener(touchListener);
+        aquaStatus.setOnTouchListener(touchListener);
+        aquaLiters.setOnTouchListener(touchListener);
+        aquaLight.setOnTouchListener(touchListener);
+        aquaCo2.setOnTouchListener(touchListener);
+        aquaSubstrate.setOnTouchListener(touchListener);
+        aquaDose.setOnTouchListener(touchListener);
+        aquaDate.setOnTouchListener(touchListener);
 
         /* Open DB Connection */
         dbHelper = new AquaDbHelper(this);
@@ -97,7 +121,6 @@ public class AquaNew extends AppCompatActivity {
             }
         });
 
-        aquaDate = findViewById(R.id.aqua_date);
         aquaDate.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -133,6 +156,28 @@ public class AquaNew extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onChanged){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Do you want to discard this aquarium?");
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AquaNew.super.onBackPressed();
+                }
+            });
+            builder.create().show();
+        }
+        super.onBackPressed();
     }
 
     private void saveValues() {
