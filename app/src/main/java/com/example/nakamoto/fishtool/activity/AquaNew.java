@@ -102,7 +102,8 @@ public class AquaNew extends AppCompatActivity {
         getDateButton = findViewById(R.id.date_button);
 
         /* Track changes */
-        aquaImage.setOnTouchListener(touchListener);
+        getDateButton.setOnTouchListener(touchListener);
+        fab.setOnTouchListener(touchListener);
         aquaName.setOnTouchListener(touchListener);
         aquaType.setOnTouchListener(touchListener);
         aquaStatus.setOnTouchListener(touchListener);
@@ -239,9 +240,17 @@ public class AquaNew extends AppCompatActivity {
         );
 
         c.moveToFirst();
-        aquaName.setText(c.getString(c.getColumnIndex(NAME_COLUMN)));
-        aquaType.setSelection(c.getInt(c.getColumnIndex(TYPE_COLUMN)));
-        aquaStatus.setSelection(c.getInt(c.getColumnIndex(STATUS_COLUMN)), true);
+        aquaImage.setImageURI(Uri.parse(c.getString(c.getColumnIndexOrThrow(IMAGE_URI_COLUMN))));
+        aquaName.setText(c.getString(c.getColumnIndexOrThrow(NAME_COLUMN)));
+        aquaDate.setText(c.getString(c.getColumnIndexOrThrow(DATE_AQUA_COLUMN)));
+        aquaType.setSelection(c.getInt(c.getColumnIndexOrThrow(TYPE_COLUMN)));
+        aquaStatus.setSelection(c.getInt(c.getColumnIndexOrThrow(STATUS_COLUMN)), true);
+        aquaLiters.setText(c.getString(c.getColumnIndexOrThrow(LITERS_COLUMN)));
+        aquaLight.setText(c.getString(c.getColumnIndexOrThrow(LIGHT_COLUMN)));
+        aquaCo2.setText(c.getString(c.getColumnIndexOrThrow(CO2_COLUMN)));
+        aquaDose.setText(c.getString(c.getColumnIndexOrThrow(DOSAGE_COLUMN)));
+        aquaSubstrate.setText(c.getString(c.getColumnIndexOrThrow(SUBSTRATE_COLUMN)));
+        aquaNote.setText(c.getString(c.getColumnIndexOrThrow(NOTES_COLUMN)));
     }
 
     private void saveValues() {
