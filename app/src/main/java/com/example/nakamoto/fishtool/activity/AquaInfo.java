@@ -53,7 +53,6 @@ public class AquaInfo extends AppCompatActivity {
                 return false;
             }
         });
-
         dbHelper = new AquaDbHelper(this);
     }
 

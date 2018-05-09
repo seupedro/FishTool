@@ -23,6 +23,12 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
+            <ImageView
+                android:scaleType="centerCrop"
+                android:src="@drawable/fish_nemo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
