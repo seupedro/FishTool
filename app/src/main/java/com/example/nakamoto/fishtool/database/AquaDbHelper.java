@@ -9,31 +9,24 @@ import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.*;
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table
     public static final String SQL_CREATE_AQUA =
             "CREATE TABLE " + AQUA_TABLE + " (" +
                     _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    NAME_COLUMN + " TEXT, " +
+                    NAME_COLUMN + " TEXT NOT NULL, " +
+                    LITERS_COLUMN + " INTEGER, " +
                     DATE_AQUA_COLUMN + " TEXT, " +
-                    TYPE_COLUMN + " INTEGER, " +
-                    STATUS_COLUMN + " INTEGER,  " +
+                    TYPE_COLUMN + " INTEGER NOT NULL, " +
+                    STATUS_COLUMN + " INTEGER NOT NULL,  " +
+                    LIGHT_COLUMN + " TEXT, " +
                     CO2_COLUMN + " TEXT, " +
                     DOSAGE_COLUMN + " TEXT, " +
                     SUBSTRATE_COLUMN + " TEXT, " +
-                    NOTES_COLUMN + " TEXT " + ")";
-
-//    _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//    NAME_COLUMN + " TEXT NOT NULL, " +
-//    DATE_AQUA_COLUMN + " TEXT NOT NULL, " +
-//    TYPE_COLUMN + " INTEGER NOT NULL, " +
-//    STATUS_COLUMN + " INTEGER NOT NULL,  " +
-//    CO2_COLUMN + " TEXT, " +
-//    DOSAGE_COLUMN + " TEXT, " +
-//    SUBSTRATE_COLUMN + " TEXT, " +
-//    NOTES_COLUMN + " TEXT " + ")";
+                    NOTES_COLUMN + " TEXT, " +
+                    IMAGE_URI_COLUMN + " TEXT " + ")";
 
     // Create Param Table
     public static final String SQL_CREATE_PARAM =

@@ -14,13 +14,16 @@ public class AquaContract {
         /* Columns Constants */
         public static final String _aquaID = BaseColumns._ID;
         public static final String NAME_COLUMN = "name";
+        public static final String LITERS_COLUMN = "liters";
         public static final String DATE_AQUA_COLUMN = "date";
         public static final String TYPE_COLUMN = "type";
         public static final String STATUS_COLUMN = "status";
+        public static final String LIGHT_COLUMN = "light";
         public static final String CO2_COLUMN = "co2";
         public static final String DOSAGE_COLUMN = "dosage";
         public static final String SUBSTRATE_COLUMN = "substrate";
         public static final String NOTES_COLUMN = "notes";
+        public static final String IMAGE_URI_COLUMN = "images_uri";
     }
 
     public static class ParamEntry implements BaseColumns{

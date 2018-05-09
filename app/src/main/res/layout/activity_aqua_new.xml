@@ -14,9 +14,10 @@
         <ImageView
             android:id="@+id/aqua_photo"
             android:layout_width="0dp"
-            android:layout_height="@android:dimen/thumbnail_height"
+            android:layout_height="192dp"
             android:background="@android:color/darker_gray"
             android:contentDescription="@string/aqua_photo_description"
+            app:layout_constraintDimensionRatio="w,4:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +63,7 @@
         <EditText
             android:id="@+id/aqua_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
@@ -156,16 +157,17 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="192dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:clickable="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_menu_camera"
             app:elevation="5dp"
             app:layout_constraintBottom_toTopOf="@+id/info_general"
             app:layout_constraintEnd_toEndOf="@+id/aqua_photo"
-            app:layout_constraintHorizontal_bias="0.94"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="@+id/aqua_photo"
             app:layout_constraintTop_toBottomOf="@+id/aqua_photo"
             app:layout_constraintVertical_bias="1.0" />
@@ -201,6 +203,16 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_type" />
+
+        <ImageButton
+            android:id="@+id/date_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/aqua_date"
+            app:layout_constraintStart_toEndOf="@+id/aqua_date"
+            app:layout_constraintTop_toTopOf="@+id/aqua_date"
+            app:srcCompat="@drawable/ic_menu_manage" />
 
     </android.support.constraint.ConstraintLayout>
 
