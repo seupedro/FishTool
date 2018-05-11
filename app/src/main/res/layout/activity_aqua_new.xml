@@ -99,12 +99,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Iluminação"
             android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@+id/aqua_status" />
+            app:layout_constraintTop_toBottomOf="@+id/aqua_filter" />
 
         <EditText
             android:id="@+id/aqua_co2"
@@ -187,11 +187,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
             android:text="Aquarium Type"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@+id/aqua_liters" />
+            app:layout_constraintTop_toBottomOf="@+id/aqua_size" />
 
         <TextView
             android:id="@+id/aqua_status_text"
@@ -213,6 +212,32 @@
             app:layout_constraintStart_toEndOf="@+id/aqua_date"
             app:layout_constraintTop_toTopOf="@+id/aqua_date"
             app:srcCompat="@drawable/ic_menu_manage" />
+
+        <EditText
+            android:id="@+id/aqua_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Size"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_liters" />
+
+        <EditText
+            android:id="@+id/aqua_filter"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Filtration"
+            android:inputType="textPersonName"
+            android:text="Name"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_status" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -24,6 +24,8 @@ public class AquaContract {
         public static final String SUBSTRATE_COLUMN = "substrate";
         public static final String NOTES_COLUMN = "notes";
         public static final String IMAGE_URI_COLUMN = "images_uri";
+        public static final String SIZE_COLUMN = "size";
+        public static final String FILTER_COLUMN = "filter";
     }
 
     public static class ParamEntry implements BaseColumns{

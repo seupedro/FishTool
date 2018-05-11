@@ -40,11 +40,13 @@ import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.DATE_AQUA_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.DOSAGE_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.FILTER_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.LIGHT_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.LITERS_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NOTES_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SIZE_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SUBSTRATE_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
@@ -52,6 +54,7 @@ import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE
 public class AquaNew extends AppCompatActivity {
 
     //TODO: [ERROR] E/ActivityThread: Performing stop of activity that is already stopped
+    //TODO: [OPTIMIZE] Realease resource: Close Cursor, Close Db
 
     private static final String TAG = "NEWAQUA";
 
@@ -66,6 +69,8 @@ public class AquaNew extends AppCompatActivity {
     private EditText aquaDose;
     private EditText aquaSubstrate;
     private EditText aquaNote;
+    private EditText aquaSize;
+    private EditText aquaFilter;
     private FloatingActionButton fab;
     private AquaDbHelper dbHelper;
     private ImageButton getDateButton;
@@ -89,6 +94,7 @@ public class AquaNew extends AppCompatActivity {
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);
         aquaName = findViewById(R.id.aqua_name);
+        aquaSize = findViewById(R.id.aqua_size);
         aquaType = findViewById(R.id.aqua_type);
         aquaStatus = findViewById(R.id.aqua_status);
         aquaLiters = findViewById(R.id.aqua_liters);
@@ -98,6 +104,7 @@ public class AquaNew extends AppCompatActivity {
         aquaDose = findViewById(R.id.aqua_dose);
         aquaDate = findViewById(R.id.aqua_date);
         aquaNote = findViewById(R.id.aqua_note);
+        aquaFilter = findViewById(R.id.aqua_filter);
         fab = findViewById(R.id.fab);
         getDateButton = findViewById(R.id.date_button);
 
@@ -115,6 +122,7 @@ public class AquaNew extends AppCompatActivity {
         aquaDate.setOnTouchListener(touchListener);
         getDateButton.setOnTouchListener(touchListener);
         aquaNote.setOnTouchListener(touchListener);
+        aquaSize.setOnTouchListener(touchListener);
 
         /* Open DB Connection */
         dbHelper = new AquaDbHelper(this);
@@ -243,9 +251,11 @@ public class AquaNew extends AppCompatActivity {
         aquaImage.setImageURI(Uri.parse(c.getString(c.getColumnIndexOrThrow(IMAGE_URI_COLUMN))));
         aquaName.setText(c.getString(c.getColumnIndexOrThrow(NAME_COLUMN)));
         aquaDate.setText(c.getString(c.getColumnIndexOrThrow(DATE_AQUA_COLUMN)));
+        aquaSize.setText(c.getString(c.getColumnIndexOrThrow(SIZE_COLUMN)));
         aquaType.setSelection(c.getInt(c.getColumnIndexOrThrow(TYPE_COLUMN)));
         aquaStatus.setSelection(c.getInt(c.getColumnIndexOrThrow(STATUS_COLUMN)), true);
         aquaLiters.setText(c.getString(c.getColumnIndexOrThrow(LITERS_COLUMN)));
+        aquaFilter.setText(c.getString(c.getColumnIndexOrThrow(FILTER_COLUMN)));
         aquaLight.setText(c.getString(c.getColumnIndexOrThrow(LIGHT_COLUMN)));
         aquaCo2.setText(c.getString(c.getColumnIndexOrThrow(CO2_COLUMN)));
         aquaDose.setText(c.getString(c.getColumnIndexOrThrow(DOSAGE_COLUMN)));
@@ -258,9 +268,11 @@ public class AquaNew extends AppCompatActivity {
         /* Parsing Fields to string */
         String strAquaName = aquaName.getText().toString().trim();
         String strAquaDate = aquaDate.getText().toString().trim();
+        String strAquaSize = aquaSize.getText().toString().trim();
         String strAquaLiters = aquaLiters.getText().toString().trim();
         String strAquaLight = aquaLight.getText().toString().trim();
         String strAquaCo2 = aquaCo2.getText().toString().trim();
+        String strAquaFilter = aquaFilter.getText().toString().trim();
         String strAquaDose = aquaDose.getText().toString().trim();
         String strAquaSubstrate = aquaSubstrate.getText().toString().trim();
         String strAquaNote = aquaNote.getText().toString().trim();
@@ -288,8 +300,14 @@ public class AquaNew extends AppCompatActivity {
         if (!TextUtils.isEmpty(strAquaDate)){
             values.put(DATE_AQUA_COLUMN, strAquaDate);
         }
+        if (!TextUtils.isEmpty(strAquaSize)){
+            values.put(SIZE_COLUMN, strAquaSize);
+        }
         if (!TextUtils.isEmpty(strAquaLiters)){
             values.put(LITERS_COLUMN, strAquaLiters);
+        }
+        if (!TextUtils.isEmpty(strAquaFilter)){
+            values.put(FILTER_COLUMN, strAquaFilter);
         }
         if (!TextUtils.isEmpty(strAquaLight)){
             values.put(LIGHT_COLUMN, strAquaLight);

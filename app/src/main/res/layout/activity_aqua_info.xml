@@ -24,6 +24,7 @@
             app:toolbarId="@+id/toolbar">
 
             <ImageView
+                android:id="@+id/aqua_info_image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/fish_nemo"
                 android:layout_width="match_parent"
