@@ -56,11 +56,11 @@ public class AquaInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aqua_info);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         /* Find view on layout */
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         aquaLiters = findViewById(R.id.aqua_info_liters);
         aquaSize = findViewById(R.id.aqua_info_size);
         aquaLight = findViewById(R.id.aqua_info_light);
@@ -94,7 +94,7 @@ public class AquaInfo extends AppCompatActivity {
         });
         dbHelper = new AquaDbHelper(this);
 
-        displayValues(readData());
+//        displayValues(readData());
     }
 
     private void insertData(){

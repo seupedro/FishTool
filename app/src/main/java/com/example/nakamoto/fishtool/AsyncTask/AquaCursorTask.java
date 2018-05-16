@@ -1,24 +1,14 @@
 package com.example.nakamoto.fishtool.AsyncTask;
 
-import android.database.Cursor;
-import android.os.AsyncTask;
-
-public class AquaCursorTask extends AsyncTask<Cursor, Cursor, Cursor> {
+public class AquaCursorTask  {
 
     //TODO:Implement Cursor AsyncTask
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
+    public class AsyncTask extends android.os.AsyncTask{
 
-    @Override
-    protected Cursor doInBackground(Cursor... cursors) {
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Cursor cursor) {
-        super.onPostExecute(cursor);
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            return null;
+        }
     }
 }
