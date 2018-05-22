@@ -21,6 +21,9 @@ public class AquaMain extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        startActivity(new Intent(this, MainActivity.class));
+
         setContentView(R.layout.aqua_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,8 +53,6 @@ public class AquaMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override

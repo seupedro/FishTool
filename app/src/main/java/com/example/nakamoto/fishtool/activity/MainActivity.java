@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.nakamoto.fishtool.MyListCursorAdapter;
+import com.example.nakamoto.fishtool.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.R;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
 import com.idescout.sql.SqlScoutServer;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private AquaDbHelper helper;
     private static SQLiteDatabase db;
     TextView textView;
-    MyListCursorAdapter adapter;
+    AquaListCursorAdapter adapter;
     RecyclerView recyclerView;
 
     @Override
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         /* List and Adapter */
         recyclerView = findViewById(R.id.recycler);
-        adapter = new MyListCursorAdapter(this, null);
+        adapter = new AquaListCursorAdapter(this, null);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
         adapter.swapCursor(c);
-        adapter = new MyListCursorAdapter(this, c);
+        adapter = new AquaListCursorAdapter(this, c);
 
     }
 

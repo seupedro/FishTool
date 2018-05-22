@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 
-public class MyListCursorAdapter extends CursorRecyclerViewAdapter<MyListCursorAdapter.ViewHolder>{
+public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCursorAdapter.ViewHolder>{
 
-    public MyListCursorAdapter(Context context, Cursor cursor){
+    public AquaListCursorAdapter(Context context, Cursor cursor){
         super(context,cursor);
     }
 
