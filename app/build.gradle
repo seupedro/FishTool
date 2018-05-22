@@ -33,4 +33,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //SmartImagePicker
     implementation 'com.myhexaville:smart-image-picker:1.0.4'
+    //Recycler/CardView
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    // SQLite Debug
+    implementation 'com.idescout.sql:sqlscout-server:4.0'
 }

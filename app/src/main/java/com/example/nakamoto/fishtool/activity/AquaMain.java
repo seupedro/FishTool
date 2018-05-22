@@ -50,6 +50,8 @@ public class AquaMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
