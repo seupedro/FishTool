@@ -9,7 +9,7 @@ import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.*;
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 9;
+    public static final int DB_VERSION = 10;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table

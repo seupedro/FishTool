@@ -12,8 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.R;
+import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
 import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
 import com.idescout.sql.SqlScoutServer;
@@ -43,9 +43,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         /* Debug Db */
         SqlScoutServer.create(this, getPackageName());
 
-
         /* List and Adapter */
-        recyclerView = findViewById(R.id.recycler);
+        recyclerView = findViewById(R.id.recycler_main);
         adapter = new AquaListCursorAdapter(this, null);
 
         recyclerView.setAdapter(adapter);

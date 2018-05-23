@@ -1,6 +1,11 @@
 package com.example.nakamoto.fishtool.activity;
 
+import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -8,30 +13,56 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.nakamoto.fishtool.R;
+import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
+import com.example.nakamoto.fishtool.database.AquaDbHelper;
+import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
+import com.idescout.sql.SqlScoutServer;
+
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 
 public class AquaMain extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    private final int LOADER_ID = 0;
+    private AquaDbHelper dbHelper;
+    private SQLiteDatabase db;
+    private RecyclerView recyclerView;
+    private AquaListCursorAdapter cursorAdapter;
+
+    private static final String TAG = "AquaMain";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.aqua_main);
 
         /**
          * Debug purpose
          * */
-        startActivity(new Intent(this, AquaInfo.class));
+        // startActivity(new Intent(this, MainActivity.class));
         /**
          *
          * */
-        setContentView(R.layout.aqua_main);
+
+        /* Debug Db */
+        SqlScoutServer.create(this, getPackageName());
+
+        /* Set ActionBar */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +89,18 @@ public class AquaMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        /* Initialize */
+        cursorAdapter = new AquaListCursorAdapter(this, null);
+        dbHelper = new AquaDbHelper(this);
+
+        /* Setup Recycler */
+        recyclerView = findViewById(R.id.recycler);
+        recyclerView.setAdapter(cursorAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        /* Start Loader */
+        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -115,5 +158,36 @@ public class AquaMain extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        db = dbHelper.getWritableDatabase();
+
+        /* Create dummy data to test */
+        int i = 0;
+        while (i < 10){
+
+            ContentValues values = new ContentValues();
+            values.put(NAME_COLUMN, String.valueOf(i));
+            values.put(STATUS_COLUMN, 1);
+            values.put(TYPE_COLUMN, 1);
+
+            db.insert(AQUA_TABLE, null, values);
+            values.clear();
+            i++;
+        }
+        return new CustomCursorLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        cursorAdapter.swapCursor(cursor);
+        cursorAdapter = new AquaListCursorAdapter(this, cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
     }
 }
