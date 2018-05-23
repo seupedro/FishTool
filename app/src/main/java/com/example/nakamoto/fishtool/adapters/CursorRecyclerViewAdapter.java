@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool;
+package com.example.nakamoto.fishtool.adapters;
 
 import android.content.Context;
 import android.database.Cursor;

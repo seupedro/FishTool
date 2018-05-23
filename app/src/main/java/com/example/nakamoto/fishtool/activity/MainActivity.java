@@ -12,9 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.nakamoto.fishtool.AquaListCursorAdapter;
+import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.R;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
+import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
 import com.idescout.sql.SqlScoutServer;
 
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;

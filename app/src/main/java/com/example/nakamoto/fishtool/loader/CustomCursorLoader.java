@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.activity;
+package com.example.nakamoto.fishtool.loader;
 
 import android.content.Context;
 import android.content.CursorLoader;
@@ -8,7 +8,7 @@ import com.example.nakamoto.fishtool.database.AquaDbHelper;
 
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
 
-class CustomCursorLoader extends CursorLoader {
+public class CustomCursorLoader extends CursorLoader {
 
     private Context mContext;
     public CustomCursorLoader(Context context) {
