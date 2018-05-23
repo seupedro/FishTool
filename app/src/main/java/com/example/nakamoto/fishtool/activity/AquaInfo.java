@@ -35,7 +35,7 @@ public class AquaInfo extends AppCompatActivity {
 
         final FloatingActionButton fab = findViewById(R.id.fab_aqua_info);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        AquaInfoViewPagerAdapter adapter = new AquaInfoViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AquaFragment(), "Aquarium");
         adapter.addFragment(new ParamFragment(), "Parameters");
 
@@ -85,7 +85,7 @@ public class AquaInfo extends AppCompatActivity {
     }
 }
 
-class FragmentList {
+class AquaInfoFragmentList {
 
     private String fragmentTitle;
     private Fragment fragment;
@@ -106,37 +106,37 @@ class FragmentList {
         this.fragment = fragment;
     }
 
-    public FragmentList(Fragment fragment, String fragmentTitle) {
+    public AquaInfoFragmentList(Fragment fragment, String fragmentTitle) {
         this.fragmentTitle = fragmentTitle;
         this.fragment = fragment;
     }
 }
 
-class ViewPagerAdapter extends FragmentPagerAdapter {
+class AquaInfoViewPagerAdapter extends FragmentPagerAdapter {
 
-    private final List<FragmentList> fragmentLists = new ArrayList<>();
+    private final List<AquaInfoFragmentList> aquaInfoFragmentLists = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager fm) {
+    public AquaInfoViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     public void addFragment(Fragment fragment, String title){
-        fragmentLists.add(new FragmentList(fragment, title));
+        aquaInfoFragmentLists.add(new AquaInfoFragmentList(fragment, title));
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragmentLists.get(position).getFragment();
+        return aquaInfoFragmentLists.get(position).getFragment();
     }
 
     @Override
     public int getCount() {
-        return fragmentLists.size();
+        return aquaInfoFragmentLists.size();
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragmentLists.get(position).getFragmentTitle();
+        return aquaInfoFragmentLists.get(position).getFragmentTitle();
     }
 }

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getLoaderManager().initLoader(0, null, this);
         Log.d(TAG, "onCreate: done");
+
     }
 
     @Override

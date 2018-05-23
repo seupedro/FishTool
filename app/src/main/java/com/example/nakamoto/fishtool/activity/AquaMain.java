@@ -21,9 +21,14 @@ public class AquaMain extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        startActivity(new Intent(this, MainActivity.class));
 
+        /**
+         * Debug purpose
+         * */
+        startActivity(new Intent(this, AquaInfo.class));
+        /**
+         *
+         * */
         setContentView(R.layout.aqua_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

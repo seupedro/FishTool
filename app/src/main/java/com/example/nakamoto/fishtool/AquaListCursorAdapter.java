@@ -20,19 +20,21 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
         TextView textViewRecycler;
         public ViewHolder(View view) {
             super(view);
-            textViewRecycler = view.findViewById(R.id.card_text);
+            textViewRecycler = view.findViewById(R.id.aqua_card_title);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_animated, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(final ViewHolder viewHolder, Cursor cursor) {
         viewHolder.textViewRecycler.setText(cursor.getString(cursor.getColumnIndexOrThrow(NAME_COLUMN)));
+
+
     }
 }
