@@ -41,7 +41,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_aquainfo, parent, false);
+                .inflate(R.layout.card_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
 

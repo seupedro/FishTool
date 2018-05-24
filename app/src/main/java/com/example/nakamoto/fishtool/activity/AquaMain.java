@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,8 +25,8 @@ import com.example.nakamoto.fishtool.R;
 import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
 import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
-import com.idescout.sql.SqlScoutServer;
 
+import static com.example.nakamoto.fishtool.activity.debug.WakeUp.riseAndShine;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
@@ -51,18 +52,16 @@ public class AquaMain extends AppCompatActivity
         /**
          * Debug purpose
          * */
-         // startActivity(new Intent(this, AquaInfo.class).putExtra("asd", "asd"));
+        // TODO: Remove this before release
+        riseAndShine(this);
+        Log.d(TAG, "onCreate: started");
+        startActivity(new Intent(this, AquaInfo.class));
         /**
-         *
-         * */
-
-        /* Debug Db */
-        SqlScoutServer.create(this, getPackageName());
+         */
 
         /* Set ActionBar */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

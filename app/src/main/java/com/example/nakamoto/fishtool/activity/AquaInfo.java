@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.example.nakamoto.fishtool.fragments.ParamFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.nakamoto.fishtool.activity.debug.WakeUp.riseAndShine;
+
 public class AquaInfo extends AppCompatActivity {
 
     /* Todo: Get Values and Set and set on layout using a AsyncTask/Loader */
@@ -30,9 +33,25 @@ public class AquaInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * Debug purpose
+         * */
+        // TODO: Remove this before release
+        riseAndShine(this);
+        Log.d(TAG, "onCreate: started");
+        setTitle("Neon");
+        //startActivity(new Intent(this, AquaMain.class));
+        /**
+         */
+
         setContentView(R.layout.activity_aqua_info);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         final FloatingActionButton fab = findViewById(R.id.fab_aqua_info);
 
