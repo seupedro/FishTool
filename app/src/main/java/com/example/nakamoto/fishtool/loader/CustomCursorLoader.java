@@ -15,6 +15,7 @@ public class CustomCursorLoader extends CursorLoader {
         super(context);
         mContext = context;
     }
+    //asd
 
     @Override
     public Cursor loadInBackground() {
