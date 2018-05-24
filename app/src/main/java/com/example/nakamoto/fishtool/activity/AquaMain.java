@@ -51,7 +51,7 @@ public class AquaMain extends AppCompatActivity
         /**
          * Debug purpose
          * */
-        // startActivity(new Intent(this, MainActivity.class));
+         // startActivity(new Intent(this, AquaInfo.class).putExtra("asd", "asd"));
         /**
          *
          * */

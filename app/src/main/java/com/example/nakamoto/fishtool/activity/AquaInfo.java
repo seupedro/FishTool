@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class AquaInfo extends AppCompatActivity {
 
-    /* Todo: Get Values and Set and set on layout using a AsyncTask */
+    /* Todo: Get Values and Set and set on layout using a AsyncTask/Loader */
 
     private static final String TAG = "AquaInfo";
 
@@ -82,6 +83,7 @@ public class AquaInfo extends AppCompatActivity {
             }
         });
 
+        Log.d(TAG, "onCreate: intent is " + this.getIntent().getStringExtra("asd"));
     }
 }
 
