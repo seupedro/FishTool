@@ -16,6 +16,8 @@ import android.widget.TableLayout;
 import com.example.nakamoto.fishtool.R;
 import com.example.nakamoto.fishtool.activity.AquaInfo;
 
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+
 public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCursorAdapter.ViewHolder>{
 
     private static final String TAG = "AquaListCursorAdapter";
@@ -95,6 +97,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AquaInfo.class);
                 intent.putExtra("id", cursor.getPosition());
+                intent.putExtra("name", cursor.getString(cursor.getColumnIndexOrThrow(NAME_COLUMN)));
                 mContext.startActivity(intent);
             }
         });

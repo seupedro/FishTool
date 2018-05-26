@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,10 +69,9 @@ public class AquaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_aqua_info, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_aquainfo, container, false);
 
         /* Find view on layout */
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab_aqua_info);
         aquaLiters = rootView.findViewById(R.id.aqua_info_liters);
         aquaSize = rootView.findViewById(R.id.aqua_info_size);
         aquaLight = rootView.findViewById(R.id.aqua_info_light);
@@ -83,7 +81,7 @@ public class AquaFragment extends Fragment {
         aquaSubstrate = rootView.findViewById(R.id.aqua_info_substrate);
         aquaType = rootView.findViewById(R.id.aqua_info_status);
         aquaStatus = rootView.findViewById(R.id.aqua_info_status);
-        aquaImage = rootView.findViewById(R.id.aqua_info_image);
+        //aquaImage = rootView.findViewById(R.id.aqua_info_image);
 
         // Inflate the layout for this fragment
         return rootView;

@@ -46,7 +46,7 @@ public class AquaMain extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aqua_main);
+        setContentView(R.layout.activity_aquamain);
 
         /**
          * Debug purpose
@@ -54,7 +54,7 @@ public class AquaMain extends AppCompatActivity
         // TODO: Remove this before release
         riseAndShine(this);
         Log.d(TAG, "onCreate: started");
-        //startActivity(new Intent(this, AquaInfo.class).putExtra("id", 12));
+        startActivity(new Intent(this, AquaInfo.class).putExtra("id", 12));
         /**
          */
 

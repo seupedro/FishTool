@@ -89,7 +89,7 @@ public class AquaNew extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aqua_new);
+        setContentView(R.layout.activity_aquanew);
 
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);

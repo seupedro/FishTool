@@ -8,6 +8,7 @@
     <!-- TODO: Remove this before release -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
     <!-- Debug Only !!! -->
     <!-- Debug Only !!! -->
     <!-- Debug Only !!! -->
@@ -33,12 +34,19 @@
             android:name=".activity.AquaInfo"
             android:label="@string/title_activity_scrolling"
             android:parentActivityName=".activity.AquaMain"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity
+            android:name=".activity.BottomActivity"
+            android:label="@string/title_activity_bottom" />
+        <activity
+            android:name=".BasicActivity"
+            android:label="@string/title_activity_basic"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
