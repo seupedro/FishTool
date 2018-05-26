@@ -22,7 +22,7 @@ import com.example.nakamoto.fishtool.fragments.ParamFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.nakamoto.fishtool.activity.debug.WakeUp.riseAndShine;
+import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaInfo extends AppCompatActivity {
 
@@ -51,7 +51,6 @@ public class AquaInfo extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         final FloatingActionButton fab = findViewById(R.id.fab_aqua_info);
 
@@ -102,62 +101,62 @@ public class AquaInfo extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG, "onCreate: intent is " + this.getIntent().getStringExtra("asd"));
+    }
+
+    private static class AquaInfoFragmentList {
+
+        private String fragmentTitle;
+        private Fragment fragment;
+
+        public String getFragmentTitle() {
+            return fragmentTitle;
+        }
+
+        public Fragment getFragment() {
+            return fragment;
+        }
+
+        public void setFragmentTitle(String fragmentTitle) {
+            this.fragmentTitle = fragmentTitle;
+        }
+
+        public void setFragment(Fragment fragment) {
+            this.fragment = fragment;
+        }
+
+        public AquaInfoFragmentList(Fragment fragment, String fragmentTitle) {
+            this.fragmentTitle = fragmentTitle;
+            this.fragment = fragment;
+        }
+    }
+
+    private static class AquaInfoViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<AquaInfoFragmentList> aquaInfoFragmentLists = new ArrayList<>();
+
+        public AquaInfoViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            aquaInfoFragmentLists.add(new AquaInfoFragmentList(fragment, title));
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return aquaInfoFragmentLists.get(position).getFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return aquaInfoFragmentLists.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return aquaInfoFragmentLists.get(position).getFragmentTitle();
+        }
     }
 }
 
-class AquaInfoFragmentList {
-
-    private String fragmentTitle;
-    private Fragment fragment;
-
-    public String getFragmentTitle() {
-        return fragmentTitle;
-    }
-
-    public Fragment getFragment() {
-        return fragment;
-    }
-
-    public void setFragmentTitle(String fragmentTitle) {
-        this.fragmentTitle = fragmentTitle;
-    }
-
-    public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
-    }
-
-    public AquaInfoFragmentList(Fragment fragment, String fragmentTitle) {
-        this.fragmentTitle = fragmentTitle;
-        this.fragment = fragment;
-    }
-}
-
-class AquaInfoViewPagerAdapter extends FragmentPagerAdapter {
-
-    private final List<AquaInfoFragmentList> aquaInfoFragmentLists = new ArrayList<>();
-
-    public AquaInfoViewPagerAdapter(FragmentManager fm) {
-        super(fm);
-    }
-
-    public void addFragment(Fragment fragment, String title){
-        aquaInfoFragmentLists.add(new AquaInfoFragmentList(fragment, title));
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        return aquaInfoFragmentLists.get(position).getFragment();
-    }
-
-    @Override
-    public int getCount() {
-        return aquaInfoFragmentLists.size();
-    }
-
-    @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return aquaInfoFragmentLists.get(position).getFragmentTitle();
-    }
-}

@@ -1,18 +1,20 @@
 package com.example.nakamoto.fishtool.activity;
 
+import android.animation.LayoutTransition;
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,11 +28,7 @@ import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
 import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
 
-import static com.example.nakamoto.fishtool.activity.debug.WakeUp.riseAndShine;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -41,6 +39,7 @@ public class AquaMain extends AppCompatActivity
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
     private AquaListCursorAdapter cursorAdapter;
+    private CardView cardView;
 
     private static final String TAG = "AquaMain";
 
@@ -55,9 +54,12 @@ public class AquaMain extends AppCompatActivity
         // TODO: Remove this before release
         riseAndShine(this);
         Log.d(TAG, "onCreate: started");
-        startActivity(new Intent(this, AquaInfo.class));
+        //startActivity(new Intent(this, AquaInfo.class).putExtra("id", 12));
         /**
          */
+
+        ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
+        constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         /* Set ActionBar */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -164,18 +166,18 @@ public class AquaMain extends AppCompatActivity
         db = dbHelper.getWritableDatabase();
 
         /* Create dummy data to test */
-        int i = 0;
-        while (i < 10){
-
-            ContentValues values = new ContentValues();
-            values.put(NAME_COLUMN, String.valueOf(i));
-            values.put(STATUS_COLUMN, 1);
-            values.put(TYPE_COLUMN, 1);
-
-            db.insert(AQUA_TABLE, null, values);
-            values.clear();
-            i++;
-        }
+//        int i = 0;
+//        while (i < 5){
+//
+//            ContentValues values = new ContentValues();
+//            values.put(NAME_COLUMN, String.valueOf(i));
+//            values.put(STATUS_COLUMN, 1);
+//            values.put(TYPE_COLUMN, 1);
+//
+//            db.insert(AQUA_TABLE, null, values);
+//            values.clear();
+//            i++;
+//        }
         return new CustomCursorLoader(this);
     }
 

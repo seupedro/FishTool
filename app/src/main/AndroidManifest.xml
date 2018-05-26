@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nakamoto.fishtool">
 
+    <!-- Debug Only !!! -->
+    <!-- Debug Only !!! -->
+    <!-- Debug Only !!! -->
+    <!-- TODO: Remove this before release -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- Debug Only !!! -->
+    <!-- Debug Only !!! -->
+    <!-- Debug Only !!! -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,27 +18,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.AquaMain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity android:name=".activity.AquaNew" />
-
         <activity
             android:name=".activity.AquaInfo"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activity.AquaMain">
-        </activity>
+            android:parentActivityName=".activity.AquaMain"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -37,13 +41,4 @@
 
     </application>
 
-    <!-- Debug Only !!! -->
-    <!-- Debug Only !!! -->
-    <!-- Debug Only !!! -->
-    <!-- TODO: Remove this before release -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <!-- Debug Only !!! -->
-    <!-- Debug Only !!! -->
-    <!-- Debug Only !!! -->
 </manifest>
