@@ -69,21 +69,5 @@ public class AquaContract {
         public static final String NH3_COLUMN = "nh3";
         public static final String DATE_PARAM_COLUMN = "date";
         public static final String AQUA_FKEY = "aqua_fkey";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
