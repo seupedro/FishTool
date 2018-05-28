@@ -19,7 +19,7 @@ import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.CONTENT_AUTORITY;
-import static com.example.nakamoto.fishtool.database.AquaContract.PATH_AQUARIUM;
+import static com.example.nakamoto.fishtool.database.AquaContract.PATH_AQUA;
 import static com.example.nakamoto.fishtool.database.AquaContract.PATH_PARAM;
 import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_ITEM_TYPE;
 import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_LIST_TYPE;
@@ -42,8 +42,10 @@ public class AquaProvider extends ContentProvider {
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_AQUARIUM, AQUA_LIST);
-        URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_AQUARIUM + "/#", AQUA_ID);
+        /* Aqua Uri */
+        URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_AQUA, AQUA_LIST);
+        URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_AQUA + "/#", AQUA_ID);
+        /* Param Uri */
         URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_PARAM, PARAM_LIST);
         URI_MATCHER.addURI(CONTENT_AUTORITY, PATH_PARAM + "/#", PARAM_ID);
     }

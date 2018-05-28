@@ -2,6 +2,7 @@ package com.example.nakamoto.fishtool.activity;
 
 import android.animation.LayoutTransition;
 import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -25,19 +26,20 @@ import android.view.View;
 import com.example.nakamoto.fishtool.R;
 import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
 import com.example.nakamoto.fishtool.database.AquaDbHelper;
-import com.example.nakamoto.fishtool.loader.CustomCursorLoader;
 
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
 import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final int LOADER_ID = 0;
+    private final int AQUA_LOADER = 0;
+    private final int PARAM_LOADER = 1;
     private AquaDbHelper dbHelper;
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
-    public static AquaListCursorAdapter cursorAdapter;
+    private AquaListCursorAdapter adapter;
 
     private static final String TAG = "AquaMain";
 
@@ -86,62 +88,72 @@ public class AquaMain extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         /* Initialize */
-        cursorAdapter = new AquaListCursorAdapter(this, null);
+        adapter = new AquaListCursorAdapter(this, null);
         dbHelper = new AquaDbHelper(this);
 
         /* Setup Recycler */
         recyclerView = findViewById(R.id.recycler);
-        recyclerView.setAdapter(cursorAdapter);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         /* Start Loader */
-//        getLoaderManager().initLoader(LOADER_ID, null, this);
+        getLoaderManager().initLoader(AQUA_LOADER, null, this);
+        //getLoaderManager().initLoader(PARAM_LOADER, null, this);
+
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        db = dbHelper.getWritableDatabase();
-        Log.d(TAG, "onCreateLoader: ");
-
-        /* Create dummy data to test */
-//        int i = 0;
-//        while (i < 5){
+//        switch (id){
+//            case AQUA_LOADER:
+//                return new CursorLoader(this,
+//                        AQUA_CONTENT_URI,
+//                        null,
+//                        null,
+//                        null,
+//                        null);
 //
-//            ContentValues values = new ContentValues();
-//            values.put(NAME_COLUMN, String.valueOf(i));
-//            values.put(STATUS_COLUMN, 1);
-//            values.put(TYPE_COLUMN, 1);
+//            case PARAM_LOADER:
+//                return new CursorLoader(this,
+//                        PARAM_CONTENT_URI,
+//                        null,
+//                        null,
+//                        null,
+//                        null);
 //
-//            db.insert(AQUA_TABLE, null, values);
-//            values.clear();
-//            i++;
+//            default:
+//                return null;
 //        }
-        return new CustomCursorLoader(this);
+        return new CursorLoader(this,
+                AQUA_CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.d(TAG, "onLoadFinished: ");
-        cursorAdapter.swapCursor(cursor);
-        cursorAdapter = new AquaListCursorAdapter(this, cursor);
-
+//        Cursor aquaCursor = null;
+//        Cursor paramCursor = null;
+//
+//        switch (loader.getId()){
+//            case AQUA_LOADER:
+//                aquaCursor = cursor;
+//                break;
+//            case PARAM_LOADER:
+//                paramCursor = cursor;
+//                break;
+//        }
+//
+//        adapter = new AquaListCursorAdapter(this, aquaCursor, paramCursor);
+        adapter = new AquaListCursorAdapter(this, cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        cursorAdapter.swapCursor(null);
-        Log.d(TAG, "onLoaderReset: ");
-    }
+        adapter.swapCursor(null);
 
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -191,5 +203,13 @@ public class AquaMain extends AppCompatActivity
         return true;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

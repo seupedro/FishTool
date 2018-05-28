@@ -8,38 +8,51 @@ import android.support.v7.widget.RecyclerView;
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private Context mContext;
-    private Cursor mCursor;
+    private Cursor mAquaCursor;
+    private Cursor mParamCursor;
     private boolean mDataValid;
     private int mRowIdColumn;
     private DataSetObserver mDataSetObserver;
 
-    public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
+    public CursorRecyclerViewAdapter(Context context, Cursor aquaCursor) {
         mContext = context;
-        mCursor = cursor;
-        mDataValid = cursor != null;
-        mRowIdColumn = mDataValid ? mCursor.getColumnIndex("_id") : -1;
+        mAquaCursor = aquaCursor;
+        mDataValid = aquaCursor != null;
+        mRowIdColumn = mDataValid ? mAquaCursor.getColumnIndex("_id") : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
-        if (mCursor != null) {
-            mCursor.registerDataSetObserver(mDataSetObserver);
+        if (mAquaCursor != null) {
+            mAquaCursor.registerDataSetObserver(mDataSetObserver);
+        }
+    }
+
+    public CursorRecyclerViewAdapter(Context context, Cursor aquaCursor, Cursor paramCursor) {
+        mContext = context;
+        mAquaCursor = aquaCursor;
+        mParamCursor = paramCursor;
+        mDataValid = aquaCursor != null;
+        mRowIdColumn = mDataValid ? mAquaCursor.getColumnIndex("_id") : -1;
+        mDataSetObserver = new NotifyingDataSetObserver();
+        if (mAquaCursor != null) {
+            mAquaCursor.registerDataSetObserver(mDataSetObserver);
         }
     }
 
     public Cursor getCursor() {
-        return mCursor;
+        return mAquaCursor;
     }
 
     @Override
     public int getItemCount() {
-        if (mDataValid && mCursor != null) {
-            return mCursor.getCount();
+        if (mDataValid && mAquaCursor != null) {
+            return mAquaCursor.getCount();
         }
         return 0;
     }
 
     @Override
     public long getItemId(int position) {
-        if (mDataValid && mCursor != null && mCursor.moveToPosition(position)) {
-            return mCursor.getLong(mRowIdColumn);
+        if (mDataValid && mAquaCursor != null && mAquaCursor.moveToPosition(position)) {
+            return mAquaCursor.getLong(mRowIdColumn);
         }
         return 0;
     }
@@ -56,10 +69,10 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        if (!mCursor.moveToPosition(position)) {
+        if (!mAquaCursor.moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
-        onBindViewHolder(viewHolder, mCursor);
+        onBindViewHolder(viewHolder, mAquaCursor);
     }
 
     /**
@@ -79,17 +92,17 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
      * closed.
      */
     public Cursor swapCursor(Cursor newCursor) {
-        if (newCursor == mCursor) {
+        if (newCursor == mAquaCursor) {
             return null;
         }
-        final Cursor oldCursor = mCursor;
+        final Cursor oldCursor = mAquaCursor;
         if (oldCursor != null && mDataSetObserver != null) {
             oldCursor.unregisterDataSetObserver(mDataSetObserver);
         }
-        mCursor = newCursor;
-        if (mCursor != null) {
+        mAquaCursor = newCursor;
+        if (mAquaCursor != null) {
             if (mDataSetObserver != null) {
-                mCursor.registerDataSetObserver(mDataSetObserver);
+                mAquaCursor.registerDataSetObserver(mDataSetObserver);
             }
             mRowIdColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;

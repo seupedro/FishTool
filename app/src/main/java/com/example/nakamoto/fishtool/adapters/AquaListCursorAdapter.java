@@ -25,8 +25,13 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
     private int previousExpandedPosition;
     private Context mContext;
 
-    public AquaListCursorAdapter(Context context, Cursor cursor){
-        super(context,cursor);
+    public AquaListCursorAdapter(Context context, Cursor aquaCursor){
+        super(context, aquaCursor);
+        mContext = context;
+    }
+
+    public AquaListCursorAdapter(Context context, Cursor aquaCursor, Cursor paramCursor){
+        super(context, aquaCursor, paramCursor);
         mContext = context;
     }
 

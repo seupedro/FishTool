@@ -36,6 +36,7 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.DATE_AQUA_COLUMN;
@@ -332,11 +333,10 @@ public class AquaNew extends AppCompatActivity {
         values.put(TYPE_COLUMN, intAquaType);
         values.put(STATUS_COLUMN, intAquaStatus);
         /* Insert into Db */
-        long newRows = db.insert(AQUA_TABLE, null, values);
-
+        Uri uri = getContentResolver().insert(AQUA_CONTENT_URI, values);
 
         /* TODO: [Remove] Debug purpose */
-        Toast.makeText(this, String.valueOf(newRows), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, String.valueOf(uri), Toast.LENGTH_SHORT).show();
         finish();
     }
 

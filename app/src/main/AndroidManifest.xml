@@ -32,6 +32,12 @@
         <activity
             android:name=".activity.AquaInfo"
             android:label="@string/title_activity_aquainfo" />
+        
+        <provider
+            android:authorities="com.example.nakamoto.fishtool"
+            android:name=".database.AquaProvider"
+            android:exported="true"
+            android:grantUriPermissions="true"/>
 
     </application>
 
