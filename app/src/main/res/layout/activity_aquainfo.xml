@@ -5,18 +5,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.BottomActivity">
+    tools:context=".activity.AquaInfo">
 
-    <LinearLayout
-        android:id="@+id/linear"
+    <FrameLayout
+        android:id="@+id/frame_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

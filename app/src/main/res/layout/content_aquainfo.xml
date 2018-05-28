@@ -52,12 +52,11 @@
         android:id="@+id/space"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:minHeight="48dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/aqua_info_image" />
 
     <ImageView
         android:id="@+id/aqua_info_icon_2"
@@ -330,7 +329,7 @@
         app:layout_constraintTop_toBottomOf="@+id/space8" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/aqua_info_image"
         android:layout_width="0dp"
         android:layout_height="192dp"
         android:scaleType="centerCrop"

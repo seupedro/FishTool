@@ -50,6 +50,7 @@ import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SIZE
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SUBSTRATE_COLUMN;
 import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaNew extends AppCompatActivity {
 
@@ -90,6 +91,9 @@ public class AquaNew extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquanew);
+
+        /* TODO: remove before release */
+        riseAndShine(this);
 
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);
@@ -329,6 +333,8 @@ public class AquaNew extends AppCompatActivity {
         values.put(STATUS_COLUMN, intAquaStatus);
         /* Insert into Db */
         long newRows = db.insert(AQUA_TABLE, null, values);
+
+
         /* TODO: [Remove] Debug purpose */
         Toast.makeText(this, String.valueOf(newRows), Toast.LENGTH_SHORT).show();
         finish();

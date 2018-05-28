@@ -36,7 +36,7 @@ import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PH_
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AquaFragment extends Fragment {
+public class InfoFragment extends Fragment {
 
     //TODO: Read from Db Using AsyncTaskLoader
     //TODO: fix collapising bar
@@ -55,7 +55,7 @@ public class AquaFragment extends Fragment {
     private TextView aquaNote;
     private ImageView aquaImage;
 
-    public AquaFragment() {
+    public InfoFragment() {
         // Required empty public constructor
     }
 
@@ -81,7 +81,7 @@ public class AquaFragment extends Fragment {
         aquaSubstrate = rootView.findViewById(R.id.aqua_info_substrate);
         aquaType = rootView.findViewById(R.id.aqua_info_status);
         aquaStatus = rootView.findViewById(R.id.aqua_info_status);
-        //aquaImage = rootView.findViewById(R.id.aqua_info_image);
+        aquaImage = rootView.findViewById(R.id.aqua_info_image);
 
         // Inflate the layout for this fragment
         return rootView;

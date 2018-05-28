@@ -14,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,8 +37,7 @@ public class AquaMain extends AppCompatActivity
     private AquaDbHelper dbHelper;
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
-    private AquaListCursorAdapter cursorAdapter;
-    private CardView cardView;
+    public static AquaListCursorAdapter cursorAdapter;
 
     private static final String TAG = "AquaMain";
 
@@ -47,16 +45,12 @@ public class AquaMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquamain);
+        Log.d(TAG, "onCreate: " + getPackageCodePath());
+        Log.i(TAG, "onCreate: " + getPackageName());
 
-        /**
-         * Debug purpose
-         * */
+
         // TODO: Remove this before release
         riseAndShine(this);
-        Log.d(TAG, "onCreate: started");
-        startActivity(new Intent(this, AquaInfo.class).putExtra("id", 12));
-        /**
-         */
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
         constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -101,8 +95,44 @@ public class AquaMain extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         /* Start Loader */
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+//        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        db = dbHelper.getWritableDatabase();
+        Log.d(TAG, "onCreateLoader: ");
+
+        /* Create dummy data to test */
+//        int i = 0;
+//        while (i < 5){
+//
+//            ContentValues values = new ContentValues();
+//            values.put(NAME_COLUMN, String.valueOf(i));
+//            values.put(STATUS_COLUMN, 1);
+//            values.put(TYPE_COLUMN, 1);
+//
+//            db.insert(AQUA_TABLE, null, values);
+//            values.clear();
+//            i++;
+//        }
+        return new CustomCursorLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(TAG, "onLoadFinished: ");
+        cursorAdapter.swapCursor(cursor);
+        cursorAdapter = new AquaListCursorAdapter(this, cursor);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
+        Log.d(TAG, "onLoaderReset: ");
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -161,34 +191,5 @@ public class AquaMain extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        db = dbHelper.getWritableDatabase();
 
-        /* Create dummy data to test */
-//        int i = 0;
-//        while (i < 5){
-//
-//            ContentValues values = new ContentValues();
-//            values.put(NAME_COLUMN, String.valueOf(i));
-//            values.put(STATUS_COLUMN, 1);
-//            values.put(TYPE_COLUMN, 1);
-//
-//            db.insert(AQUA_TABLE, null, values);
-//            values.clear();
-//            i++;
-//        }
-        return new CustomCursorLoader(this);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        cursorAdapter.swapCursor(cursor);
-        cursorAdapter = new AquaListCursorAdapter(this, cursor);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        cursorAdapter.swapCursor(null);
-    }
 }

@@ -1,12 +1,32 @@
 package com.example.nakamoto.fishtool.database;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.BaseColumns;
+
+import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_TABLE;
 
 public class AquaContract {
 
     private AquaContract(){}
 
+    /* Autority Setup */
+    public static final String CONTENT_AUTORITY = "com.example.nakamoto.fishtool";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTORITY);
+    public static final String PATH_AQUARIUM = AQUA_TABLE;
+    public static final String PATH_PARAM = PARAM_TABLE;
+
     public static class AquaEntry implements BaseColumns{
+
+        /* Content Uri */
+        public static final Uri AQUA_CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_AQUARIUM);
+
+        /* MIME types*/
+        public static final String AQUA_CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTORITY + "/" + PATH_AQUARIUM;
+        public static final String AQUA_CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTORITY + "/" + PATH_AQUARIUM;
 
         /* Table Constant */
         public static final String AQUA_TABLE = "aquarium";
@@ -29,6 +49,15 @@ public class AquaContract {
     }
 
     public static class ParamEntry implements BaseColumns{
+
+        /* Content Uri */
+        public static final Uri PARAM_CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_AQUARIUM);
+
+        /* MIME Types */
+        public static final String PARAM_CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTORITY + "/" + PATH_PARAM;
+        public static final String PARAM_CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTORITY + "/" + PATH_PARAM;
 
         /* Table Constant */
         public static final String PARAM_TABLE = "parameters";
