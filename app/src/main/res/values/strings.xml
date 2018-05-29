@@ -114,8 +114,8 @@
     <string name="custom_text_test">Implementation To transform a regular CardView to a full width CardView, we obviously first need to remove any horizontal padding of the parent view and any horizontal margin of the card itself. On Lollipop and newer, we then just set the card corner radius to 0dp and we’re done. On pre-Lollipop, CardView unfortunately adds padding to its content to draw shadows to that area. That padding can’t be removed so we have to apply a negative horizontal margin of 3dp to the card. I recommend creating different dimension resource values for the different platform versions.</string>
     <string name="it_works"></string>
     <string name="title_activity_aquainfo">AquaInfo</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_bnav_aqua">Aquarium</string>
+    <string name="title_bnav_param">Parameters</string>
+    <string name="title_bnav_fauna">Fauna</string>
     <string name="title_activity_basic">BasicActivity</string>
 </resources>
