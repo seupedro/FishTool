@@ -1,0 +1,251 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.github.nakamotossh.fishtool.fragments.NewFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/aqua_photo"
+            android:layout_width="0dp"
+            android:layout_height="192dp"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="@string/aqua_photo_description"
+            app:layout_constraintDimensionRatio="w,4:2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_photo_camera" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/icons_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="72dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/fields_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <TextView
+            android:id="@+id/info_general"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Informações Gerais"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_photo" />
+
+        <EditText
+            android:id="@+id/aqua_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:capitalize="words"
+            android:ems="10"
+            android:hint="Aqua Name"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/info_general" />
+
+        <EditText
+            android:id="@+id/aqua_date"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Date"
+            android:inputType="date"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_name" />
+
+        <Spinner
+            android:id="@+id/aqua_type"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/aqua_type"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_type_text" />
+
+        <EditText
+            android:id="@+id/aqua_liters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Liters"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_date" />
+
+        <EditText
+            android:id="@+id/aqua_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Iluminação"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_filter" />
+
+        <EditText
+            android:id="@+id/aqua_co2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Sistema de CO2"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_light" />
+
+        <EditText
+            android:id="@+id/aqua_dose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Dosagem"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_co2" />
+
+        <EditText
+            android:id="@+id/aqua_substrate"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Substrato"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_dose" />
+
+        <EditText
+            android:id="@+id/aqua_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Notas"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_substrate" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="192dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_camera"
+            app:elevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/info_general"
+            app:layout_constraintEnd_toEndOf="@+id/aqua_photo"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="@+id/aqua_photo"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_photo"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Spinner
+            android:id="@+id/aqua_status"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/aqua_status"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="@+id/aqua_type"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_status_text" />
+
+        <TextView
+            android:id="@+id/aqua_type_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Aquarium Type"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_size" />
+
+        <TextView
+            android:id="@+id/aqua_status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Status"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_type" />
+
+        <ImageButton
+            android:id="@+id/date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/aqua_date"
+            app:layout_constraintStart_toEndOf="@+id/aqua_date"
+            app:layout_constraintTop_toTopOf="@+id/aqua_date"
+            app:layout_constraintVertical_bias="0.53"
+            app:srcCompat="@drawable/ic_watch" />
+
+        <EditText
+            android:id="@+id/aqua_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Size"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_liters" />
+
+        <EditText
+            android:id="@+id/aqua_filter"
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Filtration"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/icons_guide"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_status" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
