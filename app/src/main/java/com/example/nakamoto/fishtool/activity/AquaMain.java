@@ -147,7 +147,8 @@ public class AquaMain extends AppCompatActivity
 //        }
 //
 //        adapter = new AquaListCursorAdapter(this, aquaCursor, paramCursor);
-        adapter = new AquaListCursorAdapter(this, cursor);
+        adapter.swapCursor(cursor);
+
     }
 
     @Override

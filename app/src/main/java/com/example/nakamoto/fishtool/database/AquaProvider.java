@@ -102,28 +102,6 @@ public class AquaProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public String getType(@NonNull Uri uri) {
-        final  int match = URI_MATCHER.match(uri);
-        switch (match) {
-            case AQUA_ID:
-                return AQUA_CONTENT_ITEM_TYPE;
-
-            case AQUA_LIST:
-                return AQUA_CONTENT_LIST_TYPE;
-
-            case PARAM_ID:
-                return PARAM_CONTENT_ITEM_TYPE;
-
-            case PARAM_LIST:
-                return PARAM_CONTENT_LIST_TYPE;
-
-            default:
-                throw new IllegalArgumentException("Unkwon URI " + uri + " with match " + match);
-        }
-    }
-
-    @Nullable
-    @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
         /* Matches URI */
@@ -131,7 +109,7 @@ public class AquaProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         switch (match){
-            case AQUA_ID:
+            case AQUA_LIST:
                 /* Check if some fields are valid */
                 String aquaName = values.getAsString(NAME_COLUMN);
                 if (aquaName == null || aquaName.isEmpty()) {
@@ -139,12 +117,12 @@ public class AquaProvider extends ContentProvider {
                 }
 
                 int aquaStatus = values.getAsInteger(STATUS_COLUMN);
-                if (aquaStatus > 0 || aquaStatus < 2) {
+                if (aquaStatus > 1 | aquaStatus < 0) {
                     throw new IllegalArgumentException("Status must be valid. Not acceptable values greater then 2 or lower than 0.");
                 }
 
                 int aquaType = values.getAsInteger(TYPE_COLUMN);
-                if (aquaType > 0 || aquaType < 2) {
+                if (aquaType < 0 || aquaType > 2) {
                     throw new IllegalArgumentException("Type must be valid. Not acceptable values greater then 2 or lower than 0.");
                 }
 
@@ -160,7 +138,7 @@ public class AquaProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return ContentUris.withAppendedId(uri, aquaInsertId);
 
-            case PARAM_ID:
+            case PARAM_LIST:
                //TODO: regex to match only params, not letters. It's very important for charts.
 
                 /* Insert Data */
@@ -294,6 +272,28 @@ public class AquaProvider extends ContentProvider {
 
             default:
                 throw new IllegalArgumentException("Uptade is not supported for the following uri: " + uri);
+        }
+    }
+
+    @Nullable
+    @Override
+    public String getType(@NonNull Uri uri) {
+        final  int match = URI_MATCHER.match(uri);
+        switch (match) {
+            case AQUA_ID:
+                return AQUA_CONTENT_ITEM_TYPE;
+
+            case AQUA_LIST:
+                return AQUA_CONTENT_LIST_TYPE;
+
+            case PARAM_ID:
+                return PARAM_CONTENT_ITEM_TYPE;
+
+            case PARAM_LIST:
+                return PARAM_CONTENT_LIST_TYPE;
+
+            default:
+                throw new IllegalArgumentException("Unkwon URI " + uri + " with match " + match);
         }
     }
 }

@@ -41,6 +41,10 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         return mAquaCursor;
     }
 
+    public Cursor getmParamCursor() {
+        return mParamCursor;
+    }
+
     @Override
     public int getItemCount() {
         if (mDataValid && mAquaCursor != null) {
@@ -62,7 +66,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         super.setHasStableIds(true);
     }
 
-    public abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
+    public abstract void onBindViewHolder(VH viewHolder, Cursor mAquaCursor);
 
     @Override
     public void onBindViewHolder(VH viewHolder, int position) {

@@ -333,6 +333,8 @@ public class AquaNew extends AppCompatActivity {
         values.put(TYPE_COLUMN, intAquaType);
         values.put(STATUS_COLUMN, intAquaStatus);
         /* Insert into Db */
+        Log.d(TAG, "saveValues: type = " + intAquaType +
+                ", status = " + intAquaStatus);
         Uri uri = getContentResolver().insert(AQUA_CONTENT_URI, values);
 
         /* TODO: [Remove] Debug purpose */

@@ -20,6 +20,8 @@ import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME
 
 public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCursorAdapter.ViewHolder>{
 
+    //TODO: Fix Fab overrinding last aquarium
+
     private static final String TAG = "AquaListCursorAdapter";
     private int mExpandedPosition = -1;
     private int previousExpandedPosition;
