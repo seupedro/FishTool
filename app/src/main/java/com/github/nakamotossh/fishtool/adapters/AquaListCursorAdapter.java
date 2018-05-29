@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.adapters;
+package com.github.nakamotossh.fishtool.adapters;
 
 import android.animation.LayoutTransition;
 import android.content.Context;
@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.example.nakamoto.fishtool.R;
-import com.example.nakamoto.fishtool.activity.AquaInfo;
+import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.activity.AquaInfo;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 
 public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCursorAdapter.ViewHolder>{
 

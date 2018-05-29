@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.database;
+package com.github.nakamotossh.fishtool.database;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -12,18 +12,18 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import static android.provider.BaseColumns._ID;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_ITEM_TYPE;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_LIST_TYPE;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.CONTENT_AUTORITY;
-import static com.example.nakamoto.fishtool.database.AquaContract.PATH_AQUA;
-import static com.example.nakamoto.fishtool.database.AquaContract.PATH_PARAM;
-import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_ITEM_TYPE;
-import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_LIST_TYPE;
-import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_ITEM_TYPE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_LIST_TYPE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.CONTENT_AUTORITY;
+import static com.github.nakamotossh.fishtool.database.AquaContract.PATH_AQUA;
+import static com.github.nakamotossh.fishtool.database.AquaContract.PATH_PARAM;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_ITEM_TYPE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_LIST_TYPE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_TABLE;
 
 public class AquaProvider extends ContentProvider {
 

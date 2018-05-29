@@ -1,11 +1,11 @@
-package com.example.nakamoto.fishtool.database;
+package com.github.nakamotossh.fishtool.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.*;
-import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.*;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.*;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.*;
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 

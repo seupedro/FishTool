@@ -1,11 +1,11 @@
-package com.example.nakamoto.fishtool.database;
+package com.github.nakamotossh.fishtool.database;
 
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
-import static com.example.nakamoto.fishtool.database.AquaContract.ParamEntry.PARAM_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_TABLE;
 
 public class AquaContract {
 

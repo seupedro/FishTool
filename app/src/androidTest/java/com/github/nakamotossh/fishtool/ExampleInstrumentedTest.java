@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool;
+package com.github.nakamotossh.fishtool;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

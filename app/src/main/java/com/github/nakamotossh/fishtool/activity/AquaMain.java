@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.activity;
+package com.github.nakamotossh.fishtool.activity;
 
 import android.animation.LayoutTransition;
 import android.app.LoaderManager;
@@ -23,12 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.nakamoto.fishtool.R;
-import com.example.nakamoto.fishtool.adapters.AquaListCursorAdapter;
-import com.example.nakamoto.fishtool.database.AquaDbHelper;
+import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.adapters.AquaListCursorAdapter;
+import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
-import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
+import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

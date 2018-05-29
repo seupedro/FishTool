@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.activity;
+package com.github.nakamotossh.fishtool.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,12 +6,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.example.nakamoto.fishtool.R;
-import com.example.nakamoto.fishtool.fragments.AquaFragment;
-import com.example.nakamoto.fishtool.fragments.FaunaFragment;
-import com.example.nakamoto.fishtool.fragments.ParamFragment;
+import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.fragments.AquaFragment;
+import com.github.nakamotossh.fishtool.fragments.FaunaFragment;
+import com.github.nakamotossh.fishtool.fragments.ParamFragment;
 
-import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
+import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaInfo extends AppCompatActivity {
 

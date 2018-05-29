@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nakamoto.fishtool">
+    package="com.github.nakamotossh.fishtool">
 
     <!-- TODO: Remove this before release -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -34,7 +34,7 @@
             android:label="@string/title_activity_aquainfo" />
         
         <provider
-            android:authorities="com.example.nakamoto.fishtool"
+            android:authorities="com.github.nakamotossh.fishtool"
             android:name=".database.AquaProvider"
             android:exported="true"
             android:grantUriPermissions="true"/>

@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool;
+package com.github.nakamotossh.fishtool;
 
 import org.junit.Test;
 

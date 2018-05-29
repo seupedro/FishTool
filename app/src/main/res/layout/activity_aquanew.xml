@@ -54,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:capitalize="words"
             android:ems="10"
             android:hint="Aqua Name"
             android:inputType="text"
@@ -74,11 +75,14 @@
 
         <Spinner
             android:id="@+id/aqua_type"
-            android:layout_width="245dp"
+            android:layout_width="0dp"
             android:layout_height="34dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="8dp"
             android:entries="@array/aqua_type"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_type_text" />
 
@@ -174,11 +178,13 @@
 
         <Spinner
             android:id="@+id/aqua_status"
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="8dp"
             android:entries="@array/aqua_status"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="@+id/aqua_type"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_status_text" />
 
@@ -205,13 +211,15 @@
 
         <ImageButton
             android:id="@+id/date_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/aqua_date"
             app:layout_constraintStart_toEndOf="@+id/aqua_date"
             app:layout_constraintTop_toTopOf="@+id/aqua_date"
-            app:srcCompat="@drawable/ic_menu_manage" />
+            app:layout_constraintVertical_bias="0.53"
+            app:srcCompat="@drawable/ic_watch" />
 
         <EditText
             android:id="@+id/aqua_size"
@@ -222,7 +230,6 @@
             android:ems="10"
             android:hint="Size"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_liters" />
 
@@ -235,7 +242,6 @@
             android:ems="10"
             android:hint="Filtration"
             android:inputType="textPersonName"
-            android:text="Name"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_status" />
 

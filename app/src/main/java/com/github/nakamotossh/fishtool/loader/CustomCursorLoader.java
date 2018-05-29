@@ -1,12 +1,12 @@
-package com.example.nakamoto.fishtool.loader;
+package com.github.nakamotossh.fishtool.loader;
 
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
 
-import com.example.nakamoto.fishtool.database.AquaDbHelper;
+import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
 
 public class CustomCursorLoader extends CursorLoader {
 

@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.activity;
+package com.github.nakamotossh.fishtool.activity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -28,30 +28,30 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.nakamoto.fishtool.R;
-import com.example.nakamoto.fishtool.database.AquaDbHelper;
+import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 import com.myhexaville.smartimagepicker.ImagePicker;
 import com.myhexaville.smartimagepicker.OnImagePickedListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.DATE_AQUA_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.DOSAGE_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.FILTER_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.LIGHT_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.LITERS_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.NOTES_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SIZE_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.SUBSTRATE_COLUMN;
-import static com.example.nakamoto.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
-import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_TABLE;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.DATE_AQUA_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.DOSAGE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.FILTER_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LIGHT_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LITERS_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NOTES_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.SIZE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.STATUS_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.SUBSTRATE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaNew extends AppCompatActivity {
 

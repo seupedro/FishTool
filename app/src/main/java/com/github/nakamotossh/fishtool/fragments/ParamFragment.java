@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.fragments;
+package com.github.nakamotossh.fishtool.fragments;
 
 
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nakamoto.fishtool.R;
+import com.github.nakamotossh.fishtool.R;
 
 /**
  * A simple {@link Fragment} subclass.

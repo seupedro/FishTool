@@ -1,4 +1,4 @@
-package com.example.nakamoto.fishtool.debug;
+package com.github.nakamotossh.fishtool.debug;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
