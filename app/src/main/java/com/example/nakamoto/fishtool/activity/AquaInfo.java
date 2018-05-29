@@ -7,13 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.nakamoto.fishtool.R;
-import com.example.nakamoto.fishtool.fragments.FaunaFragment;
 import com.example.nakamoto.fishtool.fragments.AquaFragment;
+import com.example.nakamoto.fishtool.fragments.FaunaFragment;
 import com.example.nakamoto.fishtool.fragments.ParamFragment;
 
 import static com.example.nakamoto.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaInfo extends AppCompatActivity {
+
+    private static final String TAG = "AquaInfo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
