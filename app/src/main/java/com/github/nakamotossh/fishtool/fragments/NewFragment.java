@@ -78,6 +78,7 @@ public class NewFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -198,21 +199,7 @@ public class NewFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        // TODO: fix menu inflater
-
-        inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.new_aqua, menu);
-
-
-        /* From Activity */
-
-        //    @Override
-        //    public boolean onCreateOptionsMenu(Menu menu) {
-        //        MenuInflater menuInflater = getMenuInflater();
-        //        menuInflater.inflate(R.menu.new_aqua, menu);
-        //        return true;
-        //    }
     }
 
     @Override
