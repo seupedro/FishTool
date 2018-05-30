@@ -12,7 +12,7 @@ public class AquaContract {
     private AquaContract(){}
 
     /* Autority Setup */
-    public static final String CONTENT_AUTORITY = "com.example.nakamoto.fishtool";
+    public static final String CONTENT_AUTORITY = "com.github.nakamotossh.fishtool";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTORITY);
     public static final String PATH_AQUA = AQUA_TABLE;
     public static final String PATH_PARAM = PARAM_TABLE;

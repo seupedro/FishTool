@@ -1,9 +1,11 @@
 package com.github.nakamotossh.fishtool.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.fragments.NewFragment;
@@ -17,6 +19,7 @@ public class AquaNew extends AppCompatActivity {
     //TODO: [OPTIMIZE] Realease resource: Close Cursor, Close Db
 
     private static final String TAG = "NEWAQUA";
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,9 @@ public class AquaNew extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.frag_conteiner, new NewFragment())
                 .commit();
+
+        Toast.makeText(this, "asd", Toast.LENGTH_SHORT).show();
+        this.context = getApplicationContext();
     }
 
 
@@ -59,6 +65,7 @@ public class AquaNew extends AppCompatActivity {
         }
     }
 
-
-
+    public static Context getContextApp() {
+        return context;
+    }
 }

@@ -98,7 +98,6 @@ public class AquaMain extends AppCompatActivity
 
         /* Start Loader */
         getLoaderManager().initLoader(AQUA_LOADER, null, this);
-        //getLoaderManager().initLoader(PARAM_LOADER, null, this);
 
     }
 

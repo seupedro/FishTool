@@ -36,6 +36,8 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.github.nakamotossh.fishtool.activity.AquaNew.getContextApp;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -186,6 +188,34 @@ public class NewFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.new_aqua, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.save) {
+            Log.d(TAG, "clicked");
+            Toast.makeText(getContext(), "context", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "activity", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AquaNew.class, "AquaNew", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "not");
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        Toast.makeText(getActivity(), "getActivity()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "getContext()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContextApp(), "getContextApp()", Toast.LENGTH_SHORT).show();
+        super.onStart();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imagePicker.handleActivityResult(resultCode, requestCode, data);
@@ -195,22 +225,6 @@ public class NewFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         imagePicker.handlePermission(requestCode, grantResults);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.new_aqua, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.save:
-                Toast.makeText(getContext(), "this", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public void showDatePickerDialog(View v) {
