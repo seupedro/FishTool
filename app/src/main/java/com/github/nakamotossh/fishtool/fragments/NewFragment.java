@@ -36,8 +36,6 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.github.nakamotossh.fishtool.activity.AquaNew.getContextApp;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -81,6 +79,7 @@ public class NewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -197,9 +196,15 @@ public class NewFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.save) {
-            Log.d(TAG, "clicked");
             Toast.makeText(getContext(), "context", Toast.LENGTH_SHORT).show();
             Toast.makeText(getActivity(), "activity", Toast.LENGTH_SHORT).show();
+
+            if (getContext() == null)
+                Log.d(TAG, "onOptionsItemSelected: context null");
+            if (getActivity() == null)
+                Log.d(TAG, "onOptionsItemSelected: act null");
+
+            Log.d(TAG, "clicked");
             //Toast.makeText(AquaNew.class, "AquaNew", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(TAG, "not");
@@ -211,7 +216,7 @@ public class NewFragment extends Fragment {
     public void onStart() {
         Toast.makeText(getActivity(), "getActivity()", Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), "getContext()", Toast.LENGTH_SHORT).show();
-        Toast.makeText(getContextApp(), "getContextApp()", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "getContextApp()", Toast.LENGTH_SHORT).show();
         super.onStart();
     }
 
