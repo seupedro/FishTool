@@ -42,6 +42,7 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQ
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.DOSAGE_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.FILTER_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LIGHT_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LITERS_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NOTES_COLUMN;
@@ -125,6 +126,21 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         getDateButton.setOnTouchListener(touchListener);
         aquaNote.setOnTouchListener(touchListener);
         aquaSize.setOnTouchListener(touchListener);
+        aquaFilter.setOnTouchListener(touchListener);
+
+        /* Dummy Data */
+        aquaName.setText("Neon");
+        aquaType.setOnTouchListener(touchListener);
+        aquaStatus.setOnTouchListener(touchListener);
+        aquaLiters.setText("200");
+        aquaLight.setText("12w Bulb");
+        aquaCo2.setText("No Co2");
+        aquaSubstrate.setText("Gravel");
+        aquaDose.setText("1000/liters");
+        aquaDate.setText("26/09/1994");
+        aquaNote.setText("Leticia doida");
+        aquaSize.setText("100x26x50");
+        aquaFilter.setText("Hang on");
 
         /* Set listener on fab */
         fab.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +220,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.new_aqua, menu);
         return true;
+
     }
 
     @Override
@@ -213,8 +230,16 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
                 ContentValues values = new ContentValues();
                 values.put(NAME_COLUMN, aquaName.getText().toString().trim());
+                values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
                 values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
                 values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
+                values.put(CO2_COLUMN, aquaCo2.getText().toString().trim());
+                values.put(SIZE_COLUMN, aquaSize.getText().toString().trim());
+                values.put(LIGHT_COLUMN, aquaLight.getText().toString().trim());
+                values.put(DOSAGE_COLUMN, aquaDose.getText().toString().trim());
+                values.put(FILTER_COLUMN, aquaFilter.getText().toString().trim());
+                values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
+                values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
 
                 getContentResolver().notifyChange(
                         getContentResolver().insert(AQUA_CONTENT_URI, values), null);
