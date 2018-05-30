@@ -10,12 +10,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -94,6 +98,21 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         setContentView(R.layout.activity_aquanew);
         /* TODO: remove this before release */
         riseAndShine(this);
+
+        /* Check if intent has Data */
+        if (getIntent().hasExtra("aquaId")){
+            aquaIdUri = Uri.parse(getIntent().getExtras().getString("aquaId"));
+            /* Start Loader */
+            getLoaderManager().initLoader(LOADER_ID, null, this);
+        }
+
+        /* TODO: Fix menu button color compatibility */
+        Drawable icon;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            icon = getDrawable(R.drawable.ic_check);
+            DrawableCompat.setTint(icon, Color.WHITE);
+        }
+
 
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);
@@ -203,22 +222,14 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 aquaDate.setText(currentDate);
             }
         });
-
-        if (getIntent().hasExtra("aquaId")){
-
-//            /* Get and Conver ID to Uri */
-//            int intentAquaId = getIntent().getExtras().getInt("aquaId");
-//            aquaIdUri = Uri.withAppendedPath(AQUA_CONTENT_URI, String.valueOf(intentAquaId));
-
-            aquaIdUri = Uri.parse(getIntent().getExtras().getString("aquaId"));
-            getLoaderManager().initLoader(LOADER_ID, null, this);
-        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.new_aqua, menu);
+
+        /* TODO: Display delete menu option dinamically */
         return true;
 
     }
@@ -226,28 +237,46 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.save:
+            case R.id.save_button:
+                checkAndSaveValues();
+                return true;
+            case R.id.delete_button:
 
-                ContentValues values = new ContentValues();
-                values.put(NAME_COLUMN, aquaName.getText().toString().trim());
-                values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
-                values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
-                values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
-                values.put(CO2_COLUMN, aquaCo2.getText().toString().trim());
-                values.put(SIZE_COLUMN, aquaSize.getText().toString().trim());
-                values.put(LIGHT_COLUMN, aquaLight.getText().toString().trim());
-                values.put(DOSAGE_COLUMN, aquaDose.getText().toString().trim());
-                values.put(FILTER_COLUMN, aquaFilter.getText().toString().trim());
-                values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
-                values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
+                /* TODO: DIALOG - Ask user if c sure */
+
+                /* TODO: Delete is not deleting */
 
                 getContentResolver().notifyChange(
-                        getContentResolver().insert(AQUA_CONTENT_URI, values), null);
+                        Uri.withAppendedPath(AQUA_CONTENT_URI, String.valueOf(
+                                getContentResolver().delete(aquaIdUri, null, null))), null);
 
-                finish();
+                startActivity(new Intent(this, AquaMain.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkAndSaveValues() {
+
+        /* TODO: Check values before insert */
+        ContentValues values = new ContentValues();
+        values.put(NAME_COLUMN, aquaName.getText().toString().trim());
+        values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
+        values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
+        values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
+        values.put(CO2_COLUMN, aquaCo2.getText().toString().trim());
+        values.put(SIZE_COLUMN, aquaSize.getText().toString().trim());
+        values.put(LIGHT_COLUMN, aquaLight.getText().toString().trim());
+        values.put(DOSAGE_COLUMN, aquaDose.getText().toString().trim());
+        values.put(FILTER_COLUMN, aquaFilter.getText().toString().trim());
+        values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
+        values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
+
+        getContentResolver().notifyChange(
+                getContentResolver().insert(AQUA_CONTENT_URI, values), null);
+
+        finish();
+
     }
 
     @Override

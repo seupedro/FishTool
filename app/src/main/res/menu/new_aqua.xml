@@ -3,9 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/save"
-        android:icon="@drawable/ic_menu_send"
-        android:title="Salvar"
+        android:id="@+id/save_button"
+        android:icon="@drawable/ic_check"
+        android:title="Sale"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/delete_button"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete"
         android:visible="true"
         app:showAsAction="always" />
 </menu>
