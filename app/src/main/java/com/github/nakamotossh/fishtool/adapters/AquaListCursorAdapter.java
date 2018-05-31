@@ -108,7 +108,6 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
 
 
         /* Show aqua features */
-        final int MATCH_DATABASE_ID = 1;
         viewHolder.cardViewParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

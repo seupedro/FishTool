@@ -420,6 +420,15 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                     Log.e(TAG, "onLoadFinished: setting type", new IllegalSelectorException());
             }
 
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+
         }
     }
 
