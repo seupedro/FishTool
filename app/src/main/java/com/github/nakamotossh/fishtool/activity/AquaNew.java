@@ -10,16 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -108,7 +104,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         setTitle("New Aquarium");
         hasExtraUri = getIntent().hasExtra("aquaId") ? true : false;
 
-        /* Check if intent has Data */
+        /* Show as Edit/New Layout */
         if (hasExtraUri){
             /* Define Title */
             setTitle("Edit Aquarium");
@@ -119,13 +115,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             Log.d(TAG, "onCreate: aquaIdUri " + aquaIdUri);
             /* Start Loader */
             getLoaderManager().initLoader(LOADER_ID, null, this);
-        }
 
-        /* TODO: Fix menu button color compatibility */
-        Drawable icon;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            icon = getDrawable(R.drawable.ic_check);
-            DrawableCompat.setTint(icon, Color.WHITE);
         }
 
         /* Find views on layout */
@@ -202,12 +192,12 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             }
         }).setWithImageCrop(1,1);
 
-        /* Ask where get images from */
-        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-        builder.setTitle("Add Photo");
         /* Dialog Option */
         final int CAMERA_OPTION = 0;
         final int GALLERY_OPTION = 1;
+        /* Ask where get images from */
+        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
+        builder.setTitle("Add Photo");
         builder.setItems(new CharSequence[]{"Camera", "Gallery"},
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -231,12 +221,18 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         builder.create().show();
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.new_aqua, menu);
 
-        /* TODO: Display delete menu option dinamically */
+        /* Menu Itens */
+        final int SAVE_ITEM = 0;
+        final int DELETE_ITEM = 1;
+
+        /* Delete Visibility */
+        menu.getItem(DELETE_ITEM).setVisible(hasExtraUri ? true : false);
         return true;
 
     }
@@ -248,22 +244,36 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 checkAndSaveValues();
                 return true;
             case R.id.delete_button:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Deleting Aquarium")
+                        .setMessage("Are you sure? This action cannot be undone.")
+                        .setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                /* Delete Data and Notify */
+                                final int NOTHING_DELETED = 0;
+                                int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
+                                if (deleteUri != NOTHING_DELETED){
+                                    getContentResolver().notifyChange(aquaIdUri, null);
+                                    Toast.makeText(AquaNew.this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
+                                    /* Close this activity */
+                                    startActivity(new Intent(AquaNew.this, AquaMain.class));
+                                } else {
+                                    Toast.makeText(AquaNew.this, "Delete failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null){
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .create()
+                        .show();
 
-                /* TODO: DIALOG - Ask user if has sure */
-                /* TODO: Delete is not deleting */
-
-                /* Delete Data and Notify */
-                final int NOTHING_DELETED = 0;
-                int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
-                if (deleteUri != NOTHING_DELETED){
-                    getContentResolver().notifyChange(aquaIdUri, null);
-                    Toast.makeText(this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show();
-                }
-
-                /* Close this activity */
-                startActivity(new Intent(this, AquaMain.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
