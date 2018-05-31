@@ -429,6 +429,10 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             aquaName.setText(name != null && !name.isEmpty() ? name : "" );
             aquaName.setText(name != null && !name.isEmpty() ? name : "" );
 
+        } else {
+            /* Give user feedback */
+            Toast.makeText(this, "Couldnt fetch aquarium data", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
