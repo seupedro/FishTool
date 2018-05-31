@@ -19,6 +19,7 @@ import com.github.nakamotossh.fishtool.activity.AquaInfo;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry._aquaID;
 
 public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCursorAdapter.ViewHolder>{
 
@@ -104,6 +105,8 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             }
         });
 
+
+
         /* Show aqua features */
         final int MATCH_DATABASE_ID = 1;
         viewHolder.cardViewParent.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +114,15 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AquaInfo.class);
                 /**
-                 * Must be viewHolder.getAdapterPosition. Cursor.getPositon won't works correctly,
+                 * Neither getAdapterPosition or getPosition could work.
+                 *
+                 * The viewHolder.getAdapterPosition changes if itens on db are deleted.
+                 *
+                 * Cursor.getPositon won't works correctly,
                  * because cursor stops on which views are displayed on screen.
                  *
-                 * And + 1 cause adapter starts from 0 and table id starts from 1.
                  * */
-                intent.putExtra("aquaId", (viewHolder.getAdapterPosition() + MATCH_DATABASE_ID));
+                intent.putExtra("aquaId", (cursor.getInt(cursor.getColumnIndexOrThrow(_aquaID))));
                 mContext.startActivity(intent);
             }
         });

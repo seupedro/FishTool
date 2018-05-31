@@ -76,7 +76,6 @@ public class AquaProvider extends ContentProvider {
             case AQUA_ID:
                 /* Setup Query to specific id */
                 selection = _ID + "=?";
-                /* Catch ID */
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 cursor = db.query(AQUA_TABLE, projection, selection, selectionArgs, null, null, sortOrder);
                 break;

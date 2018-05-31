@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
@@ -60,7 +61,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
     //TODO: [ERROR] E/ActivityThread: Performing stop of activity that is already stopped
 
-    private static final String TAG = "NEWAQUA";
+    private static final String TAG = "AquaNew";
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
 
@@ -99,9 +100,21 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         /* TODO: remove this before release */
         riseAndShine(this);
 
+        Log.d(TAG, "onCreate: getExtra " + getIntent().getExtras());
+        Log.d(TAG, "onCreate: getStringExtra " + getIntent().getExtras().getString("aquaId"));
+
+        /* Define Title */
+        setTitle("New Aquarium");
+
         /* Check if intent has Data */
         if (getIntent().hasExtra("aquaId")){
-            aquaIdUri = Uri.parse(getIntent().getExtras().getString("aquaId"));
+            /* Define Title */
+            setTitle("Edit Aquarium");
+            /* Parse Uri */
+            aquaIdUri = Uri.parse(getIntent()
+                    .getExtras()
+                    .getString("aquaId"));
+            Log.d(TAG, "onCreate: aquaIdUri " + aquaIdUri);
             /* Start Loader */
             getLoaderManager().initLoader(LOADER_ID, null, this);
         }
@@ -112,7 +125,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             icon = getDrawable(R.drawable.ic_check);
             DrawableCompat.setTint(icon, Color.WHITE);
         }
-
 
         /* Find views on layout */
         aquaImage = findViewById(R.id.aqua_photo);
@@ -147,60 +159,14 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaSize.setOnTouchListener(touchListener);
         aquaFilter.setOnTouchListener(touchListener);
 
-        /* Dummy Data */
-        aquaName.setText("Neon");
-        aquaType.setOnTouchListener(touchListener);
-        aquaStatus.setOnTouchListener(touchListener);
-        aquaLiters.setText("200");
-        aquaLight.setText("12w Bulb");
-        aquaCo2.setText("No Co2");
-        aquaSubstrate.setText("Gravel");
-        aquaDose.setText("1000/liters");
-        aquaDate.setText("26/09/1994");
-        aquaNote.setText("Leticia doida");
-        aquaSize.setText("100x26x50");
-        aquaFilter.setText("Hang on");
-
         /* Set listener on fab */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Image Picker! */
-                imagePicker = new ImagePicker(AquaNew.this, null, new OnImagePickedListener() {
-                    @Override
-                    public void onImagePicked(Uri imageUri) {
-                        aquaImage.setImageURI(imageUri);
-                        photoUri = imageUri;
-                    }
-                }).setWithImageCrop(1,1);
-
-                /* Ask where get images from */
-                AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-                builder.setTitle("Add Photo");
-                /* Dialog Option */
-                final int CAMERA_OPTION = 0;
-                final int GALLERY_OPTION = 1;
-                builder.setItems(new CharSequence[]{"Camera", "Gallery"},
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichOption) {
-                                if (whichOption == CAMERA_OPTION){
-                                    imagePicker.openCamera();
-                                }
-                                if (whichOption == GALLERY_OPTION){
-                                    imagePicker.choosePicture(false);
-                                }
-                            }
-                        });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (dialog !=  null){
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.create().show();
+                /* Image Picker */
+//                pickImage();
+                /* Insert Dummy Data */
+                displayDummyData();
             }
         });
 
@@ -224,6 +190,45 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         });
     }
 
+    private void pickImage() {
+        /* Image Picker! */
+        imagePicker = new ImagePicker(AquaNew.this, null, new OnImagePickedListener() {
+            @Override
+            public void onImagePicked(Uri imageUri) {
+                aquaImage.setImageURI(imageUri);
+                photoUri = imageUri;
+            }
+        }).setWithImageCrop(1,1);
+
+        /* Ask where get images from */
+        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
+        builder.setTitle("Add Photo");
+        /* Dialog Option */
+        final int CAMERA_OPTION = 0;
+        final int GALLERY_OPTION = 1;
+        builder.setItems(new CharSequence[]{"Camera", "Gallery"},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichOption) {
+                        if (whichOption == CAMERA_OPTION){
+                            imagePicker.openCamera();
+                        }
+                        if (whichOption == GALLERY_OPTION){
+                            imagePicker.choosePicture(false);
+                        }
+                    }
+                });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog !=  null){
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -242,23 +247,47 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 return true;
             case R.id.delete_button:
 
-                /* TODO: DIALOG - Ask user if c sure */
+                /* TODO: DIALOG - Ask user if has sure */
 
                 /* TODO: Delete is not deleting */
 
-                getContentResolver().notifyChange(
-                        Uri.withAppendedPath(AQUA_CONTENT_URI, String.valueOf(
-                                getContentResolver().delete(aquaIdUri, null, null))), null);
+                /* Delete Data and Notify */
+                final int NOTHING_DELETED = 0;
+                int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
+                if (deleteUri > NOTHING_DELETED){
+                    getContentResolver().notifyChange(aquaIdUri, null);
+                    Toast.makeText(this, "Deleted" + deleteUri, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show();
+                }
 
+                /* Close this activity */
                 startActivity(new Intent(this, AquaMain.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void displayDummyData(){
+        /* Dummy Data */
+        aquaName.setText("Neon");
+        aquaType.setOnTouchListener(touchListener);
+        aquaStatus.setOnTouchListener(touchListener);
+        aquaLiters.setText("200");
+        aquaLight.setText("12w Bulb");
+        aquaCo2.setText("No Co2");
+        aquaSubstrate.setText("Gravel");
+        aquaDose.setText("1000/liters");
+        aquaDate.setText("26/09/1994");
+        aquaNote.setText("Leticia doida");
+        aquaSize.setText("100x26x50");
+        aquaFilter.setText("Hang on");
+    }
+
     private void checkAndSaveValues() {
 
         /* TODO: Check values before insert */
+
         ContentValues values = new ContentValues();
         values.put(NAME_COLUMN, aquaName.getText().toString().trim());
         values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
@@ -272,9 +301,15 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
         values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
 
-        getContentResolver().notifyChange(
-                getContentResolver().insert(AQUA_CONTENT_URI, values), null);
-
+        /* TODO: Handle low storage with try/catch */
+        /* Insert Data and Notify */
+        Uri insertUri = getContentResolver().insert(AQUA_CONTENT_URI, values);
+        if (insertUri != null){
+            getContentResolver().notifyChange(insertUri, null);
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show();
+        }
         finish();
 
     }
@@ -325,8 +360,9 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader: aquaIdUri" + aquaIdUri);
         return new CursorLoader(this,
-                aquaIdUri,
+                Uri.withAppendedPath(AQUA_CONTENT_URI, String.valueOf(3)),
                 null,
                 null,
                 null,
@@ -336,7 +372,16 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
 
-        if(c.moveToNext()){
+//        Log.d(TAG, "columns: " + c.getColumnCount());
+        Log.d(TAG, "position : " + c.getPosition() );
+//
+//        Log.d(TAG, "move: " + c.moveToNext() );
+//        Log.d(TAG, "position: " + c.getPosition() );
+//        Log.d(TAG, "name : " + c.getString(c.getColumnIndexOrThrow(NAME_COLUMN)) );
+
+        if (c.moveToNext()){
+            Log.d(TAG, "position : " + c.getPosition() );
+
             /* Get All Fields */
             String name = c.getString(c.getColumnIndexOrThrow(NAME_COLUMN));
             String liters = c.getString(c.getColumnIndexOrThrow(LITERS_COLUMN));
@@ -380,6 +425,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        aquaIdUri = null;
 
     }
 
