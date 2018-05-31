@@ -67,6 +67,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private static final String TAG = "AquaNew";
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
+    private boolean hasExtraUri = false;
 
     private ImageView aquaImage;
     private EditText aquaName;
@@ -105,9 +106,10 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
         /* Define Title */
         setTitle("New Aquarium");
+        hasExtraUri = getIntent().hasExtra("aquaId") ? true : false;
 
         /* Check if intent has Data */
-        if (getIntent().hasExtra("aquaId")){
+        if (hasExtraUri){
             /* Define Title */
             setTitle("Edit Aquarium");
             /* Parse Uri */
@@ -255,7 +257,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
                 if (deleteUri != NOTHING_DELETED){
                     getContentResolver().notifyChange(aquaIdUri, null);
-                    Toast.makeText(this, "Deleted" + deleteUri, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show();
                 }
@@ -302,7 +304,16 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
         /* TODO: Handle low storage with try/catch on insert/update */
 
-        if (getIntent().hasExtra("aquaId")){
+        if ( hasExtraUri){
+            final int NOTHING_UPDATED = 0;
+            /* Update Data and Notify */
+            int rowsUpdated = getContentResolver().update(aquaIdUri, values, null, null);
+            if (rowsUpdated > NOTHING_UPDATED) {
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Updated failed", Toast.LENGTH_SHORT).show();
+            }
+        } else {
             /* Insert Data and Notify */
             Uri insertUri = getContentResolver().insert(AQUA_CONTENT_URI, values);
             if (insertUri != null){
@@ -312,34 +323,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show();
             }
             finish();
-        } else {
-            final int NOTHING_UPDATED = 0;
-            int rowsUpdated = getContentResolver().update(aquaIdUri, values, null, null);
-            if (rowsUpdated > NOTHING_UPDATED) {
-                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Updated failed", Toast.LENGTH_SHORT).show();
-            }
         }
 
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        imagePicker.handleActivityResult(resultCode, requestCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imagePicker.handlePermission(requestCode, grantResults);
-    }
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(AquaNew.this.getSupportFragmentManager(), "datePicker");
-        Log.d(TAG, "showDatePickerDialog: ");
     }
 
     @Override
@@ -439,11 +424,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                     Toast.makeText(this, "Sorry, Illegal type selected", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onLoadFinished: setting type", new IllegalSelectorException());
            }
-
-        } else {
-            /* Give user feedback */
-            Toast.makeText(this, "Couldn't fetch data to edit", Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 
@@ -451,6 +431,24 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public void onLoaderReset(Loader<Cursor> loader) {
         aquaIdUri = null;
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.handleActivityResult(resultCode, requestCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imagePicker.handlePermission(requestCode, grantResults);
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(AquaNew.this.getSupportFragmentManager(), "datePicker");
+        Log.d(TAG, "showDatePickerDialog: ");
     }
 
 

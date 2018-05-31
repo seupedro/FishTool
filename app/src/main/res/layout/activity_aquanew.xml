@@ -84,7 +84,7 @@
             android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@+id/aqua_type_text" />
+            app:layout_constraintTop_toBottomOf="@id/aqua_type_text_subtitle" />
 
         <EditText
             android:id="@+id/aqua_liters"
@@ -191,7 +191,7 @@
             app:layout_constraintTop_toBottomOf="@+id/aqua_status_text" />
 
         <TextView
-            android:id="@+id/aqua_type_text"
+            android:id="@+id/aqua_type_text_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
