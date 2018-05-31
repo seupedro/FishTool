@@ -78,7 +78,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor) {
+    public void onBindViewHolder( ViewHolder viewHolder, Cursor cursor) {
 
         /* Set Layout Animations on Change */
         viewHolder.cardViewParent.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -105,7 +105,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             }
         });
 
-
+       final int aquaId = cursor.getInt(cursor.getColumnIndexOrThrow(_aquaID));
 
         /* Show aqua features */
         viewHolder.cardViewParent.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
                  * because cursor stops on which views are displayed on screen.
                  *
                  * */
-                intent.putExtra("aquaId", (cursor.getInt(cursor.getColumnIndexOrThrow(_aquaID))));
+                intent.putExtra("aquaId", (aquaId));
                 mContext.startActivity(intent);
             }
         });

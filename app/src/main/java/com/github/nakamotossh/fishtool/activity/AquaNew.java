@@ -115,7 +115,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             Log.d(TAG, "onCreate: aquaIdUri " + aquaIdUri);
             /* Start Loader */
             getLoaderManager().initLoader(LOADER_ID, null, this);
-
         }
 
         /* Find views on layout */
@@ -226,11 +225,9 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.new_aqua, menu);
-
         /* Menu Itens */
         final int SAVE_ITEM = 0;
         final int DELETE_ITEM = 1;
-
         /* Delete Visibility */
         menu.getItem(DELETE_ITEM).setVisible(hasExtraUri ? true : false);
         return true;
@@ -273,7 +270,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                         })
                         .create()
                         .show();
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -332,9 +328,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             } else {
                 Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show();
             }
-            finish();
         }
-
+        finish();
     }
 
     @Override
