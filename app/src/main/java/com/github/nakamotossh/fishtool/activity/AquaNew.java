@@ -60,6 +60,9 @@ import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //TODO: [ERROR] E/ActivityThread: Performing stop of activity that is already stopped
+    //TODO: Handle correctly the date
+    //TODO: [POS-Release] Save data before on Destroy. Handle Activity lifecycle in case receve a call
+    //TODO: Handle Images
 
     private static final String TAG = "AquaNew";
     private final int LOADER_ID = 0;
@@ -99,9 +102,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         setContentView(R.layout.activity_aquanew);
         /* TODO: remove this before release */
         riseAndShine(this);
-
-        Log.d(TAG, "onCreate: getExtra " + getIntent().getExtras());
-        Log.d(TAG, "onCreate: getStringExtra " + getIntent().getExtras().getString("aquaId"));
 
         /* Define Title */
         setTitle("New Aquarium");
@@ -248,13 +248,12 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             case R.id.delete_button:
 
                 /* TODO: DIALOG - Ask user if has sure */
-
                 /* TODO: Delete is not deleting */
 
                 /* Delete Data and Notify */
                 final int NOTHING_DELETED = 0;
                 int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
-                if (deleteUri > NOTHING_DELETED){
+                if (deleteUri != NOTHING_DELETED){
                     getContentResolver().notifyChange(aquaIdUri, null);
                     Toast.makeText(this, "Deleted" + deleteUri, Toast.LENGTH_SHORT).show();
                 } else {
@@ -301,16 +300,27 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
         values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
 
-        /* TODO: Handle low storage with try/catch */
-        /* Insert Data and Notify */
-        Uri insertUri = getContentResolver().insert(AQUA_CONTENT_URI, values);
-        if (insertUri != null){
-            getContentResolver().notifyChange(insertUri, null);
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        /* TODO: Handle low storage with try/catch on insert/update */
+
+        if (getIntent().hasExtra("aquaId")){
+            /* Insert Data and Notify */
+            Uri insertUri = getContentResolver().insert(AQUA_CONTENT_URI, values);
+            if (insertUri != null){
+                getContentResolver().notifyChange(insertUri, null);
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show();
+            }
+            finish();
         } else {
-            Toast.makeText(this, "Save failed", Toast.LENGTH_SHORT).show();
+            final int NOTHING_UPDATED = 0;
+            int rowsUpdated = getContentResolver().update(aquaIdUri, values, null, null);
+            if (rowsUpdated > NOTHING_UPDATED) {
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Updated failed", Toast.LENGTH_SHORT).show();
+            }
         }
-        finish();
 
     }
 
@@ -335,8 +345,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to discard this aquarium?");
         if (onChanged){
+            builder.setMessage("Do you want to discard this changes?");
             builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -348,7 +358,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             builder.setPositiveButton("Discard", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    AquaNew.super.onBackPressed();
+                    finish();
                 }
             });
             builder.create().show();
@@ -362,7 +372,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "onCreateLoader: aquaIdUri" + aquaIdUri);
         return new CursorLoader(this,
-                Uri.withAppendedPath(AQUA_CONTENT_URI, String.valueOf(3)),
+                aquaIdUri,
                 null,
                 null,
                 null,
@@ -372,15 +382,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
 
-//        Log.d(TAG, "columns: " + c.getColumnCount());
-        Log.d(TAG, "position : " + c.getPosition() );
-//
-//        Log.d(TAG, "move: " + c.moveToNext() );
-//        Log.d(TAG, "position: " + c.getPosition() );
-//        Log.d(TAG, "name : " + c.getString(c.getColumnIndexOrThrow(NAME_COLUMN)) );
-
         if (c.moveToNext()){
-            Log.d(TAG, "position : " + c.getPosition() );
 
             /* Get All Fields */
             String name = c.getString(c.getColumnIndexOrThrow(NAME_COLUMN));
@@ -395,9 +397,26 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             //String image = c.getString(c.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
             String size = c.getString(c.getColumnIndexOrThrow(SIZE_COLUMN));
             String filter = c.getString(c.getColumnIndexOrThrow(FILTER_COLUMN));
+            String light = c.getString(c.getColumnIndexOrThrow(LIGHT_COLUMN));
 
             /* Name */
             aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+            /* Liters */
+            aquaLiters.setText(liters != null && !liters.isEmpty() ? liters : "" );
+            /* CO2 */
+            aquaCo2.setText(co2 != null && !co2.isEmpty() ? co2 : "" );
+            /* Dose */
+            aquaDose.setText(dosage != null && !dosage.isEmpty() ? dosage : "" );
+            /* Substrate */
+            aquaSubstrate.setText(substrate != null && !substrate.isEmpty() ? substrate : "" );
+            /* Note */
+            aquaNote.setText(notes != null && !notes.isEmpty() ? notes : "" );
+            /* Size */
+            aquaSize.setText(size != null && !size.isEmpty() ? size : "" );
+            /* Filter */
+            aquaFilter.setText(filter != null && !filter.isEmpty() ? filter : "" );
+            /* Light */
+            aquaLight.setText(light != null && !light.isEmpty() ? light : "" );
             /* Status*/
             final int STATUS_WORKING = 0;
             final int STATUS_DISABLED = 1;
@@ -417,21 +436,13 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                     aquaType.setSelection(BRACKISH);
                     break;
                 default:
+                    Toast.makeText(this, "Sorry, Illegal type selected", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onLoadFinished: setting type", new IllegalSelectorException());
-            }
-
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
-            aquaName.setText(name != null && !name.isEmpty() ? name : "" );
+           }
 
         } else {
             /* Give user feedback */
-            Toast.makeText(this, "Couldnt fetch aquarium data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Couldn't fetch data to edit", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
