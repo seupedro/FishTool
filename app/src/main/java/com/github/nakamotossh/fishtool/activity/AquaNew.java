@@ -1,5 +1,6 @@
 package com.github.nakamotossh.fishtool.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -12,7 +13,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.fxn.pix.Pix;
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 import com.myhexaville.smartimagepicker.ImagePicker;
@@ -37,12 +38,14 @@ import com.myhexaville.smartimagepicker.OnImagePickedListener;
 
 import java.nio.channels.IllegalSelectorException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.CO2_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.DOSAGE_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.FILTER_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LIGHT_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.LITERS_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
@@ -61,6 +64,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     //TODO: Handle Images
 
     private static final String TAG = "AquaNew";
+    private static final int CAMERA_READ_STORAGE = 320;
+    private static final int REQUEST_IMAGE = 330;
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
     private boolean hasExtraUri = false;
@@ -82,6 +87,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private AquaDbHelper dbHelper;
     private ImageButton getDateButton;
     private ImagePicker imagePicker;
+
     private Uri photoUri = null;
 
     public boolean onChanged = false;
@@ -150,17 +156,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaSize.setOnTouchListener(touchListener);
         aquaFilter.setOnTouchListener(touchListener);
 
-        /* Set listener on fab */
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* Image Picker */
-//                pickImage();
-                /* Insert Dummy Data */
-                displayDummyData();
-            }
-        });
-
         /* Show Date Picker on date field */
         aquaDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +174,103 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 aquaDate.setText(currentDate);
             }
         });
+
+        /* Set listener on fab */
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Pix.start(AquaNew.this, REQUEST_IMAGE, 1);
+
+//                /* Pix */
+//                /* Get SDK and CheckPermissions */
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+//                    if (ContextCompat.checkSelfPermission(AquaNew.this,
+//                           Manifest.permission_group.STORAGE) != PackageManager.PERMISSION_GRANTED) {
+////                        /* Explain to user */
+////                        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
+////                        builder.setTitle("Camera Permission")
+////                        .setMessage("In order to take photos, you need to allow Camera Permission.")
+////                        .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+////                            @Override
+////                            public void onClick(DialogInterface dialog, int which) {
+////                                askPermissions();
+////                            }
+////                        })
+////                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+////                            @Override
+////                            public void onClick(DialogInterface dialog, int which) {
+////                                if (dialog != null){
+////                                    dialog.dismiss();
+////                                }
+////                            }
+////                        }).create().show();
+//
+//                        /* Explain to user */
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                                AquaNew.this, Manifest.permission.CAMERA)) {
+//
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
+//                            builder.setMessage("Allow the following permissions to take and store photos in app")
+//                                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            /* Ask Permissions */
+//                                            ActivityCompat.requestPermissions(
+//                                                    AquaNew.this,
+//                                                    new String[]{Manifest.permission.CAMERA,
+//                                                            Manifest.permission_group.STORAGE},
+//                                                    CAMERA_READ_STORAGE
+//                                            );
+//                                        }
+//                                    })
+//                                    .create()
+//                                    .show();
+//
+//                        } else {
+//                            /* Ask Permissions */
+//                            ActivityCompat.requestPermissions(
+//                                    AquaNew.this,
+//                                    new String[]{Manifest.permission.CAMERA,
+//                                            Manifest.permission_group.STORAGE},
+//                                    CAMERA_READ_STORAGE
+//                            );
+//                        }
+//                    } else {
+//                        /* User has already allowed, continue */
+//                        Pix.start(AquaNew.this, 10, 1);
+//                    }
+//                }
+            }
+        });
+
+
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        switch (requestCode){
+//            case 10:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//                    Pix.start(AquaNew.this, 10, 1);
+//                } else {
+//                    Toast.makeText(AquaNew.this, "You will not be able to take photos using this app", Toast.LENGTH_SHORT).show();
+//                }
+//        }
+//    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE) {
+            /* Get Image */
+            ArrayList<String> returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+            /* Update Keeper Variable */
+            photoUri = Uri.parse(returnValue.get(0));
+            /* Set up a image on layout */
+            aquaImage.setImageURI(photoUri);
+            aquaImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
     }
 
     private void pickImage() {
@@ -296,7 +388,18 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         /* TODO: Check values before insert */
 
         ContentValues values = new ContentValues();
-        values.put(NAME_COLUMN, aquaName.getText().toString().trim());
+        /* Image */
+        if (photoUri != null){
+            values.put(IMAGE_URI_COLUMN, photoUri.toString());
+        }
+        /* Name */
+        if (aquaName != null && !aquaName.getText().toString().isEmpty()){
+            values.put(NAME_COLUMN, aquaName.getText().toString().trim());
+        } else {
+            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        /* Other fields */
         values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
         values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
         values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
@@ -384,11 +487,17 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             String dosage = c.getString(c.getColumnIndexOrThrow(DOSAGE_COLUMN));
             String substrate = c.getString(c.getColumnIndexOrThrow(SUBSTRATE_COLUMN));
             String notes = c.getString(c.getColumnIndexOrThrow(NOTES_COLUMN));
-            //String image = c.getString(c.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
             String size = c.getString(c.getColumnIndexOrThrow(SIZE_COLUMN));
             String filter = c.getString(c.getColumnIndexOrThrow(FILTER_COLUMN));
             String light = c.getString(c.getColumnIndexOrThrow(LIGHT_COLUMN));
+            String image = c.getString(c.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
 
+            /* Image */
+            if (image != null){
+                photoUri = Uri.parse(image);
+                aquaImage.setImageURI(photoUri);
+                aquaImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
             /* Name */
             aquaName.setText(name != null && !name.isEmpty() ? name : "" );
             /* Liters */
@@ -435,20 +544,24 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         aquaIdUri = null;
-
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        imagePicker.handleActivityResult(resultCode, requestCode, data);
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imagePicker.handlePermission(requestCode, grantResults);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+////        imagePicker.handleActivityResult(resultCode, requestCode, data);
+//
+//        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK){
+//            ArrayList<String> result = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+//        }
+//    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        imagePicker.handlePermission(requestCode, grantResults);
+//    }
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -470,7 +583,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             Log.d(TAG, "onCreateDialog: ");
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
+    }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             aquaDate.setText(day + "/" + month + "/" + year);

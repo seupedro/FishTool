@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.activity.AquaInfo;
 
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry._aquaID;
@@ -47,6 +50,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
         TableLayout tableLayout;
         TextView title;
         TextView subtitle;
+        ImageView photo;
 
         public ViewHolder(View view) {
             super(view);
@@ -56,6 +60,7 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             tableLayout = view.findViewById(R.id.card_tableLayout);
             title = view.findViewById(R.id.title_card);
             subtitle = view.findViewById(R.id.subtitle_card);
+            photo = view.findViewById(R.id.aqua_image);
         }
     }
 
@@ -128,15 +133,16 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
 
         String name = cursor.getString(cursor.getColumnIndexOrThrow(NAME_COLUMN));
         int type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE_COLUMN));
+        String image = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
 
         /* Set Title name */
         viewHolder.title.setText(name);
-
+        /* Photo */
+        viewHolder.photo.setImageURI(image != null ? Uri.parse(image) : null);
         /* Aqua type values */
         final int FRESHWATER = 0;
         final int MARINE = 1;
         final int BRACKISH = 2;
-
         switch (type){
             case FRESHWATER:
                 viewHolder.subtitle.setText("Freshwater Aquarium");

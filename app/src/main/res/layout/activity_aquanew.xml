@@ -14,10 +14,9 @@
         <ImageView
             android:id="@+id/aqua_photo"
             android:layout_width="0dp"
-            android:layout_height="192dp"
+            android:layout_height="256dp"
             android:background="@android:color/darker_gray"
-            android:contentDescription="@string/aqua_photo_description"
-            app:layout_constraintDimensionRatio="w,4:2"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,9 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:capitalize="words"
             android:ems="10"
-            android:hint="Aqua Name"
+            android:hint="Name"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/info_general" />

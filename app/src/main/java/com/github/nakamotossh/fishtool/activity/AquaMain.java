@@ -104,26 +104,6 @@ public class AquaMain extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        switch (id){
-//            case AQUA_LOADER:
-//                return new CursorLoader(this,
-//                        AQUA_CONTENT_URI,
-//                        null,
-//                        null,
-//                        null,
-//                        null);
-//
-//            case PARAM_LOADER:
-//                return new CursorLoader(this,
-//                        PARAM_CONTENT_URI,
-//                        null,
-//                        null,
-//                        null,
-//                        null);
-//
-//            default:
-//                return null;
-//        }
         return new CursorLoader(this,
                 AQUA_CONTENT_URI,
                 null,
@@ -134,19 +114,6 @@ public class AquaMain extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-//        Cursor aquaCursor = null;
-//        Cursor paramCursor = null;
-//
-//        switch (loader.getId()){
-//            case AQUA_LOADER:
-//                aquaCursor = cursor;
-//                break;
-//            case PARAM_LOADER:
-//                paramCursor = cursor;
-//                break;
-//        }
-//
-//        adapter = new AquaListCursorAdapter(this, aquaCursor, paramCursor);
         adapter.swapCursor(cursor);
 
     }
