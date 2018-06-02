@@ -400,7 +400,15 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             return;
         }
         /* Date */
-
+        if (aquaDate != null && !aquaDate.getText().toString().trim().isEmpty()){
+            if (aquaDate.getText().toString().contains(".-")){
+                Log.d(TAG, "checkAndSaveValues: working");
+                return;
+                // regex (^[0-3]\d\/[0-2]\d\/[1-2][0][0-2]\d$)?
+            }
+            Log.d(TAG, "checkAndSaveValues: fail");
+            return;
+        }
         /* Other fields */
         values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
         values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
