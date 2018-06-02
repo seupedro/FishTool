@@ -5,6 +5,9 @@
     <!-- TODO: Remove this before release -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -32,17 +35,13 @@
         <activity
             android:name=".activity.AquaInfo"
             android:label="@string/title_activity_aquainfo" />
-        
+
         <provider
-            android:authorities="com.github.nakamotossh.fishtool"
             android:name=".database.AquaProvider"
+            android:authorities="com.github.nakamotossh.fishtool"
             android:exported="true"
-            android:grantUriPermissions="true"/>
+            android:grantUriPermissions="true" />
 
     </application>
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -8,15 +8,6 @@
     <string name="action_settings">Settings</string>
     <!-- NewAqua Activity -->
     <string name="aqua_photo_description">Add fish tank picture</string>
-    <string-array name="aqua_type">
-        <item>Freshwater Aquarium</item>
-        <item>Marine Aquarium</item>
-        <item>Brackish Aquariums</item>
-    </string-array>
-    <string-array name="aqua_status">
-        <item>Working</item>
-        <item>Disabled</item>
-    </string-array>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

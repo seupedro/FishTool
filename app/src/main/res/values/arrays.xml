@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="aqua_type">
+        <item>Freshwater Aquarium</item>
+        <item>Marine Aquarium</item>
+        <item>Brackish Aquariums</item>
+    </string-array>
+    <string-array name="aqua_status">
+        <item>Working</item>
+        <item>Disabled</item>
+    </string-array>
+</resources>
