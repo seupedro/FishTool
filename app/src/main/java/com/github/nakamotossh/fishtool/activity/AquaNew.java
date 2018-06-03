@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
@@ -401,14 +402,21 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         }
         /* Date */
         if (aquaDate != null && !aquaDate.getText().toString().trim().isEmpty()){
-            if (aquaDate.getText().toString().contains(".-")){
-                Log.d(TAG, "checkAndSaveValues: working");
+            String dateString = aquaDate.getText().toString().trim();
+            /* Match a regex */
+            boolean dateRegex = Pattern
+                    .compile("(^(\\d|0[\\d]|1[\\d]|2[\\d]|3[0-1])\\/(\\d|0[1-9]|1[0-2])\\/[1-2][0][0-2]\\d$)")
+                    .matcher(dateString)
+                    .matches();
+            if (dateRegex){
+                Log.d(TAG, "checkAndSaveValues: regex works");
                 return;
-                // regex (^[0-3]\d\/[0-2]\d\/[1-2][0][0-2]\d$)?
             }
+
             Log.d(TAG, "checkAndSaveValues: fail");
             return;
         }
+
         /* Other fields */
         values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
         values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
@@ -421,6 +429,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         values.put(NOTES_COLUMN, aquaNote.getText().toString().trim());
         values.put(SUBSTRATE_COLUMN, aquaSubstrate.getText().toString().trim());
 
+        Log.d(TAG, "checkAndSaveValues: rest executed");
         /* TODO: Handle low storage with try/catch on insert/update */
 
         if ( hasExtraUri){
