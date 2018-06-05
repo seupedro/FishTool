@@ -145,6 +145,13 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaSize.setOnTouchListener(touchListener);
         aquaFilter.setOnTouchListener(touchListener);
 
+        aquaDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
         /* Define Activity Layout */
         hasExtraUri = getIntent().hasExtra("aquaId");
         if (hasExtraUri){
@@ -403,6 +410,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         /* Date */
         if (aquaDate != null && !aquaDate.getText().toString().trim().isEmpty()){
             String dateString = aquaDate.getText().toString().trim();
+            //TODO: convert date to locale br date before regex. Regex only works in brLocale.
             /* Match a regex */
             boolean dateRegex = Pattern
                     .compile("(^(\\d|0[\\d]|1[\\d]|2[\\d]|3[0-1])\\/(\\d|0[1-9]|1[0-2])\\/[1-2][0][0-2]\\d$)")
@@ -619,6 +627,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
                 aquaDateMilliseconds = calendar.getTimeInMillis();
+                Log.d(TAG, "onDateSet: mili locale " + localeDate);
+                Log.d(TAG, "onDateSet: mili " + aquaDateMilliseconds);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

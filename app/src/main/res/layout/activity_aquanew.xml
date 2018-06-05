@@ -66,6 +66,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
+            android:focusable="false"
             android:hint="Date"
             android:inputType="date"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
@@ -74,15 +75,15 @@
         <Spinner
             android:id="@+id/aqua_type"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:entries="@array/aqua_type"
             android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@id/aqua_type_text_subtitle" />
+            app:layout_constraintTop_toBottomOf="@+id/aqua_size" />
 
         <EditText
             android:id="@+id/aqua_liters"
@@ -179,33 +180,12 @@
         <Spinner
             android:id="@+id/aqua_status"
             android:layout_width="0dp"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:entries="@array/aqua_status"
             android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="@+id/aqua_type"
-            app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@+id/aqua_status_text" />
-
-        <TextView
-            android:id="@+id/aqua_type_text_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Aquarium Type"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            app:layout_constraintStart_toStartOf="@+id/icons_guide"
-            app:layout_constraintTop_toBottomOf="@+id/aqua_size" />
-
-        <TextView
-            android:id="@+id/aqua_status_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="Status"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             app:layout_constraintStart_toStartOf="@+id/icons_guide"
             app:layout_constraintTop_toBottomOf="@+id/aqua_type" />
 
