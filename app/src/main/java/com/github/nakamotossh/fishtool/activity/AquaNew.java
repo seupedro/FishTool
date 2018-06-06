@@ -1,6 +1,5 @@
 package com.github.nakamotossh.fishtool.activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -10,17 +9,12 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -35,18 +29,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.github.nakamotossh.fishtool.MyGlideEngine;
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
 
 import java.nio.channels.IllegalSelectorException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import static android.text.format.DateFormat.getDateFormat;
@@ -188,65 +178,26 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         });
 
         /* Get image */
-        //TODO: check if is correctly implemennted
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Handle Permissions */
-                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1){
-                    /* Check Permission */
-                    if (ContextCompat.checkSelfPermission(
-                            AquaNew.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                            PackageManager.PERMISSION_GRANTED){
-                        /* Show Explanation */
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                                AquaNew.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-                            builder.setMessage("In order to add photo for your aquarium, you must give permission first");
-                            builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (dialog != null){
-                                        dialog.dismiss();
-                                    }
-                                }
-                            }).create().show();
-                        }
-                    } else {
-                        /* Request Directly Permission */
-                        ActivityCompat.requestPermissions(AquaNew.this,
-                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
-                    }
-
-                }
-
+                startActivityForResult(Intent.createChooser(new Intent()
+                        .setType("image/*")
+                        .setAction(Intent.ACTION_GET_CONTENT), "Select Photo"), REQUEST_IMAGE);
             }
         });
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case STORAGE_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
-                    Matisse.from(AquaNew.this)
-                            .choose(MimeType.allOf())
-                            .countable(false)
-                            .imageEngine(new MyGlideEngine())
-                            .forResult(REQUEST_IMAGE);
-                }
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
-            List<Uri> imagesUriSelected;
-            imagesUriSelected = Matisse.obtainResult(data);
-            aquaImage.setImageURI(imagesUriSelected.get(0));
+        switch (requestCode){
+            case REQUEST_IMAGE:
+                aquaImage.setImageURI(data.getData());
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
+
     }
 
     @Override
