@@ -1,6 +1,6 @@
 package com.github.nakamotossh.fishtool.activity;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -10,12 +10,17 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -30,18 +35,18 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.fxn.pix.Pix;
+import com.github.nakamotossh.fishtool.MyGlideEngine;
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
-import com.myhexaville.smartimagepicker.ImagePicker;
-import com.myhexaville.smartimagepicker.OnImagePickedListener;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
 import java.nio.channels.IllegalSelectorException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static android.text.format.DateFormat.getDateFormat;
@@ -69,7 +74,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     //TODO: Handle Images
 
     private static final String TAG = "AquaNew";
-    private static final int CAMERA_READ_STORAGE = 320;
+    private static final int STORAGE_PERMISSION = 320;
     private static final int REQUEST_IMAGE = 330;
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
@@ -92,7 +97,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private FloatingActionButton fab;
     private AquaDbHelper dbHelper;
     private ImageButton getDateButton;
-    private ImagePicker imagePicker;
 
     private Uri photoUri = null;
 
@@ -154,7 +158,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
 
         /* Define Activity Layout */
         hasExtraUri = getIntent().hasExtra("aquaId");
-        if (hasExtraUri){
+        if (hasExtraUri) {
             /* Define Title */
             setTitle("Edit Aquarium");
             /* Parse Uri */
@@ -183,143 +187,67 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             }
         });
 
-        /* Set listener on fab */
+        /* Get image */
+        //TODO: check if is correctly implemennted
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* Handle Permissions */
+                if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1){
+                    /* Check Permission */
+                    if (ContextCompat.checkSelfPermission(
+                            AquaNew.this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                            PackageManager.PERMISSION_GRANTED){
+                        /* Show Explanation */
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                                AquaNew.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
+                            builder.setMessage("In order to add photo for your aquarium, you must give permission first");
+                            builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (dialog != null){
+                                        dialog.dismiss();
+                                    }
+                                }
+                            }).create().show();
+                        }
+                    } else {
+                        /* Request Directly Permission */
+                        ActivityCompat.requestPermissions(AquaNew.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+                    }
 
-                Pix.start(AquaNew.this, REQUEST_IMAGE, 1);
+                }
 
-//                /* Pix */
-//                /* Get SDK and CheckPermissions */
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-//                    if (ContextCompat.checkSelfPermission(AquaNew.this,
-//                           Manifest.permission_group.STORAGE) != PackageManager.PERMISSION_GRANTED) {
-////                        /* Explain to user */
-////                        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-////                        builder.setTitle("Camera Permission")
-////                        .setMessage("In order to take photos, you need to allow Camera Permission.")
-////                        .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
-////                            @Override
-////                            public void onClick(DialogInterface dialog, int which) {
-////                                askPermissions();
-////                            }
-////                        })
-////                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-////                            @Override
-////                            public void onClick(DialogInterface dialog, int which) {
-////                                if (dialog != null){
-////                                    dialog.dismiss();
-////                                }
-////                            }
-////                        }).create().show();
-//
-//                        /* Explain to user */
-//                        if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                                AquaNew.this, Manifest.permission.CAMERA)) {
-//
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-//                            builder.setMessage("Allow the following permissions to take and store photos in app")
-//                                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            /* Ask Permissions */
-//                                            ActivityCompat.requestPermissions(
-//                                                    AquaNew.this,
-//                                                    new String[]{Manifest.permission.CAMERA,
-//                                                            Manifest.permission_group.STORAGE},
-//                                                    CAMERA_READ_STORAGE
-//                                            );
-//                                        }
-//                                    })
-//                                    .create()
-//                                    .show();
-//
-//                        } else {
-//                            /* Ask Permissions */
-//                            ActivityCompat.requestPermissions(
-//                                    AquaNew.this,
-//                                    new String[]{Manifest.permission.CAMERA,
-//                                            Manifest.permission_group.STORAGE},
-//                                    CAMERA_READ_STORAGE
-//                            );
-//                        }
-//                    } else {
-//                        /* User has already allowed, continue */
-//                        Pix.start(AquaNew.this, 10, 1);
-//                    }
-//                }
             }
         });
-
-
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        switch (requestCode){
-//            case 10:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//                    Pix.start(AquaNew.this, 10, 1);
-//                } else {
-//                    Toast.makeText(AquaNew.this, "You will not be able to take photos using this app", Toast.LENGTH_SHORT).show();
-//                }
-//        }
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case STORAGE_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+                    Matisse.from(AquaNew.this)
+                            .choose(MimeType.allOf())
+                            .countable(false)
+                            .imageEngine(new MyGlideEngine())
+                            .forResult(REQUEST_IMAGE);
+                }
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE) {
-            /* Get Image */
-            ArrayList<String> returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-            /* Update Keeper Variable */
-            photoUri = Uri.parse(returnValue.get(0));
-            /* Set up a image on layout */
-            aquaImage.setImageURI(photoUri);
-            aquaImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            List<Uri> imagesUriSelected;
+            imagesUriSelected = Matisse.obtainResult(data);
+            aquaImage.setImageURI(imagesUriSelected.get(0));
         }
     }
-
-    private void pickImage() {
-        /* Image Picker! */
-        imagePicker = new ImagePicker(AquaNew.this, null, new OnImagePickedListener() {
-            @Override
-            public void onImagePicked(Uri imageUri) {
-                aquaImage.setImageURI(imageUri);
-                photoUri = imageUri;
-            }
-        }).setWithImageCrop(1,1);
-
-        /* Dialog Option */
-        final int CAMERA_OPTION = 0;
-        final int GALLERY_OPTION = 1;
-        /* Ask where get images from */
-        AlertDialog.Builder builder = new AlertDialog.Builder(AquaNew.this);
-        builder.setTitle("Add Photo");
-        builder.setItems(new CharSequence[]{"Camera", "Gallery"},
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int whichOption) {
-                        if (whichOption == CAMERA_OPTION){
-                            imagePicker.openCamera();
-                        }
-                        if (whichOption == GALLERY_OPTION){
-                            imagePicker.choosePicture(false);
-                        }
-                    }
-                });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (dialog !=  null){
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.create().show();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -329,9 +257,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         final int SAVE_ITEM = 0;
         final int DELETE_ITEM = 1;
         /* Delete Visibility */
-        menu.getItem(DELETE_ITEM).setVisible(hasExtraUri ? true : false);
+        menu.getItem(DELETE_ITEM).setVisible(hasExtraUri);
         return true;
-
     }
 
     @Override
@@ -576,22 +503,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaIdUri = null;
     }
 
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-////        imagePicker.handleActivityResult(resultCode, requestCode, data);
-//
-//        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK){
-//            ArrayList<String> result = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-//        }
-//    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        imagePicker.handlePermission(requestCode, grantResults);
-//    }
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
