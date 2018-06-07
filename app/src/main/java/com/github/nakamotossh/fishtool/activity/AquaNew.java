@@ -193,6 +193,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         switch (requestCode){
             case REQUEST_IMAGE:
                 aquaImage.setImageURI(data.getData());
+                aquaImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                photoUri = data.getData();
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);

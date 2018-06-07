@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ParamFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/text_param"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:textSize="40dp" />
+        android:fillViewport="false">
+
+        <include layout="@layout/content_aquaparam"/>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </FrameLayout>
