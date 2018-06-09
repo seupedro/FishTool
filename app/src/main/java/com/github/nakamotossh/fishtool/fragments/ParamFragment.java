@@ -22,8 +22,6 @@ import java.util.List;
  */
 public class ParamFragment extends Fragment {
 
-    private LineChart lineChart;
-
     //TODO: Deploy layout
     //TODO: Implement Charts
 
@@ -38,20 +36,30 @@ public class ParamFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
 
-        List<Entry> entries = new ArrayList<Entry>();
-        entries.add(new Entry(10, 1));
-        entries.add(new Entry(11, 2));
-        entries.add(new Entry(12, 3));
+        LineChart chart = rootView.findViewById(R.id.chart);
+        List<Entry> entries = new ArrayList<>();
 
-        LineDataSet dataSet = new LineDataSet(entries, "dummy");
-        dataSet.setColor(Color.BLACK);
+        // y = altura,  x = comprimento, linha
+        // y  = ph      x = data
+
+        entries.add(new Entry(5, 6.1f));
+        entries.add(new Entry(7, 6.3f));
+        entries.add(new Entry(10, 7.9f));
+        entries.add(new Entry(15, 6.4f));
+        entries.add(new Entry(20, 6.8f));
+        entries.add(new Entry(25, 7.0f));
+        entries.add(new Entry(30, 7.7f));
+
+        LineDataSet dataSet = new LineDataSet(entries, "parameters");
+        dataSet.setColor(Color.RED);
+        dataSet.setCircleColor(Color.BLUE);
+        dataSet.setCircleColorHole(Color.BLACK);
         dataSet.setValueTextColor(Color.BLUE);
+        dataSet.setHighLightColor(Color.MAGENTA);
+        dataSet.setFillColor(Color.MAGENTA);
 
         LineData lineData = new LineData(dataSet);
-
-        lineChart = rootView.findViewById(R.id.chart);
-        lineChart.setData(lineData);
-        lineChart.invalidate();
+        chart.setData(lineData);
 
         // Inflate the layout for this fragment
         return rootView;

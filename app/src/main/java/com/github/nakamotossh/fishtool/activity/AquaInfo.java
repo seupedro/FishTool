@@ -28,7 +28,7 @@ public class AquaInfo extends AppCompatActivity {
         /* Start Fragment */
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frame_fragment, new AquaFragment())
+                .add(R.id.frame_fragment, new ParamFragment())
                 .commit();
 
         /* TODO: Remove before release */
