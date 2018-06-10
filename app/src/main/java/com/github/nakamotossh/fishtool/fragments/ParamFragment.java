@@ -1,18 +1,18 @@
 package com.github.nakamotossh.fishtool.fragments;
 
-
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.fragments.parameters.PhFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,40 +29,80 @@ public class ParamFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
 
-        LineChart chart = rootView.findViewById(R.id.chart);
-        List<Entry> entries = new ArrayList<>();
+        FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager());
+        adapter.addFragment("Aqua", new AquaFragment());
+        adapter.addFragment("pH", new PhFragment());
+        adapter.addFragment("Fauna", new FaunaFragment());
 
-        // y = altura,  x = comprimento, linha
-        // y  = ph      x = data
+        ViewPager viewPager = rootView.findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
 
-        entries.add(new Entry(5, 6.1f));
-        entries.add(new Entry(7, 6.3f));
-        entries.add(new Entry(10, 7.9f));
-        entries.add(new Entry(15, 6.4f));
-        entries.add(new Entry(20, 6.8f));
-        entries.add(new Entry(25, 7.0f));
-        entries.add(new Entry(30, 7.7f));
-
-        LineDataSet dataSet = new LineDataSet(entries, "parameters");
-        dataSet.setColor(Color.RED);
-        dataSet.setCircleColor(Color.BLUE);
-        dataSet.setCircleColorHole(Color.BLACK);
-        dataSet.setValueTextColor(Color.BLUE);
-        dataSet.setHighLightColor(Color.MAGENTA);
-        dataSet.setFillColor(Color.MAGENTA);
-
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-
+        TabLayout tabLayout = rootView.findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewPager);
         // Inflate the layout for this fragment
         return rootView;
     }
 
+    private class FragmentAdapter extends FragmentStatePagerAdapter {
+
+        private List<FragmentItem> fragmentList;
+
+        public FragmentAdapter(FragmentManager fm) {
+            super(fm);
+            fragmentList = new ArrayList<>();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position).getFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentList.get(position).getFragmentName();
+        }
+
+        public void addFragment(String name, Fragment fragment){
+            fragmentList.add(new FragmentItem(name, fragment));
+        }
+
+        public void setFragmentName(int position, String name){
+            fragmentList.get(position).setFragmentName(name);
+        }
+    }
+
+    private class FragmentItem{
+
+        private String fragmentName;
+        private Fragment fragment;
+
+        public FragmentItem(String fragmentName, Fragment fragment) {
+            this.fragmentName = fragmentName;
+            this.fragment = fragment;
+        }
+
+        public String getFragmentName() {
+            return fragmentName;
+        }
+
+        public Fragment getFragment() {
+            return fragment;
+        }
+
+        public void setFragmentName(String fragmentName) {
+            this.fragmentName = fragmentName;
+        }
+    }
 }
+
