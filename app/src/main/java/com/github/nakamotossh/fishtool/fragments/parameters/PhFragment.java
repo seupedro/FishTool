@@ -1,6 +1,7 @@
 package com.github.nakamotossh.fishtool.fragments.parameters;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.activity.AddParam;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 
 import java.util.ArrayList;
@@ -73,15 +75,11 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_param:
-                addParams();
+                startActivity(new Intent(getActivity(), AddParam.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void addParams() {
-
     }
 
     private void initChart() {
