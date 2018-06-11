@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.fragments.parameters.AmmoniaFragment;
 import com.github.nakamotossh.fishtool.fragments.parameters.PhFragment;
+import com.github.nakamotossh.fishtool.fragments.parameters.TempFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,14 @@ public class ParamFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
 
+
+
         FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager());
         adapter.addFragment("Aqua", new AquaFragment());
         adapter.addFragment("pH", new PhFragment());
         adapter.addFragment("Fauna", new FaunaFragment());
+        adapter.addFragment("Ammonia", new AmmoniaFragment());
+        adapter.addFragment("Temperature", new TempFragment());
 
         ViewPager viewPager = rootView.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);

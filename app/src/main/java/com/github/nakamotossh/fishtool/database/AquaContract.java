@@ -67,6 +67,15 @@ public class AquaContract {
         public static final String _paramID = BaseColumns._ID;
         public static final String PH_COLUMN = "ph";
         public static final String NH3_COLUMN = "nh3";
+        public static final String NH4_COLUMN = "nh4";
+        public static final String SALT_COLUMN = "salinity";
+        public static final String TEMP_COLUMN = "temperature";
+        public static final String PHOSPHATE_COLUMN = "phosphate";
+        public static final String TDS_COLUMN = "tds";
+        public static final String ORP_COLUMN = "orp";
+        public static final String MAGNESIUM_COLUMN = "magnesium";
+        public static final String CALCIUM_COLUMN = "calcium";
+        public static final String ALKALINITY_COLUMN = "alkalinity";
         public static final String DATE_PARAM_COLUMN = "date";
         public static final String AQUA_FKEY = "aqua_fkey";
     }
