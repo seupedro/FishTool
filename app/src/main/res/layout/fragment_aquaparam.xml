@@ -7,17 +7,38 @@
     android:orientation="vertical"
     tools:context=".fragments.ParamFragment">
 
+    <!--TODO: Add elevation to API > 21-->
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="scrollable"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/white"
         app:tabGravity="fill"
         app:tabTextColor="@android:color/darker_gray"
-        app:tabIndicatorColor="@android:color/white"
-        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        android:elevation="10dp"
         style="@style/AppTheme.AppBarOverlay">
+
+        <!--TODO: Remove Layout Tab Demo-->
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="pH"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Temperature"/>
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Ammonia"/>
+
 
     </android.support.design.widget.TabLayout>
 

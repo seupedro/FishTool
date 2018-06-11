@@ -89,7 +89,7 @@ public class AquaMain extends AppCompatActivity
         dbHelper = new AquaDbHelper(this);
 
         /* Setup Recycler */
-        recyclerView = findViewById(R.id.recycler);
+        recyclerView = findViewById(R.id.recycler_main);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

@@ -42,6 +42,10 @@
             android:exported="true"
             android:grantUriPermissions="true" />
 
+        <activity
+            android:name=".activity.AddParam"
+            android:label="@string/title_activity_add_param"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -3,8 +3,17 @@ package com.github.nakamotossh.fishtool.fragments.parameters;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,16 +27,16 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class PhFragment extends Fragment {
+public class PhFragment extends Fragment implements LoaderManager.LoaderCallbacks<CursorLoader> {
 
     private LineChart chart;
+    private RecyclerView recyclerView;
+    private ParamListAdapter adapter;
 
     public PhFragment() {
         // Required empty public constructor
@@ -36,14 +45,43 @@ public class PhFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_ph, container, false);
 
+        //Chart
         chart = rootView.findViewById(R.id.chart);
-
         initChart();
 
+        //Adapter List
+        adapter = new ParamListAdapter(getContext(), null);
+
+        // Item List
+//        recyclerView = recyclerView.findViewById(R.id.recycler_param);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.params_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_param:
+                addParams();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void addParams() {
+
     }
 
     private void initChart() {
@@ -107,4 +145,19 @@ public class PhFragment extends Fragment {
         chart.setDescription(description);
     }
 
+    @NonNull
+    @Override
+    public Loader<CursorLoader> onCreateLoader(int id, @Nullable Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<CursorLoader> loader, CursorLoader data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<CursorLoader> loader) {
+
+    }
 }

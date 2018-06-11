@@ -109,4 +109,5 @@
     <string name="title_bnav_param">Parameters</string>
     <string name="title_bnav_fauna">Fauna</string>
     <string name="title_activity_basic">BasicActivity</string>
+    <string name="title_activity_add_param">AddParam</string>
 </resources>

@@ -34,23 +34,19 @@ public class ParamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
 
-
-
         FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager());
-        adapter.addFragment("Aqua", new AquaFragment());
         adapter.addFragment("pH", new PhFragment());
-        adapter.addFragment("Fauna", new FaunaFragment());
-        adapter.addFragment("Ammonia", new AmmoniaFragment());
         adapter.addFragment("Temperature", new TempFragment());
+        adapter.addFragment("Ammonia", new AmmoniaFragment());
 
         ViewPager viewPager = rootView.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = rootView.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-        // Inflate the layout for this fragment
         return rootView;
     }
 
