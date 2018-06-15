@@ -106,5 +106,11 @@ public class ParamFragment extends Fragment {
             this.fragmentName = fragmentName;
         }
     }
+
+    @Override
+    public void onDetach() {
+        setMenuVisibility(false);
+        super.onDetach();
+    }
 }
 

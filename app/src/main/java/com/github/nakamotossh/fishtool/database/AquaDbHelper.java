@@ -9,7 +9,7 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.*
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 12;
+    public static final int DB_VERSION = 13;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table
@@ -45,7 +45,7 @@ public class AquaDbHelper extends SQLiteOpenHelper {
                     PHOSPHATE_COLUMN + " REAL, " +
                     TEMP_COLUMN + " REAL, " +
                     ALKALINITY_COLUMN + " REAL, " +
-                    DATE_PARAM_COLUMN + " TEXT, " +
+                    DATE_PARAM_COLUMN + " INTEGER, " +
                     AQUA_FKEY +  " INTEGER NOT NULL REFERENCES " + AQUA_TABLE + " (_id) " + ")";
 
     // SQL Delete Aqua

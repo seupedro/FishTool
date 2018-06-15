@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,10 +32,17 @@ import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.activity.AddParam;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import static android.text.format.DateFormat.getDateFormat;
+
 public class PhFragment extends Fragment implements LoaderManager.LoaderCallbacks<CursorLoader> {
+
+    private static final String TAG = "PhFragment";
 
     private LineChart chart;
     private RecyclerView recyclerView;
@@ -51,6 +59,8 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_ph, container, false);
 
+        test();
+
         //Chart
         chart = rootView.findViewById(R.id.chart);
         initChart();
@@ -65,6 +75,37 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
 
         return rootView;
     }
+
+    private void test()  {
+
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+
+        String date = d + "/" + m + "/" + y;
+        Log.d(TAG, "test: date " + date);
+
+        Date a = null;
+        try {
+            a = getDateFormat(getContext()).parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "test: " + a);
+
+        String date1 = "14/06/2018";
+        Date b = null;
+        try {
+            b = getDateFormat(getContext()).parse(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "test: " + b);
+
+
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -157,5 +198,11 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     @Override
     public void onLoaderReset(@NonNull Loader<CursorLoader> loader) {
 
+    }
+
+    @Override
+    public void onDetach() {
+        setMenuVisibility(false);
+        super.onDetach();
     }
 }

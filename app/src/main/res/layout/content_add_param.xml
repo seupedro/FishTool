@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/date_param"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/aquarium_name_title" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/time_param"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -65,10 +65,10 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/date_param" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/temperature_param"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -87,10 +87,10 @@
         android:text="Parameters"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/time_param" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/ph_param"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -99,7 +99,7 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/temperature_param" />
 
     <TextView
         android:id="@+id/textView6"
@@ -107,9 +107,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Temp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText5"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
-        app:layout_constraintTop_toTopOf="@+id/editText5" />
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_param"
+        app:layout_constraintEnd_toStartOf="@+id/temperature_param"
+        app:layout_constraintTop_toTopOf="@+id/temperature_param" />
 
     <TextView
         android:id="@+id/textView7"
@@ -117,9 +117,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="°C"
-        app:layout_constraintBottom_toBottomOf="@+id/editText5"
+        app:layout_constraintBottom_toBottomOf="@+id/temperature_param"
         app:layout_constraintStart_toStartOf="@+id/guideline_right"
-        app:layout_constraintTop_toTopOf="@+id/editText5" />
+        app:layout_constraintTop_toTopOf="@+id/temperature_param" />
 
     <TextView
         android:id="@+id/textView8"
@@ -129,9 +129,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="pH"
-        app:layout_constraintBottom_toBottomOf="@+id/editText6"
-        app:layout_constraintEnd_toStartOf="@+id/editText6"
-        app:layout_constraintTop_toTopOf="@+id/editText6" />
+        app:layout_constraintBottom_toBottomOf="@+id/ph_param"
+        app:layout_constraintEnd_toStartOf="@+id/ph_param"
+        app:layout_constraintTop_toTopOf="@+id/ph_param" />
 
     <TextView
         android:id="@+id/textView9"
@@ -141,9 +141,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Date"
-        app:layout_constraintBottom_toBottomOf="@+id/editText3"
-        app:layout_constraintEnd_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toTopOf="@+id/editText3" />
+        app:layout_constraintBottom_toBottomOf="@+id/date_param"
+        app:layout_constraintEnd_toStartOf="@+id/date_param"
+        app:layout_constraintTop_toTopOf="@+id/date_param" />
 
     <TextView
         android:id="@+id/textView10"
@@ -153,8 +153,42 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Time"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
-        app:layout_constraintTop_toTopOf="@+id/editText4" />
+        app:layout_constraintBottom_toBottomOf="@+id/time_param"
+        app:layout_constraintEnd_toStartOf="@+id/time_param"
+        app:layout_constraintTop_toTopOf="@+id/time_param" />
+
+    <EditText
+        android:id="@+id/ammonia_param"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="0,001"
+        android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/ph_param" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Ammonia"
+        app:layout_constraintBottom_toBottomOf="@+id/ammonia_param"
+        app:layout_constraintEnd_toStartOf="@+id/ammonia_param"
+        app:layout_constraintTop_toTopOf="@+id/ammonia_param" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="ppm"
+        app:layout_constraintBottom_toBottomOf="@+id/ammonia_param"
+        app:layout_constraintStart_toEndOf="@+id/ammonia_param"
+        app:layout_constraintTop_toTopOf="@+id/ammonia_param" />
 
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.github.nakamotossh.fishtool.R;
@@ -28,7 +29,7 @@ public class AquaInfo extends AppCompatActivity {
         /* Start Fragment */
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frame_fragment, new ParamFragment())
+                .add(R.id.frame_fragment, new AquaFragment())
                 .commit();
 
         /* TODO: Remove before release */
@@ -64,4 +65,8 @@ public class AquaInfo extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
+    }
 }

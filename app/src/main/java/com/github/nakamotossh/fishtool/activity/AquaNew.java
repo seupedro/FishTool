@@ -1,5 +1,6 @@
 package com.github.nakamotossh.fishtool.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -37,7 +38,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
@@ -160,13 +160,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         } else {
             /* Set Title*/
             setTitle("New Aquarium");
-            /* Get and Set Current Date */
-            Calendar calendar = Calendar.getInstance();
-            long dateInMilli = calendar.getTimeInMillis();
-            SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
-            /* Format Date based on Locale */
-            String locateDate = formater.format(calendar.getTime());
-            aquaDate.setText(locateDate);
+            /* Set date based on Locale */
+            aquaDate.setText(getDateFormat(this).format(new Date()));
         }
 
         /* Show Dialog Date Picker */
@@ -290,19 +285,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         /* Date */
         if (aquaDate != null && !aquaDate.getText().toString().trim().isEmpty()){
             String dateString = aquaDate.getText().toString().trim();
-            //TODO: convert date to locale br date before regex. Regex only works in brLocale.
-            /* Match a regex */
-            boolean dateRegex = Pattern
-                    .compile("(^(\\d|0[\\d]|1[\\d]|2[\\d]|3[0-1])\\/(\\d|0[1-9]|1[0-2])\\/[1-2][0][0-2]\\d$)")
-                    .matcher(dateString)
-                    .matches();
-            if (dateRegex){
-                Log.d(TAG, "checkAndSaveValues: regex works");
-                return;
-            }
-
-            Log.d(TAG, "checkAndSaveValues: fail");
-            return;
+            values.put(DATE_AQUA_COLUMN, dateString);
         }
 
         /* Other fields */
@@ -473,26 +456,25 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return new DatePickerDialog(getContext(), this, year, month, day);
     }
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-           // aquaDate.setText(day + "/" + month + "/" + year);
-            String datePickerResult = String.valueOf(day + "/" +  month + "/" + year);
+            final int MATCH_MONTH = 1;
+            String datePickerResult = String.valueOf(day + "/" +  (month + MATCH_MONTH) + "/" + year);
             /* Specify which format is */
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = null;
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date date;
             try {
                 /* Parse to date setup based user locale */
                 date = format.parse(datePickerResult);
                 String localeDate = getDateFormat(getContext()).format(date);
                 aquaDate.setText(localeDate);
-
+                /* Convert to milliseconds */
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
                 aquaDateMilliseconds = calendar.getTimeInMillis();
-                Log.d(TAG, "onDateSet: mili locale " + localeDate);
-                Log.d(TAG, "onDateSet: mili " + aquaDateMilliseconds);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
