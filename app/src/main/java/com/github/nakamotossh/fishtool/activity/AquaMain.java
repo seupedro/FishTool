@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +27,8 @@ import android.view.View;
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.adapters.AquaListCursorAdapter;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
+
+import java.util.Calendar;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
@@ -49,7 +53,6 @@ public class AquaMain extends AppCompatActivity
 
         // TODO: Remove this before release
         riseAndShine(this);
-        startActivity(new Intent(AquaMain.this, AquaInfo.class));
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
         constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -96,6 +99,63 @@ public class AquaMain extends AppCompatActivity
         /* Start Loader */
         getLoaderManager().initLoader(AQUA_LOADER, null, this);
 
+        date();
+    }
+
+    private void date()  {
+
+        String dateOfBirth = "26/02/1974";
+
+        Calendar calendar = Calendar.getInstance();
+        String date = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE);
+
+        String date1 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_ALL);
+
+        String date2 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_MONTH);
+
+        String date3 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_RELATIVE);
+
+        String date4 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_TIME);
+
+        String date5 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_WEEKDAY);
+
+        String date6 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_MIDNIGHT);
+
+        String date7 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_MONTH_DAY);
+
+        String date8 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_NOON);
+
+        String date9 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_YEAR);
+
+        String date10 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_NUMERIC_DATE);
+
+        String date11 = DateUtils.formatDateTime(this,
+                calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+
+        Log.d(TAG, "date: " + date);
+        Log.d(TAG, "date1: " + date1);
+        Log.d(TAG, "date2: " + date2);
+        Log.d(TAG, "date3: " + date3);
+        Log.d(TAG, "date4: " + date4);
+        Log.d(TAG, "date5: " + date5);
+        Log.d(TAG, "date6: " + date6);
+        Log.d(TAG, "date7: " + date7);
+        Log.d(TAG, "date8: " + date8);
+        Log.d(TAG, "date9: " + date9);
+        Log.d(TAG, "date10: " + date10);
+        Log.d(TAG, "date11: " + date11);
+
     }
 
     @Override
@@ -111,13 +171,11 @@ public class AquaMain extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         adapter.swapCursor(cursor);
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         adapter.swapCursor(null);
-
     }
 
     @Override

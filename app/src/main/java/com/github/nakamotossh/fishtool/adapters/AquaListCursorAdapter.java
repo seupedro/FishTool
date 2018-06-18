@@ -38,11 +38,6 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
         mContext = context;
     }
 
-    public AquaListCursorAdapter(Context context, Cursor aquaCursor, Cursor paramCursor){
-        super(context, aquaCursor, paramCursor);
-        mContext = context;
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardViewParent;
         Button expandButton;

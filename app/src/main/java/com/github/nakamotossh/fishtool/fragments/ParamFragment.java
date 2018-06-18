@@ -1,6 +1,7 @@
 package com.github.nakamotossh.fishtool.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.github.nakamotossh.fishtool.fragments.parameters.TempFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,12 +29,21 @@ public class ParamFragment extends Fragment {
     //TODO: Deploy layout
     //TODO: Implement Charts
 
+    private static final String TAG = "ParamFragment";
+    private int aquaId;
+
     public ParamFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
@@ -41,6 +52,15 @@ public class ParamFragment extends Fragment {
         adapter.addFragment("pH", new PhFragment());
         adapter.addFragment("Temperature", new TempFragment());
         adapter.addFragment("Ammonia", new AmmoniaFragment());
+
+        /* Get ID and pass to Child Fragment */
+        aquaId = Objects.requireNonNull(getArguments()).getInt("aquaId");
+        Bundle bundle = new Bundle();
+        bundle.putInt("aquaId", aquaId);
+
+        for (int i = 0; i < adapter.getCount(); i++) {
+            adapter.getItem(i).setArguments(bundle);
+        }
 
         ViewPager viewPager = rootView.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
@@ -107,10 +127,5 @@ public class ParamFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        setMenuVisibility(false);
-        super.onDetach();
-    }
 }
 

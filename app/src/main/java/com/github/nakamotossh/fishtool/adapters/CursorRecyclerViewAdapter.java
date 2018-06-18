@@ -8,55 +8,52 @@ import android.support.v7.widget.RecyclerView;
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private Context mContext;
-    private Cursor mAquaCursor;
-    private Cursor mParamCursor;
+    private Cursor mCursor;
     private boolean mDataValid;
     private int mRowIdColumn;
     private DataSetObserver mDataSetObserver;
+    public int mParam;
 
-    public CursorRecyclerViewAdapter(Context context, Cursor aquaCursor) {
+    public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
         mContext = context;
-        mAquaCursor = aquaCursor;
-        mDataValid = aquaCursor != null;
-        mRowIdColumn = mDataValid ? mAquaCursor.getColumnIndex("_id") : -1;
+        mCursor = cursor;
+        mDataValid = cursor != null;
+        mRowIdColumn = mDataValid ? mCursor.getColumnIndex("_id") : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
-        if (mAquaCursor != null) {
-            mAquaCursor.registerDataSetObserver(mDataSetObserver);
+        if (mCursor != null) {
+            mCursor.registerDataSetObserver(mDataSetObserver);
         }
     }
 
-    public CursorRecyclerViewAdapter(Context context, Cursor aquaCursor, Cursor paramCursor) {
+    public CursorRecyclerViewAdapter(Context context, Cursor cursor, int param) {
+        mParam = param;
         mContext = context;
-        mAquaCursor = aquaCursor;
-        mParamCursor = paramCursor;
-        mDataValid = aquaCursor != null;
-        mRowIdColumn = mDataValid ? mAquaCursor.getColumnIndex("_id") : -1;
+        mCursor = cursor;
+        mDataValid = cursor != null;
+        mRowIdColumn = mDataValid ? mCursor.getColumnIndex("_id") : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
-        if (mAquaCursor != null) {
-            mAquaCursor.registerDataSetObserver(mDataSetObserver);
+        if (mCursor != null) {
+            mCursor.registerDataSetObserver(mDataSetObserver);
         }
     }
 
     public Cursor getCursor() {
-        return mAquaCursor;
+        return mCursor;
     }
 
-    public Cursor getmParamCursor() {
-        return mParamCursor;
-    }
 
     @Override
     public int getItemCount() {
-        if (mDataValid && mAquaCursor != null) {
-            return mAquaCursor.getCount();
+        if (mDataValid && mCursor != null) {
+            return mCursor.getCount();
         }
         return 0;
     }
 
     @Override
     public long getItemId(int position) {
-        if (mDataValid && mAquaCursor != null && mAquaCursor.moveToPosition(position)) {
-            return mAquaCursor.getLong(mRowIdColumn);
+        if (mDataValid && mCursor != null && mCursor.moveToPosition(position)) {
+            return mCursor.getLong(mRowIdColumn);
         }
         return 0;
     }
@@ -73,10 +70,10 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }
-        if (!mAquaCursor.moveToPosition(position)) {
+        if (!mCursor.moveToPosition(position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }
-        onBindViewHolder(viewHolder, mAquaCursor);
+        onBindViewHolder(viewHolder, mCursor);
     }
 
     /**
@@ -96,17 +93,17 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
      * closed.
      */
     public Cursor swapCursor(Cursor newCursor) {
-        if (newCursor == mAquaCursor) {
+        if (newCursor == mCursor) {
             return null;
         }
-        final Cursor oldCursor = mAquaCursor;
+        final Cursor oldCursor = mCursor;
         if (oldCursor != null && mDataSetObserver != null) {
             oldCursor.unregisterDataSetObserver(mDataSetObserver);
         }
-        mAquaCursor = newCursor;
-        if (mAquaCursor != null) {
+        mCursor = newCursor;
+        if (mCursor != null) {
             if (mDataSetObserver != null) {
-                mAquaCursor.registerDataSetObserver(mDataSetObserver);
+                mCursor.registerDataSetObserver(mDataSetObserver);
             }
             mRowIdColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;
