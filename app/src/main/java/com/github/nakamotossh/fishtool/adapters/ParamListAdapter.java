@@ -1,17 +1,19 @@
 package com.github.nakamotossh.fishtool.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nakamotossh.fishtool.R;
 
@@ -23,8 +25,10 @@ import java.util.Locale;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.NH3_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.NH4_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.TEMP_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry._paramID;
 
 public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter.ViewHolder>{
 
@@ -50,7 +54,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         TextView hour;
         TextView value;
         TextView variation;
-        ImageButton button;
 
         public ViewHolder(View v) {
             super(v);
@@ -59,13 +62,47 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             hour = v.findViewById(R.id.hour_param);
             value = v.findViewById(R.id.value_param);
             variation = v.findViewById(R.id.variation_param);
-            button = v.findViewById(R.id.button_param);
         }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder vh, Cursor c) {
         int currentPosition = c.getPosition();
+        final int currentId = c.getInt(c.getColumnIndexOrThrow(_paramID));
+
+        /* Remove on Long Click */
+        vh.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setMessage("Would you like to remove this item?")
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null)
+                                    dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String where = _paramID + " = " + currentId;
+                                int rowDeleted = mContext.getContentResolver()
+                                        .delete(PARAM_CONTENT_URI, where, null);
+                                int NOTHING_DELETED = 0;
+                                if (rowDeleted != NOTHING_DELETED){
+                                    Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();
+                                } else{
+                                    Toast.makeText(mContext, "Deletion Fail", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        })
+                        .create()
+                        .show();
+                return true;
+            }
+        });
 
         /* Date/Time */
         long dateInMilli = c.getLong(c.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
@@ -103,9 +140,9 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         }
         vh.value.setText((String.valueOf(value)));
 
+        /* Variation */
         if (c.moveToPrevious()){
             float previousValue = c.getFloat(c.getColumnIndexOrThrow(PH_COLUMN));
-
             /* Format Decimal digits */
             Float variationResult = value - previousValue;
             NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
@@ -115,7 +152,7 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
 
             if(variationResult > 0){
                 vh.variation.setText(String.valueOf("+" + numberFormat.format(variationResult)));
-                vh.variation.setTextColor(Color.GREEN);
+                vh.variation.setTextColor(Color.rgb(76,175,80));
             } else if (variationResult == 0){
                 vh.variation.setText(String.valueOf(numberFormat.format(variationResult)));
             } else {
@@ -136,7 +173,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.params_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 }

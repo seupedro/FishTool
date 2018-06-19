@@ -98,8 +98,6 @@ public class AquaMain extends AppCompatActivity
 
         /* Start Loader */
         getLoaderManager().initLoader(AQUA_LOADER, null, this);
-
-        date();
     }
 
     private void date()  {
@@ -142,6 +140,8 @@ public class AquaMain extends AppCompatActivity
 
         String date11 = DateUtils.formatDateTime(this,
                 calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+
+
 
         Log.d(TAG, "date: " + date);
         Log.d(TAG, "date1: " + date1);

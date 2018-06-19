@@ -78,6 +78,7 @@ public class AquaInfo extends AppCompatActivity {
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.frame_fragment, paramFragment)
+                                .addToBackStack(null)
                                 .commit();
                         return true;
                     case R.id.navigation_fauna:

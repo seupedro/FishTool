@@ -8,10 +8,12 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/actionBarSize">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:layout_marginVertical="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="256dp" />
@@ -19,14 +21,30 @@
         <ScrollView
             android:fillViewport="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" >
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_param"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_param"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Long press to delete an item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </ScrollView>
+
 
     </LinearLayout>
 

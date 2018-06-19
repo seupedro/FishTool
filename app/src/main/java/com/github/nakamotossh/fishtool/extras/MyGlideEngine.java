@@ -1,4 +1,4 @@
-package com.github.nakamotossh.fishtool;
+package com.github.nakamotossh.fishtool.extras;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

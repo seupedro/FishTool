@@ -3,9 +3,9 @@ package com.github.nakamotossh.fishtool.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,11 +69,14 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
     private boolean hasExtraUri = false;
-    private static long aquaDateMilliseconds;
+    private long aquaDateMilliseconds;
+    private long dateInMilliseconds;
+    private Date chosenDate;
 
+    private Context context;
     private ImageView aquaImage;
     private EditText aquaName;
-    private static EditText aquaDate;
+    private EditText aquaDate;
     private Spinner aquaType;
     private Spinner aquaStatus;
     private EditText aquaLiters;
@@ -103,6 +106,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquanew);
+        context = this;
         /* TODO: remove this before release */
         riseAndShine(this);
 
@@ -142,7 +146,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(v);
+                showDatePickerDialog();
             }
         });
 
@@ -168,7 +172,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         getDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog(view);
+                showDatePickerDialog();
             }
         });
 
@@ -350,7 +354,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         }
     }
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(this,
@@ -439,45 +442,37 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaIdUri = null;
     }
 
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(AquaNew.this.getSupportFragmentManager(), "datePicker");
+    private void showDatePickerDialog() {
+        DatePickerDialog dateDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        final int MATCH_MONTH = 1;
+                        String datePickerResult = String.valueOf(dayOfMonth +
+                                "/" + (month + MATCH_MONTH) + "/" + year);
+                        /* Specify which format is */
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter =
+                                new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            /* Parse chosen date to milli/date */
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(formatter.parse(datePickerResult));
+                            dateInMilliseconds = calendar.getTimeInMillis();
+                            chosenDate = calendar.getTime();
+                            aquaDate.setText(DateUtils.formatDateTime(context,
+                                    dateInMilliseconds,
+                                    DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        dateDialog.show();
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
 
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getContext(), this, year, month, day);
-    }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            final int MATCH_MONTH = 1;
-            String datePickerResult = String.valueOf(day + "/" +  (month + MATCH_MONTH) + "/" + year);
-            /* Specify which format is */
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date date;
-            try {
-                /* Parse to date setup based user locale */
-                date = format.parse(datePickerResult);
-                String localeDate = getDateFormat(getContext()).format(date);
-                aquaDate.setText(localeDate);
-                /* Convert to milliseconds */
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                aquaDateMilliseconds = calendar.getTimeInMillis();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
+
