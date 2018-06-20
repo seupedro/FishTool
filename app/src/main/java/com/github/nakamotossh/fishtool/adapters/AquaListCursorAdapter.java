@@ -79,6 +79,11 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
 
     @Override
     public void onBindViewHolder( ViewHolder viewHolder, Cursor cursor) {
+        /* Values from Db */
+        final int aquaId = cursor.getInt(cursor.getColumnIndexOrThrow(_aquaID));
+        final String name = cursor.getString(cursor.getColumnIndexOrThrow(NAME_COLUMN));
+        int type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE_COLUMN));
+        String image = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
 
         /* Set Layout Animations on Change */
         viewHolder.cardViewParent.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -93,8 +98,9 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
         viewHolder.expandButton.setText(isExpanded ? "Collapse" : "Expand");
         viewHolder.tableLayout.setActivated(isExpanded);
 
-        if (isExpanded)
+        if (isExpanded) {
             previousExpandedPosition = position;
+        }
 
         viewHolder.expandButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +111,6 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
             }
         });
 
-       final int aquaId = cursor.getInt(cursor.getColumnIndexOrThrow(_aquaID));
 
         /* Show aqua features */
         viewHolder.cardViewParent.setOnClickListener(new View.OnClickListener() {
@@ -114,21 +119,17 @@ public class AquaListCursorAdapter extends CursorRecyclerViewAdapter<AquaListCur
                 Intent intent = new Intent(mContext, AquaInfo.class);
                 /**
                  * Neither getAdapterPosition or getPosition could work.
-                 *
                  * The viewHolder.getAdapterPosition changes if itens on db are deleted.
-                 *
                  * Cursor.getPositon won't works correctly,
                  * because cursor stops on which views are displayed on screen.
                  *
                  * */
-                intent.putExtra("aquaId", (aquaId));
+                intent.putExtra("aquaId", aquaId);
+                intent.putExtra("aquaName", name);
                 mContext.startActivity(intent);
             }
         });
 
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(NAME_COLUMN));
-        int type = cursor.getInt(cursor.getColumnIndexOrThrow(TYPE_COLUMN));
-        String image = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_URI_COLUMN));
 
         /* Set Title name */
         viewHolder.title.setText(name);

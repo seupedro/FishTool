@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,11 @@ public class ParamFragment extends Fragment {
         adapter.addFragment("Ammonia", new AmmoniaFragment());
 
         /* Get ID and pass to Child Fragment */
-        aquaId = Objects.requireNonNull(getArguments()).getInt("aquaId");
+        /**
+         * If aquaID is null/empty, it will be 0.
+         * */
+        aquaId = Objects.requireNonNull(getArguments()).getInt("aquaakhkjId");
+        Log.d(TAG, "onCreateView: " + aquaId);
         Bundle bundle = new Bundle();
         bundle.putInt("aquaId", aquaId);
 

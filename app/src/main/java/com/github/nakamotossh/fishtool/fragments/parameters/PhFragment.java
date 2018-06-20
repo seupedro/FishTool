@@ -1,14 +1,24 @@
 package com.github.nakamotossh.fishtool.fragments.parameters;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,6 +33,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.activity.AddParam;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 
 import java.text.ParseException;
@@ -33,14 +44,14 @@ import java.util.Date;
 import java.util.List;
 
 import static android.text.format.DateFormat.getDateFormat;
+import static com.github.nakamotossh.fishtool.adapters.ParamListAdapter.PH_PARAM;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 
-public class PhFragment extends Fragment /*implements LoaderManager.LoaderCallbacks<Cursor>*/ {
+public class PhFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    //TODO: Fix bug
     //TODO: Bottom navigation overflow recyclerView
-    //TODO: Remove Button from recyclerView
     //TODO: Display loading while reading from db
 
     private static final String TAG = "PhFragment";
@@ -55,29 +66,26 @@ public class PhFragment extends Fragment /*implements LoaderManager.LoaderCallba
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_ph, container, false);
-//        setHasOptionsMenu(true);
-//
-//        Log.d(TAG, "onCreateView: ph id: " +
-//                (getArguments() != null ? getArguments().getInt("aquaId") : -1));
+        setHasOptionsMenu(true);
 
-        //test();
+        Log.d(TAG, "onCreateView: ph id: " +
+                (getArguments() != null ? getArguments().getInt("aquaId") : -1));
 
-        //Chart
-//        chart = rootView.findViewById(R.id.chart);
+        chart = rootView.findViewById(R.id.chart);
 
-        //Adapter List
-//        adapter = new ParamListAdapter(getContext(), null, PH_PARAM);
+        /* Adapter List */
+        adapter = new ParamListAdapter(getContext(), null, PH_PARAM);
 
-        // Item List
-//        recyclerView = rootView.findViewById(R.id.recycler_param);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        /* Item List */
+        recyclerView = rootView.findViewById(R.id.recycler_param);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        getLoaderManager().initLoader(LOADER_ID, null, this);
+        getLoaderManager().initLoader(LOADER_ID, null, this);
 
         return rootView;
     }
@@ -186,50 +194,50 @@ public class PhFragment extends Fragment /*implements LoaderManager.LoaderCallba
         chart.invalidate();
     }
 
-//    @NonNull
-//    @Override
-//    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-//        String sortOrder = DATE_PARAM_COLUMN + " DESC";
-//        return new CursorLoader(getContext(),
-//                PARAM_CONTENT_URI,
-//                null,
-//                null,
-//                null,
-//                sortOrder);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-//        adapter.swapCursor(cursor);
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        String sortOrder = DATE_PARAM_COLUMN + " DESC";
+        return new CursorLoader(getContext(),
+                PARAM_CONTENT_URI,
+                null,
+                null,
+                null,
+                sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+        adapter.swapCursor(cursor);
 //        if (cursor.getCount() > 0){
-//           // initChart(cursor);
+//            initChart(cursor);
 //        }
-//    }
-//
-//    @Override
-//    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-//        adapter.swapCursor(null);
-//    }
+    }
 
-//    @Override
-//    public void onDetach() {
-//        setMenuVisibility(false);
-//        super.onDetach();
-//    }
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.params_menu, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.add_param:
-//                startActivity(new Intent(getActivity(), AddParam.class));
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+    @Override
+    public void onDetach() {
+        setMenuVisibility(false);
+        super.onDetach();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.params_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_param:
+                startActivity(new Intent(getActivity(), AddParam.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
