@@ -23,6 +23,7 @@ public class AquaInfo extends AppCompatActivity {
     private Fragment aquaFragment;
     private FaunaFragment faunaFragment;
     private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +34,16 @@ public class AquaInfo extends AppCompatActivity {
         riseAndShine(this);
 
         /* Check if activity was called directly */
-        if (getIntent().getExtras() == null){
+        if (getIntent().getExtras() == null)
             throw new RuntimeException(this.getLocalClassName() + " must be only called from an aquarium");
-        }
 
         /* Get Extras: ID */
         int intentAquaId = getIntent().getExtras().getInt("aquaId");
 
         /* Check Runtime Invalid Id */
-        if (intentAquaId == 0){
+        if (intentAquaId == 0)
             throw new IllegalArgumentException(getLocalClassName() + " has an invalid/null id. " +
                     "Id is always greater than 0.");
-        }
 
         /* Title in action bar */
         setTitle(getIntent().getStringExtra("aquaName"));
@@ -63,11 +62,9 @@ public class AquaInfo extends AppCompatActivity {
         faunaFragment.setArguments(bundle);
 
         /* Start Fragment */
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frame_fragment, aquaFragment).commit();
-
-        /* TODO: Remove before release */
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,13 +73,16 @@ public class AquaInfo extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_aqua:
+                        fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, aquaFragment).commit();
                         return true;
                     case R.id.navigation_param:
+                        fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, paramFragment)
                                 .addToBackStack(null).commit();
                         return true;
                     case R.id.navigation_fauna:
+                        fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, faunaFragment).commit();
                         return true;
                 }

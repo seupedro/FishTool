@@ -4,6 +4,7 @@ package com.github.nakamotossh.fishtool.fragments.parameters;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static com.github.nakamotossh.fishtool.adapters.ParamListAdapter.PH_PARAM;
@@ -53,6 +55,10 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
 
     //TODO: Bottom navigation overflow recyclerView
     //TODO: Display loading while reading from db
+    //TODO: Ripple effect on item list
+    //TODO: fix bug on recyclerview hour
+    //TODO: format value above cicle on chart 5,000 to 5,0 on first parameters
+    //TODO: fix bug on variation list
 
     private static final String TAG = "PhFragment";
     private final int LOADER_ID = 0;
@@ -75,7 +81,11 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         Log.d(TAG, "onCreateView: ph id: " +
                 (getArguments() != null ? getArguments().getInt("aquaId") : -1));
 
+        /* Setup Chart */
         chart = rootView.findViewById(R.id.chart);
+        chart.setNoDataText("No data available yet");
+        chart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD);
+        chart.setNoDataTextColor(R.color.colorPrimary);
 
         /* Adapter List */
         adapter = new ParamListAdapter(getContext(), null, PH_PARAM);
@@ -85,9 +95,14 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        /* Starts the loader */
+        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     private void test()  {
@@ -118,36 +133,37 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         Log.d(TAG, "test: " + b);
     }
 
-    private void initChart(Cursor cursor) {
-
-        /* Check is cursor is empty */
-        if (cursor.getCount() <= 0){
-            return;
-        }
-
+    private void updateChart(Cursor cursor) {
+        Log.d(TAG, "updateChart: ");
         List<Entry> entries = new ArrayList<>();
 
-        while (cursor.moveToNext()){
-            long dateInMilli = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
+        /* Get N last param values */
+        final int LIMIT_OF_ENTRIES = 3;
+        if (cursor.moveToLast()){
+            int i = 0;
+            /* Get Values */
+            long datesInMilliseconds = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
             float paramValue = cursor.getFloat(cursor.getColumnIndexOrThrow(PH_COLUMN));
-
-            entries.add(new Entry(dateInMilli, paramValue));
+            /* Set to chart */
+            entries.add(new Entry(datesInMilliseconds, paramValue));
+            i++;
+            for (; i < LIMIT_OF_ENTRIES; i++) {
+               if (cursor.moveToPrevious()){
+                   /* Get Values */
+                   long datesInMilliseconds1 = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
+                   float paramValue1 = cursor.getFloat(cursor.getColumnIndexOrThrow(PH_COLUMN));
+                   /* Set to chart */
+                   entries.add(new Entry(datesInMilliseconds1, paramValue1));
+               } else {
+                   break;
+               }
+            }
         }
 
+        /* Sort in Ascending */
         Collections.sort(entries, new EntryXComparator());
 
-        // x = horizontal/data
-        // y = vertical/pH
-
-//        entries.add(new Entry(5, 6.1f));
-//        entries.add(new Entry(7, 6.3f));
-//        entries.add(new Entry(10, 8.4f));
-//        entries.add(new Entry(10, 7.9f));
-//        entries.add(new Entry(15, 6.4f));
-//        entries.add(new Entry(20, 6.8f));
-//        entries.add(new Entry(25, 7.0f));
-//        entries.add(new Entry(30, 7.7f));
-
+        /* Chart Line */
         LineDataSet dataSet = new LineDataSet(entries, "parameters");
         dataSet.setColor(Color.BLUE, 100);
         dataSet.setCircleColor(Color.BLUE);
@@ -180,6 +196,7 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         yAxisRight.setDrawGridLines(false);
         yAxisRight.setDrawLabels(false);
 
+        /* Chart Data */
         LineData lineData = new LineData(dataSet);
         lineData.setValueTextSize(7.2f);
 
@@ -198,7 +215,7 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         String sortOrder = DATE_PARAM_COLUMN + " DESC";
-        return new CursorLoader(getContext(),
+        return new CursorLoader(Objects.requireNonNull(getContext()),
                 PARAM_CONTENT_URI,
                 null,
                 null,
@@ -209,9 +226,10 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
         adapter.swapCursor(cursor);
-//        if (cursor.getCount() > 0){
-//            initChart(cursor);
-//        }
+        /* Check if cursor is empty */
+        if (cursor.getCount() > 0){
+            updateChart(cursor);
+        }
     }
 
     @Override

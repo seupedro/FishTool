@@ -53,7 +53,6 @@ public class AquaMain extends AppCompatActivity
 
         // TODO: Remove this before release
         riseAndShine(this);
-//        startActivity(new Intent(this, AquaInfo.class));
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
         constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
