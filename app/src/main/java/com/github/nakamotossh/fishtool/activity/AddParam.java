@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -102,7 +101,6 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, minute);
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
                 dateInMilliseconds = calendar.getTimeInMillis();
-                Log.d(TAG, "onTimeSet: " + calendar.getTime());
             }
         };
 
@@ -126,8 +124,6 @@ public class AddParam extends AppCompatActivity {
                 /* Set on Layout */
                 dateEdit.setText(DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
-                Log.d(TAG, "onDateSet: " + calendar.getTime());
-                //Todo: Call timePicker here
             }
         };
 

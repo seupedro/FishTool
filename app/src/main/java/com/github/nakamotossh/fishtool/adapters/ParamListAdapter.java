@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +65,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         }
     }
 
-    //TODO: Class instead of Switch/Case
-
     @Override
     public void onBindViewHolder(ViewHolder vh, Cursor c) {
         int currentPosition = c.getPosition();
@@ -118,6 +115,7 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         String time = DateUtils.formatDateTime(mContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME);
         vh.hour.setText(time);
 
+        //TODO: Class instead of Switch/Case
         /* Param Value */
         float value = 0;
         switch (paramCode){
@@ -167,9 +165,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             vh.variation.setText("0.0");
         }
 
-        Log.d(TAG, "onBindViewHolder: cursor #" + currentPosition);
-        Log.d(TAG, "onBindViewHolder: id #" + currentId);
-        Log.d(TAG, "onBindViewHolder: ph " + value);
         /* Always return cursor to current position after changes */
         c.moveToPosition(currentPosition);
     }

@@ -37,6 +37,8 @@ public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    //TODO: I/Choreographer: Skipped 60 frames! The application may be doing too much work on its main thread.
+
     private final int AQUA_LOADER = 0;
     private final int PARAM_LOADER = 1;
     private AquaDbHelper dbHelper;

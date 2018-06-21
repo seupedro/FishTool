@@ -1,6 +1,5 @@
 package com.github.nakamotossh.fishtool.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.LoaderManager;
@@ -34,8 +33,6 @@ import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 
 import java.nio.channels.IllegalSelectorException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -72,6 +69,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private long aquaDateMilliseconds;
     private long dateInMilliseconds;
     private Date chosenDate;
+    private Calendar calendar;
 
     private Context context;
     private ImageView aquaImage;
@@ -106,6 +104,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquanew);
+        calendar = Calendar.getInstance();
         context = this;
         /* TODO: remove this before release */
         riseAndShine(this);
@@ -368,7 +367,6 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
 
         if (c.moveToNext()){
-
             /* Get All Fields */
             String name = c.getString(c.getColumnIndexOrThrow(NAME_COLUMN));
             String liters = c.getString(c.getColumnIndexOrThrow(LITERS_COLUMN));
@@ -447,29 +445,16 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        final int MATCH_MONTH = 1;
-                        String datePickerResult = String.valueOf(dayOfMonth +
-                                "/" + (month + MATCH_MONTH) + "/" + year);
-                        /* Specify which format is */
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter =
-                                new SimpleDateFormat("dd/MM/yyyy");
-                        try {
-                            /* Parse chosen date to milli/date */
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(formatter.parse(datePickerResult));
-                            dateInMilliseconds = calendar.getTimeInMillis();
-                            chosenDate = calendar.getTime();
-                            aquaDate.setText(DateUtils.formatDateTime(context,
-                                    dateInMilliseconds,
-                                    DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        calendar.set(year, month, dayOfMonth);
+                        dateInMilliseconds = calendar.getTimeInMillis();
+                        /* Set on Layout */
+                        aquaDate.setText(DateUtils.formatDateTime(context, dateInMilliseconds,
+                                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
                     }
                 },
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
         dateDialog.show();
     }
 

@@ -37,15 +37,11 @@ import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.activity.AddParam;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static android.text.format.DateFormat.getDateFormat;
 import static com.github.nakamotossh.fishtool.adapters.ParamListAdapter.PH_PARAM;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
@@ -103,34 +99,6 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         super.onActivityCreated(savedInstanceState);
         /* Starts the loader */
         getLoaderManager().initLoader(LOADER_ID, null, this);
-    }
-
-    private void test()  {
-
-        Calendar c = Calendar.getInstance();
-        int y = c.get(Calendar.YEAR);
-        int m = c.get(Calendar.MONTH);
-        int d = c.get(Calendar.DAY_OF_MONTH);
-
-        String date = d + "/" + m + "/" + y;
-        Log.d(TAG, "test: date " + date);
-
-        Date a = null;
-        try {
-            a = getDateFormat(getContext()).parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "test: " + a);
-
-        String date1 = "14/06/2018";
-        Date b = null;
-        try {
-            b = getDateFormat(getContext()).parse(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "test: " + b);
     }
 
     private void updateChart(Cursor cursor) {
