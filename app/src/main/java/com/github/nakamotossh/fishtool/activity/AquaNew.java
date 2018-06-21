@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +34,6 @@ import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 
 import java.nio.channels.IllegalSelectorException;
 import java.util.Calendar;
-import java.util.Date;
 
 import static android.text.format.DateFormat.getDateFormat;
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
@@ -66,9 +65,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
     private final int LOADER_ID = 0;
     private Uri aquaIdUri;
     private boolean hasExtraUri = false;
-    private long aquaDateMilliseconds;
     private long dateInMilliseconds;
-    private Date chosenDate;
     private Calendar calendar;
 
     private Context context;
@@ -142,12 +139,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
         aquaSize.setOnTouchListener(touchListener);
         aquaFilter.setOnTouchListener(touchListener);
 
-        aquaDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
+
 
         /* Define Activity Layout */
         hasExtraUri = getIntent().hasExtra("aquaId");
@@ -164,10 +156,17 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             /* Set Title*/
             setTitle("New Aquarium");
             /* Set date based on Locale */
-            aquaDate.setText(getDateFormat(this).format(new Date()));
+            aquaDate.setText(getDateFormat(this).format(calendar.getTime()));
+            dateInMilliseconds = calendar.getTimeInMillis();
         }
 
         /* Show Dialog Date Picker */
+        aquaDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
         getDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -285,13 +284,9 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        /* Date */
-        if (aquaDate != null && !aquaDate.getText().toString().trim().isEmpty()){
-            String dateString = aquaDate.getText().toString().trim();
-            values.put(DATE_AQUA_COLUMN, dateString);
-        }
 
         /* Other fields */
+        values.put(DATE_AQUA_COLUMN, dateInMilliseconds);
         values.put(LITERS_COLUMN, aquaLiters.getText().toString().trim());
         values.put(STATUS_COLUMN, aquaStatus.getSelectedItemId());
         values.put(TYPE_COLUMN, aquaType.getSelectedItemId());
@@ -370,7 +365,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
             /* Get All Fields */
             String name = c.getString(c.getColumnIndexOrThrow(NAME_COLUMN));
             String liters = c.getString(c.getColumnIndexOrThrow(LITERS_COLUMN));
-            String date = c.getString(c.getColumnIndexOrThrow(DATE_AQUA_COLUMN));
+            dateInMilliseconds = c.getLong(c.getColumnIndexOrThrow(DATE_AQUA_COLUMN));
             int type = c.getInt(c.getColumnIndexOrThrow(TYPE_COLUMN));
             int status = c.getInt(c.getColumnIndexOrThrow(STATUS_COLUMN));
             String co2 = c.getString(c.getColumnIndexOrThrow(CO2_COLUMN));
@@ -411,9 +406,8 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                 aquaImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
             /* Date */
-            if (date != null) {
-
-            }
+            calendar.setTimeInMillis(dateInMilliseconds);
+            aquaDate.setText(DateFormat.getDateFormat(this).format(calendar.getTime()));
             /* Type */
             final int FRESHWATER = 0;
             final int MARINE = 1;
@@ -448,8 +442,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                         calendar.set(year, month, dayOfMonth);
                         dateInMilliseconds = calendar.getTimeInMillis();
                         /* Set on Layout */
-                        aquaDate.setText(DateUtils.formatDateTime(context, dateInMilliseconds,
-                                DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR));
+                        aquaDate.setText(DateFormat.getDateFormat(AquaNew.this).format(calendar.getTime()));
                     }
                 },
                 calendar.get(Calendar.YEAR),

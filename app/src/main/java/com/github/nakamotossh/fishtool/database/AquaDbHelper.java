@@ -18,7 +18,7 @@ public class AquaDbHelper extends SQLiteOpenHelper {
                     _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NAME_COLUMN + " TEXT NOT NULL, " +
                     LITERS_COLUMN + " INTEGER, " +
-                    DATE_AQUA_COLUMN + " TEXT, " +
+                    DATE_AQUA_COLUMN + " INTEGER, " +
                     TYPE_COLUMN + " INTEGER NOT NULL, " +
                     STATUS_COLUMN + " INTEGER NOT NULL,  " +
                     LIGHT_COLUMN + " TEXT, " +
