@@ -101,6 +101,7 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(Calendar.HOUR, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
+                dateInMilliseconds = calendar.getTimeInMillis();
                 Log.d(TAG, "onTimeSet: " + calendar.getTime());
             }
         };

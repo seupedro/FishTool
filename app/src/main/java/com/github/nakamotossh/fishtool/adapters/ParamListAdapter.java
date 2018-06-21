@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             variation = v.findViewById(R.id.variation_param);
         }
     }
+
+    //TODO: Class instead of Switch/Case
 
     @Override
     public void onBindViewHolder(ViewHolder vh, Cursor c) {
@@ -141,10 +144,10 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         vh.value.setText((String.valueOf(value)));
 
         /* Variation */
-        if (c.moveToPrevious()){
-            float previousValue = c.getFloat(c.getColumnIndexOrThrow(PH_COLUMN));
+        if (c.moveToNext()){
+            float nextValue = c.getFloat(c.getColumnIndexOrThrow(PH_COLUMN));
             /* Format Decimal digits */
-            Float variationResult = value - previousValue;
+            Float variationResult = value - nextValue;
             NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
             numberFormat.setMaximumFractionDigits(1);
             numberFormat.setMinimumFractionDigits(1);
@@ -164,8 +167,11 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             vh.variation.setText("0.0");
         }
 
-       /* Always return cursor to current position after changes */
-       c.moveToPosition(currentPosition);
+        Log.d(TAG, "onBindViewHolder: cursor #" + currentPosition);
+        Log.d(TAG, "onBindViewHolder: id #" + currentId);
+        Log.d(TAG, "onBindViewHolder: ph " + value);
+        /* Always return cursor to current position after changes */
+        c.moveToPosition(currentPosition);
     }
 
     @NonNull
