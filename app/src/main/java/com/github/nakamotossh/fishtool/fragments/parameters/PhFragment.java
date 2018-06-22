@@ -43,18 +43,18 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.github.nakamotossh.fishtool.adapters.ParamListAdapter.PH_PARAM;
+import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.AQUA_FKEY;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 
 public class PhFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //TODO: Remove params/aqua when either one is deleted
     //TODO: Bottom navigation overflow recyclerView
     //TODO: Display loading while reading from db
     //TODO: Ripple effect on item list
-    //TODO: fix bug on recyclerview hour
     //TODO: format value above cicle on chart 5,000 to 5,0 on first parameters
-    //TODO: fix bug on variation list
 
     private static final String TAG = "PhFragment";
     private final int LOADER_ID = 0;
@@ -62,9 +62,19 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     private LineChart chart;
     private RecyclerView recyclerView;
     private ParamListAdapter adapter;
+    private int aquaArgsId;
 
     public PhFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        aquaArgsId = getArguments() != null ? getArguments().getInt("aquaId") : -1;
+        Log.d(TAG, "onCreateView: ph id: " +
+                (getArguments() != null ? getArguments().getInt("aquaId") : -1));
     }
 
     @Override
@@ -73,9 +83,6 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_ph, container, false);
         setHasOptionsMenu(true);
-
-        Log.d(TAG, "onCreateView: ph id: " +
-                (getArguments() != null ? getArguments().getInt("aquaId") : -1));
 
         /* Setup Chart */
         chart = rootView.findViewById(R.id.chart);
@@ -107,6 +114,7 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
 
         /* Get N last param values */
         final int LIMIT_OF_ENTRIES = 3;
+
         if (cursor.moveToLast()){
             int i = 0;
             /* Get Values */
@@ -182,12 +190,14 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        String selection = AQUA_FKEY + " = ?";
+        String[] selectionArgs = { String.valueOf(aquaArgsId) };
         String sortOrder = DATE_PARAM_COLUMN + " DESC";
         return new CursorLoader(Objects.requireNonNull(getContext()),
                 PARAM_CONTENT_URI,
                 null,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 sortOrder);
     }
 
@@ -220,7 +230,8 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_param:
-                startActivity(new Intent(getActivity(), AddParam.class));
+                startActivity(new Intent(getActivity(), AddParam.class)
+                        .putExtra("aquaId", aquaArgsId));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

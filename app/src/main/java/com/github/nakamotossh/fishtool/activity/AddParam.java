@@ -9,6 +9,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ public class AddParam extends AppCompatActivity {
     private EditText ammoniaEdit;
     private long dateInMilliseconds;
     private Calendar calendar;
+    private int aquaIdExtra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,10 @@ public class AddParam extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         calendar = Calendar.getInstance();
+
+        if (getIntent().hasExtra("aquaId")) {
+            aquaIdExtra = getIntent().getExtras().getInt("aquaId");
+        }
 
         /* Find views on Layout */
         timeEdit = findViewById(R.id.time_param);
@@ -92,28 +99,6 @@ public class AddParam extends AppCompatActivity {
 
     }
 
-    private void setNewHour() {
-        /* Listener */
-        TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                calendar.set(Calendar.HOUR, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
-                dateInMilliseconds = calendar.getTimeInMillis();
-            }
-        };
-
-        /* Dialog */
-        TimePickerDialog timePickerDialog = new TimePickerDialog(AddParam.this,
-                timeListener,
-                /* Fields for init picker */
-                calendar.get(Calendar.HOUR),
-                calendar.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(AddParam.this));
-        timePickerDialog.show();
-    }
-
     private void setNewDate() {
         /* Listener Date Set */
         DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
@@ -122,6 +107,8 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
                 dateInMilliseconds = calendar.getTimeInMillis();
                 /* Set on Layout */
+                Log.d(TAG, "onDateSet: " + DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
+                Log.d(TAG, "onDateSet: " + DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
                 dateEdit.setText(DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
             }
@@ -137,6 +124,37 @@ public class AddParam extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    private void setNewHour() {
+        /* Listener */
+        TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                dateInMilliseconds = calendar.getTimeInMillis();
+                timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
+
+                Log.d(TAG, "onTimeSet: AddParam.this " + DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
+                Log.d(TAG, "onTimeSet: getTimeFormat(getApplicationContext " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
+                Log.d(TAG, "onTimeSet: getTimeFormat(getBaseContext " + DateFormat.getTimeFormat(getBaseContext()).format(calendar.getTime()));
+                Log.d(TAG, "onTimeSet: FORMAT_SHOW_TIME " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+                Log.d(TAG, "onTimeSet: FORMAT_ABBREV_TIME " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_TIME));
+                Log.d(TAG, "onTimeSet: FORMAT | BOTH " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_TIME));
+
+
+            }
+        };
+
+        /* Dialog */
+        TimePickerDialog timePickerDialog = new TimePickerDialog(AddParam.this,
+                timeListener,
+                /* Fields for init picker */
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                DateFormat.is24HourFormat(getApplicationContext()));
+        timePickerDialog.show();
+    }
+
     private void saveParams(){
 
         ContentValues values = new ContentValues();
@@ -147,7 +165,7 @@ public class AddParam extends AppCompatActivity {
         values.put(TEMP_COLUMN, tempEdit.getText().toString().trim());
         values.put(NH3_COLUMN, ammoniaEdit.getText().toString().trim());
         /* Aqua ID */
-        values.put(AQUA_FKEY, 1);
+        values.put(AQUA_FKEY, aquaIdExtra);
 
         Uri uriInserted = getContentResolver().insert(PARAM_CONTENT_URI, values);
         Toast.makeText(this, String.valueOf(uriInserted), Toast.LENGTH_SHORT).show();
