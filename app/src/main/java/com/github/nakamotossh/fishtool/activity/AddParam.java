@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -18,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.extras.ParamUtils;
 
 import java.util.Calendar;
 
@@ -27,10 +29,13 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.N
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.TEMP_COLUMN;
+import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
+import static com.github.nakamotossh.fishtool.extras.ParamUtils.formatNumber;
 
 public class AddParam extends AppCompatActivity {
 
     //TODO: notify updates to chart/recyclerview/db
+    //TODO: format float params to 7.2
 
     private static final String TAG = "AddParam";
 
@@ -50,6 +55,7 @@ public class AddParam extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         calendar = Calendar.getInstance();
+        riseAndShine(this);
 
         if (getIntent().hasExtra("aquaId")) {
             aquaIdExtra = getIntent().getExtras().getInt("aquaId");
@@ -67,8 +73,8 @@ public class AddParam extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveParams();
-                finish();
+                if (checkAndSaveParams())
+                    finish();
             }
         });
 
@@ -97,6 +103,8 @@ public class AddParam extends AppCompatActivity {
             }
         });
 
+        //test
+//        test();
     }
 
     private void setNewDate() {
@@ -107,8 +115,6 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
                 dateInMilliseconds = calendar.getTimeInMillis();
                 /* Set on Layout */
-                Log.d(TAG, "onDateSet: " + DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
-                Log.d(TAG, "onDateSet: " + DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
                 dateEdit.setText(DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
             }
@@ -133,15 +139,6 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(Calendar.MINUTE, minute);
                 dateInMilliseconds = calendar.getTimeInMillis();
                 timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
-
-                Log.d(TAG, "onTimeSet: AddParam.this " + DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
-                Log.d(TAG, "onTimeSet: getTimeFormat(getApplicationContext " + DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime()));
-                Log.d(TAG, "onTimeSet: getTimeFormat(getBaseContext " + DateFormat.getTimeFormat(getBaseContext()).format(calendar.getTime()));
-                Log.d(TAG, "onTimeSet: FORMAT_SHOW_TIME " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
-                Log.d(TAG, "onTimeSet: FORMAT_ABBREV_TIME " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_TIME));
-                Log.d(TAG, "onTimeSet: FORMAT | BOTH " + DateUtils.formatDateTime(getApplicationContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_TIME));
-
-
             }
         };
 
@@ -155,19 +152,64 @@ public class AddParam extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void saveParams(){
-
+    private boolean checkAndSaveParams(){
         ContentValues values = new ContentValues();
-        /* Time Values */
-        values.put(DATE_PARAM_COLUMN, dateInMilliseconds);
+
         /* Params Values */
-        values.put(PH_COLUMN, phEdit.getText().toString().trim());
-        values.put(TEMP_COLUMN, tempEdit.getText().toString().trim());
-        values.put(NH3_COLUMN, ammoniaEdit.getText().toString().trim());
+        String ph = phEdit.getText().toString().trim();
+        if (!TextUtils.isEmpty(ph))
+            values.put(PH_COLUMN, formatNumber(ph, ParamUtils.PH_PARAM));
+
+        String temperature = tempEdit.getText().toString().trim();
+        if (!TextUtils.isEmpty(temperature))
+            values.put(TEMP_COLUMN, formatNumber(temperature, ParamUtils.TEMP_PARAM));
+
+        String ammonia = ammoniaEdit.getText().toString().trim();
+        if (!TextUtils.isEmpty(ammonia))
+            values.put(NH3_COLUMN, formatNumber(ammonia, ParamUtils.AMMONIA_PARAM));
+
         /* Aqua ID */
         values.put(AQUA_FKEY, aquaIdExtra);
 
+        /* Time Values */
+        values.put(DATE_PARAM_COLUMN, dateInMilliseconds);
+
         Uri uriInserted = getContentResolver().insert(PARAM_CONTENT_URI, values);
         Toast.makeText(this, String.valueOf(uriInserted), Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+
+
+    private void test() {
+
+        ContentValues values = new ContentValues();
+
+        phEdit.setText("567.899");
+
+        Editable text = phEdit.getText();
+        Log.d(TAG, "test: text " + text);
+
+        String string = phEdit.getText().toString();
+        Log.d(TAG, "test: string " + string);
+
+        if (!TextUtils.isEmpty(string)) {
+            Log.d(TAG, "test: NOT null");
+
+            String s = formatNumber(string, ParamUtils.TEMP_PARAM);
+
+            values.put(TEMP_COLUMN, s);
+
+            /* Aqua ID */
+            values.put(AQUA_FKEY, aquaIdExtra);
+
+            /* Time Values */
+            values.put(DATE_PARAM_COLUMN, dateInMilliseconds);
+
+            Uri insert = getContentResolver().insert(PARAM_CONTENT_URI, values);
+            Log.d(TAG, "test: uri "+ insert);
+        } else {
+            Log.d(TAG, "test: NULL");
+        }
     }
 }

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.fragments.parameters.AmmoniaFragment;
-import com.github.nakamotossh.fishtool.fragments.parameters.PhFragment;
+import com.github.nakamotossh.fishtool.fragments.parameters.SalinityFragment;
 import com.github.nakamotossh.fishtool.fragments.parameters.TempFragment;
 
 import java.util.ArrayList;
@@ -49,9 +49,10 @@ public class ParamFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_aquaparam, container, false);
 
         FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager());
-        adapter.addFragment("pH", new PhFragment());
-        adapter.addFragment("Temperature", new TempFragment());
+//        adapter.addFragment("pH", new PhFragment());
         adapter.addFragment("Ammonia", new AmmoniaFragment());
+        adapter.addFragment("Temp", new TempFragment());
+        adapter.addFragment("pH 1", new SalinityFragment());
 
         /* Get ID and pass to Child Fragment */
         /**

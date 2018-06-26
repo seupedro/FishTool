@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nakamotossh.fishtool.R;
+import com.github.nakamotossh.fishtool.extras.ParamUtils;
 
-import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.NH3_COLUMN;
-import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.NH4_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.TEMP_COLUMN;
@@ -33,19 +32,29 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry._
 public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter.ViewHolder>{
 
     private static final String TAG = "ParamListAdapter";
-    private int paramCode;
     private Context mContext;
+    private String paramColumn;
+    private final int paramCode;
 
-    /* Param Codes */
-    public static final int PH_PARAM = 0;
-    public static final int TEMP_PARAM = 1;
-    public static final int NH3_PARAM = 2;
-    public static final int NH4_PARAM = 3;
-
-    public ParamListAdapter(Context context, Cursor aquaCursor, int param) {
-        super(context, aquaCursor, param);
-        paramCode = param;
+    public ParamListAdapter(Context context, Cursor aquaCursor, int paramCode) {
+        super(context, aquaCursor, paramCode);
         mContext = context;
+        this.paramCode = paramCode;
+        switch (paramCode){
+            case ParamUtils.PH_PARAM:
+                paramColumn = PH_COLUMN;
+                break;
+            case ParamUtils.TEMP_PARAM:
+                paramColumn = TEMP_COLUMN;
+                break;
+            case ParamUtils.AMMONIA_PARAM:
+                paramColumn = NH3_COLUMN;
+                break;
+        }
+
+        Log.d(TAG, "ParamListAdapter: paramCode " + paramCode);
+        Log.d(TAG, "ParamListAdapter: paramColumn" + paramColumn);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,10 +74,28 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         }
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.params_item, parent, false);
+        return new ViewHolder(view);
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder vh, Cursor c) {
         int currentPosition = c.getPosition();
         final int currentId = c.getInt(c.getColumnIndexOrThrow(_paramID));
+
+        /* Hide item case NULL */
+        if (c.isNull(c.getColumnIndexOrThrow(paramColumn))) {
+            vh.layout.setVisibility(View.GONE);
+            vh.layout.setLayoutParams(new LinearLayoutCompat.LayoutParams(0,0));
+            return;
+        }
+
+        /* Show if is invisible */
+        vh.layout.setVisibility(vh.layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
 
         /* Remove on Long Click */
         vh.layout.setOnLongClickListener(new View.OnLongClickListener() {
@@ -106,58 +133,36 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
 
         /* Date/Time */
         long dateInMilli = c.getLong(c.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
+        Log.d(TAG, "onBindViewHolder: dateInMiil " + dateInMilli);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(dateInMilli);
         /* Format to day/month */
         String date = DateUtils.formatDateTime(mContext, dateInMilli, DateUtils.FORMAT_NUMERIC_DATE);
+        Log.d(TAG, "onBindViewHolder: stringDate " + date);
         vh.date.setText(date);
         /* Format to Hour */
         String time = DateUtils.formatDateTime(mContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME);
         vh.hour.setText(time);
 
-        //TODO: Class instead of Switch/Case
         /* Param Value */
-        float value = 0;
-        switch (paramCode){
-            case PH_PARAM:
-                value = c.getFloat(c.getColumnIndexOrThrow(PH_COLUMN));
-                break;
-            case TEMP_PARAM:
-                value = c.getFloat(c.getColumnIndexOrThrow(TEMP_COLUMN));
-                break;
-            case NH3_PARAM:
-                value = c.getFloat(c.getColumnIndexOrThrow(NH3_COLUMN));
-                break;
-            case NH4_PARAM:
-                value = c.getFloat(c.getColumnIndexOrThrow(NH4_COLUMN));
-                break;
-            default:
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
+        float value = c.getFloat(c.getColumnIndexOrThrow(paramColumn));
+        Log.d(TAG, "onBindViewHolder: value " + value);
         vh.value.setText((String.valueOf(value)));
 
         /* Variation */
         if (c.moveToNext()){
-            float nextValue = c.getFloat(c.getColumnIndexOrThrow(PH_COLUMN));
+            float nextValue = c.getFloat(c.getColumnIndexOrThrow(paramColumn));
+
             /* Format Decimal digits */
             Float variationResult = value - nextValue;
-            NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-            numberFormat.setMaximumFractionDigits(1);
-            numberFormat.setMinimumFractionDigits(1);
-            numberFormat.setRoundingMode(RoundingMode.HALF_UP);
-
+            String formattedResult = ParamUtils.formatNumber(String.valueOf(variationResult), paramCode);
             if(variationResult > 0){
-                vh.variation.setText(String.valueOf("+" + numberFormat.format(variationResult)));
+                vh.variation.setText(String.valueOf("+" + formattedResult));
                 vh.variation.setTextColor(Color.rgb(76,175,80));
             } else if (variationResult == 0){
-                vh.variation.setText(String.valueOf(numberFormat.format(variationResult)));
+                vh.variation.setText(String.valueOf(formattedResult));
             } else {
-                vh.variation.setText(String.valueOf(numberFormat.format(variationResult)));
+                vh.variation.setText(String.valueOf(formattedResult));
                 vh.variation.setTextColor(Color.RED);
             }
 
@@ -165,15 +170,9 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             vh.variation.setText("0.0");
         }
 
+        Log.d(TAG, "onBindViewHolder: COMPLETED ");
+
         /* Always return cursor to current position after changes */
         c.moveToPosition(currentPosition);
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.params_item, parent, false);
-        return new ViewHolder(view);
     }
 }

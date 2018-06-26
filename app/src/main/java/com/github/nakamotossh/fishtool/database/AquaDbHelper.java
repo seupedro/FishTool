@@ -9,7 +9,7 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.*
 
 public class AquaDbHelper extends SQLiteOpenHelper {
 
-    public static final int DB_VERSION = 14;
+    public static final int DB_VERSION = 18;
     public static final String DB_NAME = "aqua.db";
 
     // Create Aqua Table
@@ -18,7 +18,7 @@ public class AquaDbHelper extends SQLiteOpenHelper {
                     _aquaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NAME_COLUMN + " TEXT NOT NULL, " +
                     LITERS_COLUMN + " INTEGER, " +
-                    DATE_AQUA_COLUMN + " INTEGER, " +
+                    DATE_AQUA_COLUMN + " INTEGER NOT NULL, " +
                     TYPE_COLUMN + " INTEGER NOT NULL, " +
                     STATUS_COLUMN + " INTEGER NOT NULL,  " +
                     LIGHT_COLUMN + " TEXT, " +
@@ -36,16 +36,16 @@ public class AquaDbHelper extends SQLiteOpenHelper {
                     _paramID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     PH_COLUMN + " REAL, " +
                     NH3_COLUMN + " REAL, " +
-                    NH4_COLUMN + " REAL, " +
-                    SALT_COLUMN + " REAL, " +
-                    MAGNESIUM_COLUMN + " REAL, " +
-                    CALCIUM_COLUMN + " REAL, " +
-                    ORP_COLUMN + " REAL, " +
-                    TDS_COLUMN + " REAL, " +
-                    PHOSPHATE_COLUMN + " REAL, " +
+//                    NO3_COLUMN + " REAL, " +
+//                    SALT_COLUMN + " REAL, " +
+//                    MAGNESIUM_COLUMN + " REAL, " +
+//                    CALCIUM_COLUMN + " REAL, " +
+//                    ORP_COLUMN + " REAL, " +
+//                    TDS_COLUMN + " REAL, " +
+//                    PHOSPHATE_COLUMN + " REAL, " +
                     TEMP_COLUMN + " REAL, " +
-                    ALKALINITY_COLUMN + " REAL, " +
-                    DATE_PARAM_COLUMN + " INTEGER, " +
+//                    ALKALINITY_COLUMN + " REAL, " +
+                    DATE_PARAM_COLUMN + " INTEGER NOT NULL, " +
                     AQUA_FKEY +  " INTEGER NOT NULL REFERENCES " + AQUA_TABLE + " (_id) " + ")";
 
     // SQL Delete Aqua

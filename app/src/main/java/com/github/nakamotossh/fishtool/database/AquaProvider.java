@@ -138,8 +138,6 @@ public class AquaProvider extends ContentProvider {
                 return ContentUris.withAppendedId(uri, aquaInsertId);
 
             case PARAM_LIST:
-               //TODO: regex to match only params, not letters. It's very important for charts.
-
                 /* Insert Data */
                 long paramInsertId = db.insert(PARAM_TABLE, null, values);
 
