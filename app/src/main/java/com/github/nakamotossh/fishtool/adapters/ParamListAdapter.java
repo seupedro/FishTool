@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,10 +50,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
                 paramColumn = NH3_COLUMN;
                 break;
         }
-
-        Log.d(TAG, "ParamListAdapter: paramCode " + paramCode);
-        Log.d(TAG, "ParamListAdapter: paramColumn" + paramColumn);
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -92,10 +87,9 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             vh.layout.setVisibility(View.GONE);
             vh.layout.setLayoutParams(new LinearLayoutCompat.LayoutParams(0,0));
             return;
+        } else {
+            vh.layout.setVisibility(View.VISIBLE);
         }
-
-        /* Show if is invisible */
-        vh.layout.setVisibility(vh.layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
 
         /* Remove on Long Click */
         vh.layout.setOnLongClickListener(new View.OnLongClickListener() {
@@ -133,12 +127,10 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
 
         /* Date/Time */
         long dateInMilli = c.getLong(c.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
-        Log.d(TAG, "onBindViewHolder: dateInMiil " + dateInMilli);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(dateInMilli);
         /* Format to day/month */
         String date = DateUtils.formatDateTime(mContext, dateInMilli, DateUtils.FORMAT_NUMERIC_DATE);
-        Log.d(TAG, "onBindViewHolder: stringDate " + date);
         vh.date.setText(date);
         /* Format to Hour */
         String time = DateUtils.formatDateTime(mContext, dateInMilli, DateUtils.FORMAT_SHOW_TIME);
@@ -146,7 +138,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
 
         /* Param Value */
         float value = c.getFloat(c.getColumnIndexOrThrow(paramColumn));
-        Log.d(TAG, "onBindViewHolder: value " + value);
         vh.value.setText((String.valueOf(value)));
 
         /* Variation */
@@ -169,8 +160,6 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
         } else {
             vh.variation.setText("0.0");
         }
-
-        Log.d(TAG, "onBindViewHolder: COMPLETED ");
 
         /* Always return cursor to current position after changes */
         c.moveToPosition(currentPosition);

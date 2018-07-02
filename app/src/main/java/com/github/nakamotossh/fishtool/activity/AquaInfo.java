@@ -75,20 +75,26 @@ public class AquaInfo extends AppCompatActivity {
                     case R.id.navigation_aqua:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, aquaFragment).commit();
+//                                .addToBackStack(null).commit();
                         return true;
                     case R.id.navigation_param:
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frame_fragment, paramFragment)
+                        fragmentTransaction.replace(R.id.frame_fragment, paramFragment)/*.commit();*/
                                 .addToBackStack(null).commit();
                         return true;
                     case R.id.navigation_fauna:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, faunaFragment).commit();
+//                                .addToBackStack(null).commit();
                         return true;
                 }
                 return false;
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

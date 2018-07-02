@@ -2,9 +2,11 @@ package com.github.nakamotossh.fishtool.activity;
 
 import android.animation.LayoutTransition;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ public class AquaMain extends AppCompatActivity
 
     private final int AQUA_LOADER = 0;
     private final int PARAM_LOADER = 1;
+
     private AquaDbHelper dbHelper;
     private SQLiteDatabase db;
     private RecyclerView recyclerView;
@@ -52,6 +55,8 @@ public class AquaMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquamain);
+
+        prefs();
 
         // TODO: Remove this before release
         riseAndShine(this);
@@ -143,8 +148,6 @@ public class AquaMain extends AppCompatActivity
         String date11 = DateUtils.formatDateTime(this,
                 calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
 
-
-
         Log.d(TAG, "date: " + date);
         Log.d(TAG, "date1: " + date1);
         Log.d(TAG, "date2: " + date2);
@@ -158,6 +161,21 @@ public class AquaMain extends AppCompatActivity
         Log.d(TAG, "date10: " + date10);
         Log.d(TAG, "date11: " + date11);
 
+    }
+
+    private void prefs(){
+
+        final String AQUA_ID = "aquaId";
+
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AQUA_ID, "id value is 12");
+        editor.apply();
+
+        String result = prefs.getString(AQUA_ID, "def");
+        String def = prefs.getString("test", "testee");
+        Log.d(TAG, "prefs: " + result);
+        Log.d(TAG, "prefs: " + def);
     }
 
     @Override
