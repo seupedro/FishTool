@@ -72,7 +72,7 @@ public class AquaMain extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newAquaIntent = new Intent(AquaMain.this, AquaNew.class);
+                Intent newAquaIntent = new Intent(AquaMain.this, AquaEditor.class);
                 startActivity(newAquaIntent);
             }
         });

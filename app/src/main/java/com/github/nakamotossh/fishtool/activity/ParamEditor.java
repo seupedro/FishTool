@@ -32,12 +32,12 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.T
 import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 import static com.github.nakamotossh.fishtool.extras.ParamUtils.formatNumber;
 
-public class AddParam extends AppCompatActivity {
+public class ParamEditor extends AppCompatActivity {
 
     //TODO: notify updates to chart/recyclerview/db
     //TODO: format float params to 7.2
 
-    private static final String TAG = "AddParam";
+    private static final String TAG = "ParamEditor";
 
     private EditText dateEdit;
     private EditText timeEdit;
@@ -120,13 +120,13 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(year, month, dayOfMonth);
                 dateInMilliseconds = calendar.getTimeInMillis();
                 /* Set on Layout */
-                dateEdit.setText(DateFormat.getDateFormat(AddParam.this).format(calendar.getTime()));
-                timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
+                dateEdit.setText(DateFormat.getDateFormat(ParamEditor.this).format(calendar.getTime()));
+                timeEdit.setText(DateFormat.getTimeFormat(ParamEditor.this).format(calendar.getTime()));
             }
         };
 
         /* Show Dialog */
-        DatePickerDialog datePickerDialog = new DatePickerDialog(AddParam.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ParamEditor.this,
                 dateListener,
                 /* Fields for init picker */
                 calendar.get(Calendar.YEAR),
@@ -143,12 +143,12 @@ public class AddParam extends AppCompatActivity {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
                 dateInMilliseconds = calendar.getTimeInMillis();
-                timeEdit.setText(DateFormat.getTimeFormat(AddParam.this).format(calendar.getTime()));
+                timeEdit.setText(DateFormat.getTimeFormat(ParamEditor.this).format(calendar.getTime()));
             }
         };
 
         /* Dialog */
-        TimePickerDialog timePickerDialog = new TimePickerDialog(AddParam.this,
+        TimePickerDialog timePickerDialog = new TimePickerDialog(ParamEditor.this,
                 timeListener,
                 /* Fields for init picker */
                 calendar.get(Calendar.HOUR_OF_DAY),

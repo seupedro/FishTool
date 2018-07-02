@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AquaNew"/>
+            android:name=".activity.AquaEditor"/>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -45,7 +45,7 @@
 
         <activity
             android:windowSoftInputMode="adjustResize"
-            android:name=".activity.AddParam"
+            android:name=".activity.ParamEditor"
             android:label="@string/title_activity_add_param"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

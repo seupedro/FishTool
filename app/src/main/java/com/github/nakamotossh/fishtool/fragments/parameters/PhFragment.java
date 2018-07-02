@@ -34,7 +34,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.nakamotossh.fishtool.R;
-import com.github.nakamotossh.fishtool.activity.AddParam;
+import com.github.nakamotossh.fishtool.activity.ParamEditor;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 import com.github.nakamotossh.fishtool.extras.ParamUtils;
 
@@ -236,7 +236,7 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_param:
-                startActivity(new Intent(getActivity(), AddParam.class)
+                startActivity(new Intent(getActivity(), ParamEditor.class)
                         .putExtra("aquaId", aquaArgsId));
                 return true;
             default:

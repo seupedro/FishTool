@@ -52,14 +52,14 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.SU
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
 import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 
-public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AquaEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //TODO: [ERROR] E/ActivityThread: Performing stop of activity that is already stopped
     //TODO: Handle correctly the date
     //TODO: [POS-Release] Save data before on Destroy. Handle Activity lifecycle in case receve a call
     //TODO: Handle Images
 
-    private static final String TAG = "AquaNew";
+    private static final String TAG = "AquaEditor";
     private static final int STORAGE_PERMISSION = 320;
     private static final int REQUEST_IMAGE = 330;
     private final int LOADER_ID = 0;
@@ -229,11 +229,11 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                                 int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
                                 if (deleteUri != NOTHING_DELETED){
                                     getContentResolver().notifyChange(aquaIdUri, null);
-                                    Toast.makeText(AquaNew.this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AquaEditor.this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
                                     /* Close this activity */
-                                    startActivity(new Intent(AquaNew.this, AquaMain.class));
+                                    startActivity(new Intent(AquaEditor.this, AquaMain.class));
                                 } else {
-                                    Toast.makeText(AquaNew.this, "Delete failed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AquaEditor.this, "Delete failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
@@ -442,7 +442,7 @@ public class AquaNew extends AppCompatActivity implements LoaderManager.LoaderCa
                         calendar.set(year, month, dayOfMonth);
                         dateInMilliseconds = calendar.getTimeInMillis();
                         /* Set on Layout */
-                        aquaDate.setText(DateFormat.getDateFormat(AquaNew.this).format(calendar.getTime()));
+                        aquaDate.setText(DateFormat.getDateFormat(AquaEditor.this).format(calendar.getTime()));
                     }
                 },
                 calendar.get(Calendar.YEAR),

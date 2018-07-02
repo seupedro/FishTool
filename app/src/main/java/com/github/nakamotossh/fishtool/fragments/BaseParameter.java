@@ -36,7 +36,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.github.nakamotossh.fishtool.R;
-import com.github.nakamotossh.fishtool.activity.AddParam;
+import com.github.nakamotossh.fishtool.activity.ParamEditor;
 import com.github.nakamotossh.fishtool.adapters.ParamListAdapter;
 import com.github.nakamotossh.fishtool.extras.ParamUtils;
 
@@ -157,6 +157,7 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         /* Starts Loader */
         int LOADER_ID = 0;
         getLoaderManager().initLoader(LOADER_ID, null, this);
@@ -187,6 +188,8 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
                     break;
                 }
             } while (cursor.moveToNext());
+        } else {
+            Log.i(TAG, "updateChart: Chart is empty");
         }
 
         /* Sort in Ascending */
@@ -304,7 +307,7 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.add_param:
-                startActivity(new Intent(getActivity(), AddParam.class)
+                startActivity(new Intent(getActivity(), ParamEditor.class)
                         .putExtra("aquaId", aquaId));
                 return true;
             default:
