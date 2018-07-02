@@ -164,69 +164,33 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
 
     private void updateChart(Cursor cursor) {
         Log.d(TAG, "updateChart: ");
+
         if (chart == null)
             throw new NullPointerException("Chart cannot be null");
 
         List<Entry> entries = new ArrayList<>();
 
-        long datesInMilliseconds;
-        float paramValue;
-        final int LIMIT_OF_ENTRIES = 4;
-//        if (cursor.moveToFirst()){
-//            int i = 0;
-//            boolean paramNullIf = cursor.isNull(cursor.getColumnIndexOrThrow(paramColumn));
-//
-//            /* Get Values */
-//            datesInMilliseconds = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
-//            paramValue = cursor.getFloat(cursor.getColumnIndexOrThrow(paramColumn));
-//            Log.d(TAG, "updateChart: " + paramValue);
-//            /* Set to chart */
-//            if (paramValue > Float.MIN_VALUE) {
-//                entries.add(new Entry( datesInMilliseconds, paramValue));
-//            }
-//            i++;
-//            while (i < LIMIT_OF_ENTRIES) {
-//                if (cursor.moveToNext()){
-//
-//                    boolean paramNullWhile = cursor.isNull(cursor.getColumnIndexOrThrow(paramColumn));
-//
-//                    /* Get Values */
-//                    datesInMilliseconds = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
-//                    paramValue = cursor.getFloat(cursor.getColumnIndexOrThrow(paramColumn));
-//                    Log.d(TAG, "updateChart: " + paramValue);
-//                    /* Set to chart */
-//                    if (paramValue > Float.MIN_VALUE) {
-//                        entries.add(new Entry(datesInMilliseconds, paramValue));
-//                    }
-//                } else {
-//                    break;
-//                }
-//                i++;
-//            }
-//        }
+        /* Avoid Empty Chart */
+        final int LIMIT_OF_ENTRIES = 3;
+        if (cursor.moveToFirst()){
+            do {
+                long date = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
+                float param = cursor.getFloat(cursor.getColumnIndexOrThrow(paramColumn));
 
-        int initialPosition = cursor.getPosition();
-        int skipped = 0;
-        while (cursor.moveToNext()){
-            long date = cursor.getLong(cursor.getColumnIndexOrThrow(DATE_PARAM_COLUMN));
-            float param = cursor.getFloat(cursor.getColumnIndexOrThrow(paramColumn));
+                /* Add only valid params */
+                if (!cursor.isNull(cursor.getColumnIndexOrThrow(paramColumn))) {
+                    entries.add(new Entry(date, param));
+                }
 
-            /* Add only valid params */
-            if (!cursor.isNull(cursor.getColumnIndexOrThrow(paramColumn))) {
-                entries.add(new Entry(date, param));
-            } else {
-                skipped++;
-            }
-
-            /* Break loop after 3 entries */
-            if (cursor.getPosition() > (initialPosition + 3 + skipped)){
-                break;
-            }
+                /* Break loop after 3 entries */
+                if (entries.size() == LIMIT_OF_ENTRIES) {
+                    break;
+                }
+            } while (cursor.moveToNext());
         }
 
         /* Sort in Ascending */
         Collections.sort(entries, new EntryXComparator());
-
 
         if (!entries.isEmpty()) {
             /* Chart Line */
