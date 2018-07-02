@@ -185,7 +185,6 @@ public class ParamEditor extends AppCompatActivity {
     }
 
 
-
     private void test() {
 
         ContentValues values = new ContentValues();

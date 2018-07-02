@@ -218,38 +218,42 @@ public class AquaEditor extends AppCompatActivity implements LoaderManager.Loade
                 checkAndSaveValues();
                 return true;
             case R.id.delete_button:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Deleting Aquarium")
-                        .setMessage("Are you sure? This action cannot be undone.")
-                        .setPositiveButton("delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                /* Delete Data and Notify */
-                                final int NOTHING_DELETED = 0;
-                                int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
-                                if (deleteUri != NOTHING_DELETED){
-                                    getContentResolver().notifyChange(aquaIdUri, null);
-                                    Toast.makeText(AquaEditor.this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
-                                    /* Close this activity */
-                                    startActivity(new Intent(AquaEditor.this, AquaMain.class));
-                                } else {
-                                    Toast.makeText(AquaEditor.this, "Delete failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (dialog != null){
-                                    dialog.dismiss();
-                                }
-                            }
-                        })
-                        .create()
-                        .show();
+                deleteValues();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteValues() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Deleting Aquarium")
+                .setMessage("Are you sure? This action cannot be undone.")
+                .setPositiveButton("delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /* Delete Data and Notify */
+                        final int NOTHING_DELETED = 0;
+                        int deleteUri = getContentResolver().delete(aquaIdUri, null, null);
+                        if (deleteUri != NOTHING_DELETED){
+                            getContentResolver().notifyChange(aquaIdUri, null);
+                            Toast.makeText(AquaEditor.this, "Deleted " + deleteUri, Toast.LENGTH_SHORT).show();
+                            /* Close this activity */
+                            startActivity(new Intent(AquaEditor.this, AquaMain.class));
+                        } else {
+                            Toast.makeText(AquaEditor.this, "Delete failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null){
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .create()
+                .show();
     }
 
     private void displayDummyData(){
