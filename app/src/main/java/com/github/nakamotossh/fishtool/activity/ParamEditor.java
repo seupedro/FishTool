@@ -34,9 +34,6 @@ import static com.github.nakamotossh.fishtool.extras.ParamUtils.formatNumber;
 
 public class ParamEditor extends AppCompatActivity {
 
-    //TODO: notify updates to chart/recyclerview/db
-    //TODO: format float params to 7.2
-
     private static final String TAG = "ParamEditor";
 
     private EditText dateEdit;

@@ -50,11 +50,9 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.P
 
 public class PhFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    //TODO: Remove params/aqua when either one is deleted
     //TODO: Bottom navigation overflow recyclerView
     //TODO: Display loading while reading from db
     //TODO: Ripple effect on item list
-    //TODO: format value above cicle on chart 5,000 to 5,0 on first parameters
 
     private static final String TAG = "PhFragment";
     private final int LOADER_ID = 0;

@@ -55,9 +55,9 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry._
 
 public abstract class BaseParameter extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    //TODO: Fix 0/NULL param being showing on list/chart
-    //TODO: Fix many decimal floats on variations / or better / format that
-    private final String TAG = this.getClass().getSimpleName() + "MNZZ";
+    //TODO: implement the remaining fragments
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private int aquaId;
     private LineChart chart;
@@ -291,9 +291,34 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     }
 
     @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d(TAG, "onDestroyView: ");
+        setHasOptionsMenu(false);
+        setMenuVisibility(false);
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
     public void onDetach() {
         Log.d(TAG, "onDetach: ");
-        setMenuVisibility(false);
         super.onDetach();
     }
 

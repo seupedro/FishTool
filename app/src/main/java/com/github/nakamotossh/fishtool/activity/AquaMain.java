@@ -55,11 +55,10 @@ public class AquaMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquamain);
+        riseAndShine(this);
 
         prefs();
 
-        // TODO: Remove this before release
-        riseAndShine(this);
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
         constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);

@@ -27,9 +27,6 @@ import java.util.Objects;
  */
 public class ParamFragment extends Fragment {
 
-    //TODO: Deploy layout
-    //TODO: Implement Charts
-
     private static final String TAG = "ParamFragment";
     private int aquaId;
 

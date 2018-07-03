@@ -29,8 +29,6 @@ public class AquaInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquainfo);
-
-        /* TODO: remove before release */
         riseAndShine(this);
 
         /* Check if activity was called directly */

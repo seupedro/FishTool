@@ -55,8 +55,6 @@ import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 public class AquaEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //TODO: [ERROR] E/ActivityThread: Performing stop of activity that is already stopped
-    //TODO: Handle correctly the date
-    //TODO: [POS-Release] Save data before on Destroy. Handle Activity lifecycle in case receve a call
     //TODO: Handle Images
 
     private static final String TAG = "AquaEditor";
@@ -103,7 +101,6 @@ public class AquaEditor extends AppCompatActivity implements LoaderManager.Loade
         setContentView(R.layout.activity_aquanew);
         calendar = Calendar.getInstance();
         context = this;
-        /* TODO: remove this before release */
         riseAndShine(this);
 
         /* Find views on layout */
