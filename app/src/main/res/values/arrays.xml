@@ -6,7 +6,7 @@
         <item>Brackish Aquariums</item>
     </string-array>
     <string-array name="aqua_status">
-        <item>Working</item>
         <item>Disabled</item>
+        <item>Working</item>
     </string-array>
 </resources>

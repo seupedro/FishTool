@@ -27,6 +27,8 @@ import java.util.Objects;
  */
 public class ParamFragment extends Fragment {
 
+    //TODO: add Fab on Layout to edit/delete Aquarium
+
     private static final String TAG = "ParamFragment";
     private int aquaId;
 

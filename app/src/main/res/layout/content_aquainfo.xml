@@ -1,353 +1,423 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_margin_left"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_icons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_margin_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="72dp" />
-
-    <ImageView
-        android:id="@+id/icon_liters"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toTopOf="@+id/space"
-        app:srcCompat="@drawable/ic_liters" />
-
-    <TextView
-        android:id="@+id/aqua_info_liters"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# 200 Litros"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space" />
-
-    <Space
-        android:id="@+id/space"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/aqua_info_image" />
-
-    <ImageView
-        android:id="@+id/icon_size"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space1"
-        app:layout_constraintStart_toStartOf="@+id/space1"
-        app:layout_constraintTop_toTopOf="@+id/space1"
-        app:srcCompat="@drawable/ic_size" />
-
-    <TextView
-        android:id="@+id/aqua_info_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# 200x50x50"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space1"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space1" />
-
-    <Space
-        android:id="@+id/space1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space" />
-
-    <ImageView
-        android:id="@+id/icon_light"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space2"
-        app:layout_constraintStart_toStartOf="@+id/space2"
-        app:layout_constraintTop_toTopOf="@+id/space2"
-        app:srcCompat="@drawable/ic_light" />
-
-    <TextView
-        android:id="@+id/aqua_info_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# 20w Led"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space2"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space2" />
-
-    <Space
-        android:id="@+id/space2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space1" />
-
-    <ImageView
-        android:id="@+id/icon_filter"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space3"
-        app:layout_constraintStart_toStartOf="@+id/space3"
-        app:layout_constraintTop_toTopOf="@+id/space3"
-        app:srcCompat="@drawable/ic_filter" />
-
-    <TextView
-        android:id="@+id/aqua_info_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# Canister 1000l/h"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space3"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space3" />
-
-    <Space
-        android:id="@+id/space3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space2" />
-
-    <ImageView
-        android:id="@+id/icon_co2"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space4"
-        app:layout_constraintStart_toStartOf="@+id/space4"
-        app:layout_constraintTop_toTopOf="@+id/space4"
-        app:srcCompat="@drawable/ic_co2" />
-
-    <TextView
-        android:id="@+id/aqua_info_co2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# Cilindro"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space4"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space4" />
-
-    <Space
-        android:id="@+id/space4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space3" />
-
-    <ImageView
-        android:id="@+id/icon_dosage"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space5"
-        app:layout_constraintStart_toStartOf="@+id/space5"
-        app:layout_constraintTop_toTopOf="@+id/space5"
-        app:srcCompat="@drawable/ic_dosage" />
-
-    <TextView
-        android:id="@+id/aqua_info_dosage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# 10 Litros/Dia"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space5"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space5" />
-
-    <Space
-        android:id="@+id/space5"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space4" />
-
-    <ImageView
-        android:id="@+id/icon_substrate"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="@+id/space6"
-        app:srcCompat="@drawable/ic_substrate" />
-
-    <TextView
-        android:id="@+id/aqua_info_substrate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="mBreda Amazonia"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space6" />
-
-    <Space
-        android:id="@+id/space6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space5" />
-
-    <ImageView
-        android:id="@+id/icon_type"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space7"
-        app:layout_constraintStart_toStartOf="@+id/space7"
-        app:layout_constraintTop_toTopOf="@+id/space7"
-        app:srcCompat="@drawable/ic_type" />
-
-    <TextView
-        android:id="@+id/aqua_info_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# Aquario de Agua Doce"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space7"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space7" />
-
-    <Space
-        android:id="@+id/space7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space6" />
-
-    <ImageView
-        android:id="@+id/icon_status"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space8"
-        app:layout_constraintStart_toStartOf="@+id/space8"
-        app:layout_constraintTop_toTopOf="@+id/space8"
-        app:srcCompat="@drawable/ic_check" />
-
-    <TextView
-        android:id="@+id/aqua_info_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# Activated"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space8"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space8" />
-
-    <Space
-        android:id="@+id/space8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space7" />
-
-    <ImageView
-        android:id="@+id/icon_notes"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:padding="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space9"
-        app:layout_constraintStart_toStartOf="@+id/space9"
-        app:layout_constraintTop_toTopOf="@+id/space9"
-        app:srcCompat="@drawable/ic_notes" />
-
-    <TextView
-        android:id="@+id/aqua_info_notes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# 20w Led"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/space9"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_right"
-        app:layout_constraintTop_toTopOf="@+id/space9" />
-
-    <Space
-        android:id="@+id/space9"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_icons"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_margin_left"
-        app:layout_constraintTop_toBottomOf="@+id/space8" />
-
-    <ImageView
-        android:id="@+id/aqua_info_image"
-        android:layout_width="0dp"
-        android:layout_height="192dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/fish_nemo" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/aqua_info_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aqua_info_image"
-        app:srcCompat="@drawable/ic_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/aqua_info_image">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/aqua_info_image"
+            android:layout_width="0dp"
+            android:layout_height="256dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aqua_info_image">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_liters" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Liters"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_liters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_type" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Freshwater Aquarium #" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_filter" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Filter"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_light" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Light"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_co2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CO2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_co2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_dosage" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dosage"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_dosage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_substrate" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Substrate"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_substrate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not Informed" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_check" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Working Fine #" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="@dimen/bottom_navigation_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
+                    app:srcCompat="@drawable/ic_notes" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Notes"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                    <TextView
+                        android:id="@+id/aqua_info_note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="None yet" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

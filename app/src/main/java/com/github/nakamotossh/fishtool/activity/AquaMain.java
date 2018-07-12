@@ -1,16 +1,12 @@
 package com.github.nakamotossh.fishtool.activity;
 
-import android.animation.LayoutTransition;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,29 +16,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.adapters.AquaListCursorAdapter;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
 
-import java.util.Calendar;
-
 import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.AQUA_CONTENT_URI;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.IMAGE_URI_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.NAME_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry.TYPE_COLUMN;
+import static com.github.nakamotossh.fishtool.database.AquaContract.AquaEntry._aquaID;
 import static com.github.nakamotossh.fishtool.debug.WakeUp.riseAndShine;
 
 public class AquaMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    //TODO: I/Choreographer: Skipped 60 frames! The application may be doing too much work on its main thread.
+    //TODO: I/Choreographer: Skipped 60 frames! Use light images
 
     private final int AQUA_LOADER = 0;
-    private final int PARAM_LOADER = 1;
 
     private AquaDbHelper dbHelper;
     private SQLiteDatabase db;
@@ -50,6 +47,8 @@ public class AquaMain extends AppCompatActivity
     private AquaListCursorAdapter adapter;
 
     private static final String TAG = "AquaMain";
+    private ImageView emptyImage;
+    private TextView emptyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +56,9 @@ public class AquaMain extends AppCompatActivity
         setContentView(R.layout.activity_aquamain);
         riseAndShine(this);
 
-        prefs();
-
-
-        ConstraintLayout constraintLayout = findViewById(R.id.constraint_parent);
-        constraintLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        /* Show empty view */
+        emptyImage = findViewById(R.id.empty_image);
+        emptyText = findViewById(R.id.empty_text);
 
         /* Set ActionBar */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -106,90 +103,34 @@ public class AquaMain extends AppCompatActivity
         getLoaderManager().initLoader(AQUA_LOADER, null, this);
     }
 
-    private void date()  {
-
-        String dateOfBirth = "26/02/1974";
-
-        Calendar calendar = Calendar.getInstance();
-        String date = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE);
-
-        String date1 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_ALL);
-
-        String date2 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_MONTH);
-
-        String date3 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_RELATIVE);
-
-        String date4 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_TIME);
-
-        String date5 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_ABBREV_WEEKDAY);
-
-        String date6 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_MIDNIGHT);
-
-        String date7 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_MONTH_DAY);
-
-        String date8 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_NOON);
-
-        String date9 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_NO_YEAR);
-
-        String date10 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_NUMERIC_DATE);
-
-        String date11 = DateUtils.formatDateTime(this,
-                calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
-
-        Log.d(TAG, "date: " + date);
-        Log.d(TAG, "date1: " + date1);
-        Log.d(TAG, "date2: " + date2);
-        Log.d(TAG, "date3: " + date3);
-        Log.d(TAG, "date4: " + date4);
-        Log.d(TAG, "date5: " + date5);
-        Log.d(TAG, "date6: " + date6);
-        Log.d(TAG, "date7: " + date7);
-        Log.d(TAG, "date8: " + date8);
-        Log.d(TAG, "date9: " + date9);
-        Log.d(TAG, "date10: " + date10);
-        Log.d(TAG, "date11: " + date11);
-
-    }
-
-    private void prefs(){
-
-        final String AQUA_ID = "aquaId";
-
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(AQUA_ID, "id value is 12");
-        editor.apply();
-
-        String result = prefs.getString(AQUA_ID, "def");
-        String def = prefs.getString("test", "testee");
-        Log.d(TAG, "prefs: " + result);
-        Log.d(TAG, "prefs: " + def);
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = new String[]{
+                _aquaID,
+                NAME_COLUMN,
+                TYPE_COLUMN,
+                IMAGE_URI_COLUMN
+        };
+        String sortOrder = _aquaID + " DESC";
         return new CursorLoader(this,
                 AQUA_CONTENT_URI,
+                projection,
                 null,
                 null,
-                null,
-                null);
+                sortOrder);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        adapter.swapCursor(cursor);
+        if (cursor.getCount() > 0){
+            /* Hide empty Views */
+            emptyImage.setVisibility(View.GONE);
+            emptyText.setVisibility(View.GONE);
+            adapter.swapCursor(cursor);
+        } else {
+            emptyImage.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

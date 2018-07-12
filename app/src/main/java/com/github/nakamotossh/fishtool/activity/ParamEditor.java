@@ -22,6 +22,7 @@ import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.extras.ParamUtils;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.AQUA_FKEY;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
@@ -60,7 +61,8 @@ public class ParamEditor extends AppCompatActivity {
         riseAndShine(this);
 
         if (getIntent().hasExtra("aquaId")) {
-            aquaIdExtra = getIntent().getExtras().getInt("aquaId");
+            aquaIdExtra = Objects.requireNonNull(
+                    getIntent().getExtras()).getInt("aquaId");
         }
 
         /* Find views on Layout */

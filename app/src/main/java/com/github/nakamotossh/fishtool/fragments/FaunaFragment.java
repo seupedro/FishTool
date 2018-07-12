@@ -24,7 +24,9 @@ public class FaunaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fauna, container, false);
+        View root = inflater.inflate(R.layout.item_specs, container, false);
+//        LinearLayout linearLayout = root.findViewById(R.id.test);
+        return root;
     }
 
 }

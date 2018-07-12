@@ -155,6 +155,8 @@ public class AquaEditor extends AppCompatActivity implements LoaderManager.Loade
             /* Set date based on Locale */
             aquaDate.setText(getDateFormat(this).format(calendar.getTime()));
             dateInMilliseconds = calendar.getTimeInMillis();
+            final int WORKING_STATUS = 1;
+            aquaStatus.setSelection(WORKING_STATUS);
         }
 
         /* Show Dialog Date Picker */
@@ -397,8 +399,8 @@ public class AquaEditor extends AppCompatActivity implements LoaderManager.Loade
             /* Light */
             aquaLight.setText(light != null && !light.isEmpty() ? light : "" );
             /* Status*/
-            final int STATUS_WORKING = 0;
-            final int STATUS_DISABLED = 1;
+            final int STATUS_WORKING = 1;
+            final int STATUS_DISABLED = 0;
             aquaStatus.setSelection(status == STATUS_WORKING ? STATUS_WORKING : STATUS_DISABLED);
             /* Image */
             if (image != null){

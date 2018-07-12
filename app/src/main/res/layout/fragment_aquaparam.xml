@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="56dp"
     android:orientation="vertical"
     tools:context=".fragments.ParamFragment">
 
@@ -11,16 +12,15 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
+        style="@style/AppTheme.AppBarOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable"
         android:background="@android:color/white"
         app:tabGravity="fill"
-        app:tabTextColor="@android:color/darker_gray"
         app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorPrimary"
-        android:elevation="10dp"
-        style="@style/AppTheme.AppBarOverlay">
+        app:tabTextColor="@android:color/darker_gray">
 
         <!--TODO: Remove Layout Tab Demo-->
 

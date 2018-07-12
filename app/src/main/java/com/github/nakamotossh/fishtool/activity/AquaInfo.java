@@ -24,6 +24,7 @@ public class AquaInfo extends AppCompatActivity {
     private FaunaFragment faunaFragment;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
+    private BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,6 @@ public class AquaInfo extends AppCompatActivity {
 
         /* Pass ID to fragments */
         Bundle bundle = new Bundle();
-        bundle.putInt("aquaId", intentAquaId);
 
         aquaFragment = new AquaFragment();
         aquaFragment.setArguments(bundle);
@@ -59,21 +59,20 @@ public class AquaInfo extends AppCompatActivity {
         faunaFragment = new FaunaFragment();
         faunaFragment.setArguments(bundle);
 
-        /* Start Fragment */
+        /* Start First Fragment */
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frame_fragment, aquaFragment).commit();
+        if (savedInstanceState == null)
+            fragmentTransaction.replace(R.id.frame_fragment, aquaFragment).commit();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_aqua:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, aquaFragment).commit();
-//                                .addToBackStack(null).commit();
                         return true;
                     case R.id.navigation_param:
                         fragmentTransaction = fragmentManager.beginTransaction();
@@ -83,12 +82,23 @@ public class AquaInfo extends AppCompatActivity {
                     case R.id.navigation_fauna:
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frame_fragment, faunaFragment).commit();
-//                                .addToBackStack(null).commit();
                         return true;
                 }
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("navigationBottomPosition", navigation.getSelectedItemId());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        navigation.setSelectedItemId(savedInstanceState.getInt("navigationBottomPosition"));
     }
 
     @Override

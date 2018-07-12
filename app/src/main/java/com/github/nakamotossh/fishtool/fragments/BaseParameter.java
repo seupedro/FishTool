@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -22,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -66,6 +68,9 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     private String[] projection;
     private String paramColumn;
     private int paramCode;
+    private ImageView emptyImage;
+    private TextView emptyText;
+    private TextView longPress;
 
     public int getAquaId() {
         return aquaId;
@@ -117,15 +122,29 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         /* Inflate layout */
-        View view = inflater.inflate(R.layout.fragment_ph, container, false);
+        View view = inflater.inflate(R.layout.fragment_parameters, container, false);
         Log.d(TAG, "onCreateView: start");
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ParamEditor.class));
+            }
+        });
+
+        /* Empty view */
+        emptyImage = view.findViewById(R.id.empty_image);
+        emptyText = view.findViewById(R.id.empty_text);
+        longPress = view.findViewById(R.id.longpress_text);
 
         /* Init Chart */
         chart = view.findViewById(R.id.chart);
-        chart.setNoDataText("No data available yet");
-        chart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD);
-        chart.setNoDataTextColor(R.color.colorPrimary);
+//        chart.setNoDataText("No data available yet");
+//        chart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD);
+//        chart.setNoDataTextColor(R.color.colorPrimary);
         chart.setHardwareAccelerationEnabled(true);
+        chart.setVisibility(View.GONE);
 //        chart.setLogEnabled(true);
 
         /* Params Adapter / List */
@@ -253,6 +272,18 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
             chart.setDrawBorders(true);
             chart.setData(lineData);
             chart.invalidate();
+
+            /* Case NOT Empty */
+            chart.setVisibility(View.VISIBLE);
+            emptyImage.setVisibility(View.GONE);
+            emptyText.setVisibility(View.GONE);
+            longPress.setVisibility(View.VISIBLE);
+        } else {
+            /* Case Empty */
+            chart.setVisibility(View.GONE);
+            emptyImage.setVisibility(View.VISIBLE);
+            emptyText.setVisibility(View.VISIBLE);
+            longPress.setVisibility(View.GONE);
         }
 
         Log.d(TAG, "updateChart: finished ");
