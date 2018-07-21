@@ -1,9 +1,11 @@
 package com.github.nakamotossh.fishtool.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -23,7 +25,6 @@ import java.util.Calendar;
 
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.DATE_PARAM_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.NH3_COLUMN;
-import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PARAM_CONTENT_URI;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.PH_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry.TEMP_COLUMN;
 import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry._paramID;
@@ -81,6 +82,7 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
     public void onBindViewHolder(ViewHolder vh, Cursor c) {
         int currentPosition = c.getPosition();
         final int currentId = c.getInt(c.getColumnIndexOrThrow(_paramID));
+        final Uri currentUri = Uri.withAppendedPath(c.getNotificationUri(), String.valueOf(currentId));
 
         /* Hide item case NULL */
         if (c.isNull(c.getColumnIndexOrThrow(paramColumn))) {
@@ -96,7 +98,7 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
             @Override
             public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setMessage("Would you like to remove this item?")
+                builder.setMessage("Would you like to delete this item?")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -107,11 +109,14 @@ public class ParamListAdapter extends CursorRecyclerViewAdapter<ParamListAdapter
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String where = _paramID + " = " + currentId;
-                                int rowDeleted = mContext.getContentResolver()
-                                        .delete(PARAM_CONTENT_URI, where, null);
-                                int NOTHING_DELETED = 0;
-                                if (rowDeleted != NOTHING_DELETED){
+                                /* Set Values to Null, Null Values are not shown on List */
+                                ContentValues values = new ContentValues();
+                                values.putNull(paramColumn);
+                                /* Now Update */
+                                int rowsUpdated = mContext.getContentResolver()
+                                        .update(currentUri, values, _paramID, new String[]{String.valueOf(currentId)});
+                                int NOTHING_UPDATED = 0;
+                                if (rowsUpdated != NOTHING_UPDATED){
                                     Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();
                                 } else{
                                     Toast.makeText(mContext, "Deletion Fail", Toast.LENGTH_SHORT).show();

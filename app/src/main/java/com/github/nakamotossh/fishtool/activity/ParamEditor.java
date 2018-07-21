@@ -63,6 +63,9 @@ public class ParamEditor extends AppCompatActivity {
         if (getIntent().hasExtra("aquaId")) {
             aquaIdExtra = Objects.requireNonNull(
                     getIntent().getExtras()).getInt("aquaId");
+        } else {
+            throw new NullPointerException(this.getPackageName()
+                    + " must be called with a valid aquarium Id");
         }
 
         /* Find views on Layout */

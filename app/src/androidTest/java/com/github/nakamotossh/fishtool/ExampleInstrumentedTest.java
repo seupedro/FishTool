@@ -26,5 +26,6 @@ public class ExampleInstrumentedTest {
 
         System.out.println("its comming on");
         Log.d(TAG, "useAppContext: " + appContext.getPackageName());
+
     }
 }

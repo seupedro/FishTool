@@ -3,9 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/add_param"
-        android:icon="@drawable/ic_add"
-        android:title="Add Param"
-        app:showAsAction="always" />
+        android:id="@+id/delete_all_param"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete All Params"
+        app:showAsAction="never" />
+
+    <item
+        android:title="Delete Only Current Param"
+        android:id="@+id/delete_current_param"
+        app:showAsAction="never" />
 
 </menu>

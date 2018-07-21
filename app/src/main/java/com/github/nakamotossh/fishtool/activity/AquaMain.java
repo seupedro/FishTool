@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
 import com.github.nakamotossh.fishtool.R;
 import com.github.nakamotossh.fishtool.adapters.AquaListCursorAdapter;
 import com.github.nakamotossh.fishtool.database.AquaDbHelper;
@@ -55,6 +56,7 @@ public class AquaMain extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aquamain);
         riseAndShine(this);
+        Stetho.initializeWithDefaults(this);
 
         /* Show empty view */
         emptyImage = findViewById(R.id.empty_image);

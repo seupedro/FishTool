@@ -37,10 +37,10 @@ public class AquaInfo extends AppCompatActivity {
             throw new RuntimeException(this.getLocalClassName() + " must be only called from an aquarium");
 
         /* Get Extras: ID */
-        int intentAquaId = getIntent().getExtras().getInt("aquaId");
+        int mAquaId = getIntent().getExtras().getInt("aquaId");
 
         /* Check Runtime Invalid Id */
-        if (intentAquaId == 0)
+        if (mAquaId == 0)
             throw new IllegalArgumentException(getLocalClassName() + " has an invalid/null id. " +
                     "Id is always greater than 0.");
 
@@ -49,6 +49,7 @@ public class AquaInfo extends AppCompatActivity {
 
         /* Pass ID to fragments */
         Bundle bundle = new Bundle();
+        bundle.putInt("aquaId", mAquaId);
 
         aquaFragment = new AquaFragment();
         aquaFragment.setArguments(bundle);

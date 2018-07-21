@@ -205,14 +205,14 @@ public class AquaProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int rowsUpdated;
 
+        /* Return if there are any value */
+        if (values.size() == 0){
+            rowsUpdated = 0;
+            return rowsUpdated;
+        }
+
         switch (match) {
             case AQUA_ID:
-
-                /* Return if there are any value */
-                if (values.size() == 0){
-                    rowsUpdated = 0;
-                    return rowsUpdated;
-                }
 
                 /* Check name Column */
                 if (values.containsKey(NAME_COLUMN)){
@@ -240,36 +240,31 @@ public class AquaProvider extends ContentProvider {
                 selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(AQUA_TABLE, values, selection, selectionArgs);
+                break;
 
-                /* Notify Changes */
-                if (rowsUpdated != 0){
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
-                return rowsUpdated;
+            case PARAM_LIST:
+
+                rowsUpdated = db.update(PARAM_TABLE, values, selection, selectionArgs);
+                break;
 
             case PARAM_ID:
+
                 // TODO: regex to verify valid inputs on params.
-
-                /* Return if there are any value */
-                if (values.size() == 0){
-                    rowsUpdated = 0;
-                    return rowsUpdated;
-                }
-
                 /* Update rows on Db */
                 selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsUpdated = db.update(PARAM_TABLE, values, selection, selectionArgs);
-
-                /* Notify Changes */
-                if (rowsUpdated != 0){
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
-                return rowsUpdated;
+                break;
 
             default:
-                throw new IllegalArgumentException("Uptade is not supported for the following uri: " + uri);
+                throw new IllegalArgumentException("Your URI is not supported to update: " + uri);
         }
+
+        /* Notify Changes */
+        if (rowsUpdated != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
     }
 
     @Nullable

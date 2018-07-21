@@ -1,6 +1,9 @@
 package com.github.nakamotossh.fishtool.fragments;
 
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -58,6 +61,8 @@ import static com.github.nakamotossh.fishtool.database.AquaContract.ParamEntry._
 public abstract class BaseParameter extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //TODO: implement the remaining fragments
+    //TODO: change menu to delete all views
+    //TODO: Hide Tab layout
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -71,6 +76,7 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     private ImageView emptyImage;
     private TextView emptyText;
     private TextView longPress;
+    private boolean deleteAll;
 
     public int getAquaId() {
         return aquaId;
@@ -129,7 +135,7 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ParamEditor.class));
+                startActivity(new Intent(getActivity(), ParamEditor.class).putExtra("aquaId", aquaId));
             }
         });
 
@@ -162,15 +168,15 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onResume() {
-        Log.d(TAG, "onResume: ");
-        super.onResume();
-    }
-
-    @Override
     public void onStart() {
         Log.d(TAG, "onStart: ");
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
     }
 
     @Override
@@ -182,11 +188,14 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
-    private void updateChart(Cursor cursor) {
+    private void updateChart(@Nullable Cursor cursor) {
         Log.d(TAG, "updateChart: ");
 
-        if (chart == null)
-            throw new NullPointerException("Chart cannot be null");
+        if (cursor == null){
+            /* Show Content */
+            setChartVisibility(true);
+            return;
+        }
 
         List<Entry> entries = new ArrayList<>();
 
@@ -273,7 +282,18 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
             chart.setData(lineData);
             chart.invalidate();
 
-            /* Case NOT Empty */
+            /* Show Content */
+            setChartVisibility(true);
+        } else {
+            setChartVisibility(false);
+        }
+
+        Log.d(TAG, "updateChart: finished ");
+    }
+
+    private void setChartVisibility(boolean showChart){
+
+        if (showChart){
             chart.setVisibility(View.VISIBLE);
             emptyImage.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
@@ -285,8 +305,6 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
             emptyText.setVisibility(View.VISIBLE);
             longPress.setVisibility(View.GONE);
         }
-
-        Log.d(TAG, "updateChart: finished ");
     }
 
     @NonNull
@@ -306,7 +324,6 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        Log.d(TAG, "onLoadFinished: started ");
         adapter.swapCursor(cursor);
         /* Check if cursor is empty */
         if (cursor.getCount() > 0) {
@@ -362,10 +379,61 @@ public abstract class BaseParameter extends Fragment implements LoaderManager.Lo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.add_param:
-                startActivity(new Intent(getActivity(), ParamEditor.class)
-                        .putExtra("aquaId", aquaId));
+
+            /* Deleting All Params */
+            case R.id.delete_all_param:
+                AlertDialog.Builder builderAll = new AlertDialog.Builder(getContext());
+                builderAll.setTitle("Delete All");
+                builderAll.setMessage("Do you really want to delete all params? This action cannot be undone. \n\n" +
+                        "You can delete only " + label + " params instead. Go back to menu and select other option.");
+                builderAll.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null)
+                            dialog.dismiss();
+                    }
+                });
+                builderAll.setPositiveButton("Delete All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String where = AQUA_FKEY + " = " + aquaId;
+                        /* Here it'll delete all rows */
+                        Objects.requireNonNull(getContext()).getContentResolver()
+                                .delete(PARAM_CONTENT_URI, where, null);
+                        //TODO: Fix bug on refresh deleted chart
+                        chart.setVisibility(View.GONE);
+                    }
+                });
+                builderAll.create().show();
                 return true;
+
+            /* Delete Only Current Param */
+            case R.id.delete_current_param:
+                AlertDialog.Builder builderCurrent = new AlertDialog.Builder(getContext());
+                builderCurrent.setTitle("Delete " + label + " params");
+                builderCurrent.setMessage("Do you really want to delete all " + label + " params? This action cannot be undone. \n\n" +
+                        "You can delete all params if you like. Go back to menu and select other option.");
+                builderCurrent.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null)
+                            dialog.dismiss();
+                    }
+                });
+                builderCurrent.setPositiveButton("Delete params", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ContentValues values = new ContentValues();
+                        values.putNull(paramColumn);
+                        String where = paramColumn + " IS NOT NULL AND " + AQUA_FKEY + " = " + aquaId;
+                        Objects.requireNonNull(getContext()).getContentResolver()
+                                .update(PARAM_CONTENT_URI, values, where, null);
+                    }
+                });
+                builderCurrent.create().show();
+                setChartVisibility(false);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -79,6 +79,7 @@ public class ParamFragment extends Fragment {
 
         TabLayout tabLayout = rootView.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+
         Log.d(TAG, "onCreateView: 6");
         return rootView;
     }

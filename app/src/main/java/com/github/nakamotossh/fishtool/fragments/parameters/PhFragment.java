@@ -233,7 +233,7 @@ public class PhFragment extends Fragment implements LoaderManager.LoaderCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.add_param:
+            case R.id.delete_all_param:
                 startActivity(new Intent(getActivity(), ParamEditor.class)
                         .putExtra("aquaId", aquaArgsId));
                 return true;
